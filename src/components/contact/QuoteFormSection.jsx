@@ -237,8 +237,8 @@ const QuoteFormSection = () => {
               <p className="mt-4 text-sm font-medium text-slate-600">
                 Our team will contact you within <span className="font-bold text-slate-900">24 Hours</span>.
               </p>
-
-              <div className="mt-6 w-full rounded-xl bg-slate-900 p-5 text-white text-center">
+ 
+              <div className="mt-6 w-full rounded-xl bg-slate-700 p-5 text-white text-center">
                 <h4 className="text-[11px] font-bold tracking-wider text-teal-400 uppercase mb-4">Contact Us</h4>
                 <div className="flex flex-col gap-3 text-sm">
                   <div className="flex items-center gap-3 text-slate-300">
@@ -251,7 +251,7 @@ const QuoteFormSection = () => {
                     <div className="grid h-7 w-7 place-items-center rounded-full bg-white/10 text-white">
                       <Mail size={14} />
                     </div>
-                    <span className="font-semibold">info@digitalservices.com</span>
+                    <span className="font-semibold">solvewithyou@gmail.com</span>
                   </div>
                 </div>
               </div>

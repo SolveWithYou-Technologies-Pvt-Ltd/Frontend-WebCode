@@ -3,9 +3,10 @@ import {
   Mail,
   MapPin,
   Phone,
-  Code,
+  MessageCircle,
 } from "lucide-react";
 import { Link } from "react-router-dom";
+import Logo from "../../assets/logo.png";
 
 const footerLinks = [
   { label: "Home", path: "/" },
@@ -21,8 +22,8 @@ const Footer = () => {
       <div className="mx-auto grid w-full max-w-7xl gap-10 px-4 py-10 sm:px-6 sm:py-12 md:grid-cols-2 lg:grid-cols-4 lg:px-8">
         <div className="md:col-span-2 lg:col-span-1">
           <Link to="/" className="inline-flex items-center gap-2.5">
-            <span className="grid h-9 w-9 place-items-center rounded-lg bg-teal-600 text-white">
-              <Code size={20} />
+            <span className="inline-block h-10 min-w-10">
+              <img src={Logo} alt="Logo" className="h-full w-auto object-contain object-left" />
             </span>
             <span className="text-base font-bold text-white">SolveWithYou Pvt Ltd</span>
           </Link>
@@ -53,11 +54,15 @@ const Footer = () => {
           <div className="mt-4 grid gap-3 text-xs text-slate-400 sm:text-sm">
             <p className="flex items-start gap-2.5">
               <Phone size={16} className="mt-0.5 shrink-0 text-teal-400" />
-              +91 98765 43210
+              +91 90058 25347 , +91 99363 44869
+            </p>
+            <p className="flex items-start gap-2.5">
+              <MessageCircle size={16} className="mt-0.5 shrink-0 text-teal-400" />
+              +91 95198 39502
             </p>
             <p className="flex items-start gap-2.5">
               <Mail size={16} className="mt-0.5 shrink-0 text-teal-400" />
-              info@digitalservices.com
+              solvewithyou@gmail.com
             </p>
             <p className="flex items-start gap-2.5">
               <MapPin size={16} className="mt-0.5 shrink-0 text-teal-400" />

@@ -9,11 +9,11 @@ import {
   LogOut, 
   Menu, 
   X, 
-  Code,
   Bell,
   Globe
 } from "lucide-react";
 import useAuth from "../../hooks/useAuth";
+import Logo from "../../assets/logo.png";
 
 const sidebarLinks = [
   { label: "Dashboard", path: "/dashboard", icon: LayoutDashboard },
@@ -56,19 +56,14 @@ const DashboardLayout = () => {
           isSidebarOpen ? "translate-x-0" : "-translate-x-full"
         }`}
       >
-        <div className="flex h-16 shrink-0 items-center justify-between border-b border-slate-100 px-6">
+        <div className="flex h-16 shrink-0 items-center justify-center border-b border-slate-100 px-6">
           <Link to="/" className="flex items-center gap-2.5">
-            <span className="grid h-8 w-8 place-items-center rounded-lg bg-teal-600 text-white">
-              <Code size={18} />
+            <span className="inline-block h-10 min-w-10">
+              <img src={Logo} alt="Logo" className="h-full w-auto object-contain object-left" />
             </span>
-            <span className="text-sm font-bold text-slate-900">Client Portal</span>
+          
           </Link>
-          <button 
-            onClick={() => setIsSidebarOpen(false)}
-            className="grid h-8 w-8 place-items-center rounded-md text-slate-500 lg:hidden"
-          >
-            <X size={20} />
-          </button>
+          
         </div>
 
         <div className="flex-1 overflow-y-auto p-4 space-y-1.5">

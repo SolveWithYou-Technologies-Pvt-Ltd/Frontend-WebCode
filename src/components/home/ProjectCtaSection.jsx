@@ -7,7 +7,7 @@ const ProjectCtaSection = () => {
       <div className="mx-auto flex w-full max-w-7xl flex-col items-start justify-between gap-6 overflow-hidden rounded-3xl bg-gradient-to-r from-teal-700 to-emerald-600 px-6 py-8 text-white shadow-xl shadow-teal-950/10 sm:px-8 sm:py-10 lg:flex-row lg:items-center lg:px-12">
         <div>
           <div className="inline-flex items-center gap-2 rounded-full bg-white/15 px-3 py-1.5 text-xs font-semibold sm:text-sm">
-            <Code2 size={16} />
+          
             Client-first development experience
           </div>
           <h2 className="mt-4 max-w-2xl text-2xl font-bold tracking-tight sm:text-3xl">

@@ -3,12 +3,12 @@ import {
   ChevronDown,
   LogOut,
   Menu,
-  Code,
   LayoutDashboard,
   X
 } from "lucide-react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
+import Logo from "../../assets/logo.png";
 
 const navigationItems = [
   { label: "Home", path: "/" },
@@ -72,15 +72,15 @@ const Navbar = () => {
     <header className="sticky top-0 z-50 border-b border-slate-200/80 bg-white/95 backdrop-blur">
       <div className="mx-auto flex min-h-16 w-full max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
         <Link to="/" className="flex items-center gap-2.5" onClick={closeMenus}>
-          <span className="grid h-9 w-9 place-items-center rounded-lg bg-teal-600 text-white">
-            <Code size={20} />
+          <span className="inline-block h-10 min-w-10">
+            <img src={Logo} alt="Logo" className="h-full w-auto object-contain object-left" />
           </span>
           <div className="leading-tight">
             <p className="text-sm font-bold text-slate-900 sm:text-base">
               SolveWithYou Pvt Ltd
             </p>
             <p className="hidden text-[11px] text-slate-500 sm:block">
-              Software & App Development
+              Your Problem - Our - Technology - One Solution
             </p>
           </div>
         </Link>

@@ -14,11 +14,9 @@ import {
   Receipt,
   Megaphone,
   LayoutTemplate,
-  ShieldCheck,
-  Settings,
   X,
-  Code
 } from "lucide-react";
+import Logo from "../../assets/logo.png";
 
 const menuItems = [
   {
@@ -160,29 +158,15 @@ const AdminSidebar = ({ adminProfile, hasPermission, isOpen, onClose }) => {
           isOpen ? "translate-x-0" : "-translate-x-full"
         }`}
       >
-        <div className="flex h-16 shrink-0 items-center justify-between border-b border-slate-100 px-5">
+        <div className="flex h-16 shrink-0 items-center justify-center border-b border-slate-100 px-5">
           <div className="flex min-w-0 items-center gap-2.5">
-            <span className="grid h-8 w-8 shrink-0 place-items-center rounded-lg bg-teal-600 text-white">
-              <Code size={18} />
+            <span className="inline-block h-10 min-w-10">
+              <img src={Logo} alt="Logo" className="h-full w-auto object-contain object-left" />
             </span>
-            <div className="min-w-0">
-              <h1 className="truncate text-sm font-bold text-slate-900">
-                Agency Admin
-              </h1>
-              <p className="truncate text-[10px] text-slate-500">
-                Management Panel
-              </p>
-            </div>
+            
           </div>
 
-          <button
-            type="button"
-            aria-label="Close menu"
-            onClick={onClose}
-            className="grid h-8 w-8 place-items-center rounded-lg text-slate-500 transition hover:bg-slate-100 hover:text-slate-900 md:hidden"
-          >
-            <X size={20} />
-          </button>
+         
         </div>
 
         <nav className="flex-1 space-y-0.5 overflow-y-auto p-3 custom-scrollbar">

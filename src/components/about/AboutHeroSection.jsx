@@ -12,8 +12,8 @@ const AboutHeroSection = () => {
         <div className="grid items-center gap-14 lg:grid-cols-2">
           <div>
             <span className="inline-flex items-center gap-2 rounded-full bg-teal-50 px-3 py-1.5 text-xs font-semibold text-teal-700">
-              <Code2 size={16} />
-              About SolveWithYou Pvt Ltd
+            
+              About SolveWithYou Pvt Ltd 
             </span>
 
             <h1 className="mt-6 text-3xl font-bold tracking-tight text-slate-950 sm:text-4xl lg:text-5xl">
