@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="100%" height="100%">
+  <defs>
+    <linearGradient id="brandGradMobile" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0d9488" />
+      <stop offset="100%" stop-color="#10b981" />
+    </linearGradient>
+    <filter id="shadowMobile" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="12" stdDeviation="15" flood-color="#0f172a" flood-opacity="0.15" />
+    </filter>
+  </defs>
+
+  <circle cx="200" cy="200" r="160" fill="#d1fae5" opacity="0.4" />
+  <circle cx="300" cy="280" r="50" fill="#ccfbf1" opacity="0.6" />
+
+  <g filter="url(#shadowMobile)">
+    <rect x="135" y="60" width="130" height="280" rx="24" fill="#ffffff" stroke="#1e293b" stroke-width="6" />
+    <rect x="180" y="70" width="40" height="6" rx="3" fill="#1e293b" />
+    
+    <rect x="150" y="95" width="100" height="80" rx="12" fill="url(#brandGradMobile)" />
+    <circle cx="200" cy="135" r="20" fill="#ffffff" opacity="0.2" />
+    
+    <rect x="150" y="190" width="100" height="12" rx="6" fill="#f1f5f9" />
+    <rect x="150" y="190" width="60" height="12" rx="6" fill="#94a3b8" />
+    
+    <rect x="150" y="220" width="45" height="45" rx="10" fill="#f8fafc" stroke="#e2e8f0" stroke-width="2" />
+    <rect x="205" y="220" width="45" height="45" rx="10" fill="#f8fafc" stroke="#e2e8f0" stroke-width="2" />
+    
+    <rect x="150" y="275" width="100" height="40" rx="10" fill="#f1f5f9" />
+    <circle cx="170" cy="295" r="10" fill="#cbd5e1" />
+    <rect x="190" y="292" width="40" height="6" rx="3" fill="#cbd5e1" />
+  </g>
+  
+  <g filter="url(#shadowMobile)">
+    <rect x="235" y="160" width="50" height="50" rx="12" fill="#ffffff" />
+    <path d="M 250 185 L 257 192 L 270 177" fill="none" stroke="url(#brandGradMobile)" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
+  </g>
+</svg>

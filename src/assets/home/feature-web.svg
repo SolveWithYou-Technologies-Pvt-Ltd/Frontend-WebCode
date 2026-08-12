@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="100%" height="100%">
+  <defs>
+    <linearGradient id="brandGradWeb" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0d9488" />
+      <stop offset="100%" stop-color="#10b981" />
+    </linearGradient>
+    <filter id="shadowWeb" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="10" stdDeviation="12" flood-color="#0f172a" flood-opacity="0.1" />
+    </filter>
+  </defs>
+  
+  <circle cx="200" cy="200" r="160" fill="#ccfbf1" opacity="0.4" />
+  <circle cx="100" cy="120" r="40" fill="#d1fae5" opacity="0.6" />
+  
+  <g filter="url(#shadowWeb)">
+    <rect x="50" y="110" width="300" height="200" rx="12" fill="#ffffff" />
+    <path d="M 50 122 Q 50 110 62 110 L 338 110 Q 350 110 350 122 L 350 140 L 50 140 Z" fill="#1e293b" />
+    
+    <circle cx="70" cy="125" r="4" fill="#ef4444" />
+    <circle cx="85" cy="125" r="4" fill="#eab308" />
+    <circle cx="100" cy="125" r="4" fill="#22c55e" />
+    
+    <rect x="70" y="160" width="80" height="130" rx="8" fill="#f1f5f9" />
+    <rect x="80" y="175" width="60" height="8" rx="4" fill="#cbd5e1" />
+    <rect x="80" y="195" width="45" height="6" rx="3" fill="#e2e8f0" />
+    <rect x="80" y="210" width="55" height="6" rx="3" fill="#e2e8f0" />
+    
+    <rect x="170" y="160" width="160" height="70" rx="8" fill="url(#brandGradWeb)" opacity="0.1" />
+    <rect x="185" y="180" width="90" height="10" rx="5" fill="url(#brandGradWeb)" />
+    <rect x="185" y="200" width="130" height="6" rx="3" fill="#94a3b8" />
+    
+    <rect x="170" y="245" width="75" height="45" rx="6" fill="#f8fafc" stroke="#e2e8f0" stroke-width="2" />
+    <rect x="255" y="245" width="75" height="45" rx="6" fill="#f8fafc" stroke="#e2e8f0" stroke-width="2" />
+    
+    <path d="M 270 200 L 285 220 L 290 215 L 305 235 L 280 235 Z" fill="#ffffff" />
+    <path d="M 270 200 L 285 220 L 290 215 Z" fill="#1e293b" />
+  </g>
+</svg>

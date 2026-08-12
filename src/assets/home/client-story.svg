@@ -1,0 +1,128 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800" width="100%" height="100%">
+  <defs>
+    <!-- Background Gradient -->
+    <linearGradient id="bg-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a" /> <!-- slate-950 -->
+      <stop offset="100%" stop-color="#134e4a" /> <!-- teal-900 -->
+    </linearGradient>
+    
+    <!-- Dashboard Gradient -->
+    <linearGradient id="dash-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1e293b" />
+      <stop offset="100%" stop-color="#0f172a" />
+    </linearGradient>
+
+    <!-- Accent Emerald/Teal Gradient -->
+    <linearGradient id="accent-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#2dd4bf" />
+      <stop offset="100%" stop-color="#10b981" />
+    </linearGradient>
+
+    <!-- Glowing Line Gradient -->
+    <linearGradient id="line-grad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#0d9488" stop-opacity="0.2"/>
+      <stop offset="50%" stop-color="#2dd4bf" stop-opacity="1"/>
+      <stop offset="100%" stop-color="#10b981" stop-opacity="0.8"/>
+    </linearGradient>
+
+    <!-- Shadows & Blurs -->
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="20" stdDeviation="25" flood-color="#000000" flood-opacity="0.4" />
+    </filter>
+    
+    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="0" stdDeviation="10" flood-color="#2dd4bf" flood-opacity="0.6" />
+    </filter>
+
+    <filter id="blur-bg" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="80" />
+    </filter>
+
+    <!-- Tech Dot Pattern -->
+    <pattern id="dots" x="0" y="0" width="40" height="40" patternUnits="userSpaceOnUse">
+      <circle cx="2" cy="2" r="1.5" fill="#334155" opacity="0.5" />
+    </pattern>
+  </defs>
+
+  <!-- Deep Background -->
+  <rect width="800" height="800" fill="url(#bg-grad)" />
+  
+  <!-- Dot Grid Pattern overlay -->
+  <rect width="800" height="800" fill="url(#dots)" />
+
+  <!-- Ambient Glows -->
+  <circle cx="200" cy="200" r="250" fill="#0f766e" opacity="0.4" filter="url(#blur-bg)" />
+  <circle cx="600" cy="600" r="300" fill="#047857" opacity="0.3" filter="url(#blur-bg)" />
+
+  <!-- Main Software/Dashboard Interface -->
+  <g filter="url(#shadow)">
+    <!-- Main Window -->
+    <rect x="120" y="180" width="560" height="440" rx="20" fill="url(#dash-grad)" stroke="#334155" stroke-width="2" />
+    
+    <!-- Window Header -->
+    <path d="M 120 200 Q 120 180 140 180 L 660 180 Q 680 180 680 200 L 680 240 L 120 240 Z" fill="#1e293b" />
+    
+    <!-- Mac-style window controls -->
+    <circle cx="155" cy="210" r="6" fill="#ef4444" />
+    <circle cx="180" cy="210" r="6" fill="#eab308" />
+    <circle cx="205" cy="210" r="6" fill="#22c55e" />
+
+    <!-- Dashboard Title Mockup -->
+    <rect x="320" y="205" width="160" height="10" rx="5" fill="#475569" />
+
+    <!-- Grid lines inside dashboard -->
+    <path d="M 180 300 L 620 300 M 180 380 L 620 380 M 180 460 L 620 460" stroke="#334155" stroke-width="1" stroke-dasharray="6 6" />
+
+    <!-- Growth / Success Line Chart -->
+    <path d="M 180 500 L 280 420 L 380 450 L 520 280 L 620 320" fill="none" stroke="url(#line-grad)" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" filter="url(#glow)" />
+    
+    <!-- Data points on chart -->
+    <circle cx="280" cy="420" r="8" fill="#1e293b" stroke="#2dd4bf" stroke-width="4" />
+    <circle cx="380" cy="450" r="8" fill="#1e293b" stroke="#2dd4bf" stroke-width="4" />
+    <circle cx="520" cy="280" r="10" fill="#ffffff" stroke="#10b981" stroke-width="5" filter="url(#glow)" />
+
+    <!-- Area under the chart (Gradient fill) -->
+    <path d="M 180 500 L 280 420 L 380 450 L 520 280 L 620 320 L 620 560 L 180 560 Z" fill="url(#line-grad)" opacity="0.15" />
+  </g>
+
+  <!-- Floating Success Card (Left Foreground) -->
+  <g filter="url(#shadow)">
+    <rect x="60" y="420" width="260" height="140" rx="16" fill="#ffffff" />
+    
+    <!-- Success Checkmark -->
+    <circle cx="120" cy="490" r="28" fill="#ecfdf5" />
+    <path d="M 108 490 L 116 498 L 132 482" fill="none" stroke="#10b981" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" />
+    
+    <!-- Text Mockup -->
+    <rect x="165" y="465" width="120" height="14" rx="7" fill="#cbd5e1" />
+    <rect x="165" y="495" width="80" height="10" rx="5" fill="#94a3b8" />
+    <rect x="165" y="515" width="60" height="10" rx="5" fill="#e2e8f0" />
+  </g>
+
+  <!-- Floating Collaboration Card (Right Foreground) -->
+  <g filter="url(#shadow)">
+    <rect x="520" y="100" width="220" height="130" rx="16" fill="#1e293b" stroke="#334155" stroke-width="2" />
+    
+    <!-- Client Profile Avatar -->
+    <circle cx="570" cy="165" r="24" fill="#334155" />
+    <circle cx="570" cy="158" r="8" fill="#94a3b8" />
+    <path d="M 556 178 Q 570 165 584 178 A 12 12 0 0 0 556 178" fill="#94a3b8" />
+
+    <!-- Agency/Developer Avatar -->
+    <circle cx="690" cy="165" r="24" fill="url(#accent-grad)" />
+    <circle cx="690" cy="158" r="8" fill="#ffffff" />
+    <path d="M 676 178 Q 690 165 704 178 A 12 12 0 0 0 676 178" fill="#ffffff" />
+
+    <!-- Connecting Synergy Line -->
+    <path d="M 605 165 L 655 165" fill="none" stroke="#2dd4bf" stroke-width="3" stroke-dasharray="6 4" />
+    <circle cx="630" cy="165" r="6" fill="#10b981" filter="url(#glow)"/>
+    
+    <!-- Little Status Indicator -->
+    <rect x="540" y="200" width="140" height="8" rx="4" fill="#334155" />
+    <rect x="540" y="200" width="110" height="8" rx="4" fill="#10b981" />
+  </g>
+
+  <!-- Floating Geometric Elements for tech vibe -->
+  <polygon points="700,450 720,490 680,490" fill="url(#accent-grad)" opacity="0.7" filter="url(#shadow)" />
+  <rect x="250" y="120" width="30" height="30" rx="8" fill="#38bdf8" opacity="0.6" transform="rotate(25 265 135)" />
+</svg>
