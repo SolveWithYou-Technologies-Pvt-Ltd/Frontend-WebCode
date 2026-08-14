@@ -27,7 +27,7 @@ const perks = [
   }
 ];
 
-const API_URL = "http://localhost:8000/api/jobs";
+const API_URL = "https://backend-code-k530rfj5r-solve-with-you.vercel.app/api/jobs";
 
 const Careers = () => {
   const [jobOpenings, setJobOpenings] = useState([]);
