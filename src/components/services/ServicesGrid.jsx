@@ -1,64 +1,44 @@
-import { Smartphone, Cloud, Code, Palette, Wrench, ArrowRight, CheckCircle2 } from "lucide-react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import { 
+  Smartphone, Cloud, Code, Palette, Wrench, ArrowRight, CheckCircle2, 
+  Briefcase, Globe, Database, Shield, Zap, Layout 
+} from "lucide-react";
+import axios from "axios";
+const API_URL = "http://localhost:8000/api/services";
 
-const servicesData = [
-  {
-    id: "app-development",
-    title: "1. App Development & Publishing",
-    description: "Mobile solutions designed for maximum performance, seamless publishing, and top-tier discoverability.",
-    icon: Smartphone,
-    features: [
-      "Custom Mobile App Development (Native & Cross-Platform / Flutter / React Native)",
-      "App Store & Play Store Publishing (Google Play Console, Apple App Store, Data Safety Forms & Compliance)",
-      "App Store Optimization (ASO) for ranking & keyword optimization"
-    ],
-  },
-  {
-    id: "saas-software",
-    title: "2. Custom Software & SaaS Development",
-    description: "Robust business automation and management tools tailored to scale your enterprise operations.",
-    icon: Cloud,
-    features: [
-      "SaaS Solutions (Custom management software, billing systems, CRMs)",
-      "Custom Web Applications & tailored client portals",
-      "API Integration & Development (Payment gateways, SMS services, third-party tools)"
-    ],
-  },
-  {
-    id: "web-development",
-    title: "3. Web Design & Development",
-    description: "Establish a powerful online presence with high-performing, responsive, and secure websites.",
-    icon: Code,
-    features: [
-      "Corporate & Business Websites for small to large enterprises",
-      "E-commerce Development & online store setup",
-      "High-Converting Landing Pages for marketing campaigns & lead generation"
-    ],
-  },
-  {
-    id: "ui-ux-design",
-    title: "4. UI/UX & Graphic Design",
-    description: "Attractive interfaces and compelling visual branding that capture user attention instantly.",
-    icon: Palette,
-    features: [
-      "UI/UX Design (User-friendly interfaces via Figma / Adobe XD)",
-      "Branding & Visuals (Logos, social media graphics, promotional materials)"
-    ],
-  },
-  {
-    id: "maintenance-support",
-    title: "5. Maintenance & Technical Support",
-    description: "Reliable recurring services to keep your software secure, updated, and locally visible.",
-    icon: Wrench,
-    features: [
-      "Monthly Maintenance Packages (Server hosting, backups, security updates)",
-      "Bug Fixing & Updates (Error resolution and new feature additions)",
-      "Business Profile & Local Setup (Google Business Profile setup and optimization)"
-    ],
-  },
-];
+const iconMap = {
+  Smartphone, Cloud, Code, Palette, Wrench, Briefcase, Globe, Database, Shield, Zap, Layout
+};
 
 const ServicesGrid = () => {
+  const [servicesData, setServicesData] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const loadServices = async () => {
+      try {
+        const response = await axios.get(`${API_URL}/public`);;
+        setServicesData(response.data.data);
+      } catch (error) {
+        console.error(error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    loadServices();
+  }, []);
+
+  if (loading) {
+    return (
+      <section className="bg-slate-50 py-16 sm:py-24">
+        <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8 text-center">
+          <p className="text-sm font-medium text-slate-500">Loading services...</p>
+        </div>
+      </section>
+    );
+  }
+
   return (
     <section className="bg-slate-50 py-16 sm:py-24">
       <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -73,10 +53,10 @@ const ServicesGrid = () => {
 
         <div className="mt-16 grid gap-8 lg:grid-cols-2">
           {servicesData.map((service) => {
-            const Icon = service.icon;
+            const Icon = iconMap[service.icon] || Code;
             return (
               <div
-                key={service.id}
+                key={service._id}
                 className="flex flex-col justify-between rounded-3xl border border-slate-200 bg-white p-8 shadow-sm transition hover:border-teal-300 hover:shadow-xl hover:shadow-slate-200/50"
               >
                 <div>

@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { Briefcase, MapPin, Clock, ArrowRight, Laptop, Users, Zap, HeartPulse, Banknote, Calendar } from "lucide-react";
+import { Link } from "react-router-dom";
 import axios from "axios";
 
 const perks = [
@@ -30,6 +31,7 @@ const API_URL = "http://localhost:8000/api/jobs";
 const Careers = () => {
   const [jobOpenings, setJobOpenings] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [filter, setFilter] = useState("All");
 
   useEffect(() => {
     const getJobs = async () => {
@@ -44,6 +46,13 @@ const Careers = () => {
     };
     getJobs();
   }, []);
+
+  const filteredJobs = jobOpenings.filter((job) => {
+    if (filter === "All") return true;
+    if (filter === "Job") return job.type !== "Internship";
+    if (filter === "Internship") return job.type === "Internship";
+    return true;
+  });
 
   return (
     <main className="min-h-screen bg-slate-50">
@@ -97,13 +106,34 @@ const Careers = () => {
 
       <section id="open-positions" className="bg-white py-16 sm:py-24 border-t border-slate-200">
         <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-10 gap-4">
+          <div className="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-6">
             <div>
               <h2 className="text-3xl font-bold text-slate-900">Open Positions</h2>
+              <span className="inline-block mt-2 text-sm font-semibold text-teal-600 bg-teal-50 px-3 py-1 rounded-full">
+                {filteredJobs.length} Roles Available
+              </span>
             </div>
-            <span className="text-sm font-semibold text-teal-600 bg-teal-50 px-3 py-1 rounded-full w-fit">
-              {jobOpenings.length} Roles Available
-            </span>
+            
+            <div className="flex flex-wrap items-center gap-2 bg-slate-100 p-1.5 rounded-xl">
+              <button
+                onClick={() => setFilter("All")}
+                className={`px-4 py-2 rounded-lg text-sm font-semibold transition-colors ${filter === "All" ? "bg-white text-teal-600 shadow-sm" : "text-slate-600 hover:text-slate-900"}`}
+              >
+                All Openings
+              </button>
+              <button
+                onClick={() => setFilter("Job")}
+                className={`px-4 py-2 rounded-lg text-sm font-semibold transition-colors ${filter === "Job" ? "bg-white text-teal-600 shadow-sm" : "text-slate-600 hover:text-slate-900"}`}
+              >
+                Jobs
+              </button>
+              <button
+                onClick={() => setFilter("Internship")}
+                className={`px-4 py-2 rounded-lg text-sm font-semibold transition-colors ${filter === "Internship" ? "bg-white text-teal-600 shadow-sm" : "text-slate-600 hover:text-slate-900"}`}
+              >
+                Internships
+              </button>
+            </div>
           </div>
 
           <div className="flex flex-col gap-4">
@@ -111,12 +141,12 @@ const Careers = () => {
               <div className="py-10 text-center text-sm font-medium text-slate-500">
                 Loading open positions...
               </div>
-            ) : jobOpenings.length === 0 ? (
+            ) : filteredJobs.length === 0 ? (
               <div className="py-10 text-center text-sm font-medium text-slate-500">
-                No open positions at the moment. Please check back later.
+                No roles found matching the selected filter. Please check back later.
               </div>
             ) : (
-              jobOpenings.map((job) => (
+              filteredJobs.map((job) => (
                 <div 
                   key={job._id} 
                   className="group flex flex-col sm:flex-row sm:items-center justify-between gap-6 rounded-2xl border border-slate-200 p-6 transition-all hover:border-teal-300 hover:shadow-md bg-slate-50 hover:bg-white"
@@ -126,7 +156,7 @@ const Careers = () => {
                       <span className="text-xs font-bold uppercase tracking-wider text-teal-600">{job.department}</span>
                       {job.type === "Internship" && job.promotionAfterInternship === "Yes" && (
                         <span className="text-[10px] font-bold uppercase tracking-wider text-emerald-600 bg-emerald-100 px-2 py-0.5 rounded-full">
-                          PPO Available (Performance Based)  
+                          PPO Available (Performance Based)
                         </span>
                       )}
                     </div>
@@ -142,7 +172,13 @@ const Careers = () => {
                         </span>
                       )}
 
-                      {(job.type !== "Internship" || job.internshipType === "Paid") && job.minSalary && job.maxSalary && (
+                      {job.type === "Internship" && job.internshipType === "Paid" && job.minSalary && (
+                        <span className="flex items-center gap-1.5">
+                          <Banknote size={16} className="text-slate-400" /> ₹{job.minSalary.toLocaleString('en-IN')} - ₹{job.maxSalary.toLocaleString('en-IN')}
+                        </span>
+                      )}
+
+                      {job.type !== "Internship" && job.minSalary && job.maxSalary && (
                         <span className="flex items-center gap-1.5">
                           <Banknote size={16} className="text-slate-400" /> ₹{job.minSalary.toLocaleString('en-IN')} - ₹{job.maxSalary.toLocaleString('en-IN')}
                         </span>
@@ -150,9 +186,9 @@ const Careers = () => {
                     </div>
                   </div>
                   
-                  <a href={`mailto:careers@digitalservices.com?subject=Application for ${job.title}`} className="shrink-0 inline-flex items-center justify-center gap-2 rounded-xl bg-white sm:bg-transparent border sm:border-0 border-slate-200 px-5 py-3 sm:p-0 text-sm font-semibold text-slate-700 sm:text-teal-600 transition group-hover:text-teal-700">
+                  <Link to={`/apply/${job._id}`} className="shrink-0 inline-flex items-center justify-center gap-2 rounded-xl bg-white sm:bg-transparent border sm:border-0 border-slate-200 px-5 py-3 sm:p-0 text-sm font-semibold text-slate-700 sm:text-teal-600 transition group-hover:text-teal-700">
                     Apply Now <ArrowRight size={18} className="transition-transform group-hover:translate-x-1" />
-                  </a>
+                  </Link>
                 </div>
               ))
             )}
@@ -166,9 +202,9 @@ const Careers = () => {
           <p className="text-teal-100 mb-8 text-lg">
             We are always looking for talented individuals. Drop your resume and we will contact you when a relevant position opens up.
           </p>
-          <a href="mailto:careers@digitalservices.com" className="inline-flex items-center justify-center rounded-xl bg-white px-8 py-4 text-sm font-bold text-teal-900 transition hover:bg-teal-50 shadow-lg">
+          <Link to="/apply/general" className="inline-flex items-center justify-center rounded-xl bg-white px-8 py-4 text-sm font-bold text-teal-900 transition hover:bg-teal-50 shadow-lg">
             Submit Your Resume
-          </a>
+          </Link>
         </div>
       </section>
     </main>

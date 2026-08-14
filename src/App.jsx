@@ -7,7 +7,7 @@ import ProtectedRoute from "./routes/ProtectedRoute";
 import About from "./pages/About";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
-import NotFound from "./pages/NotFound";
+import NotFound from "./pages/NotFound"; 
 import Profile from "./pages/Profile";
 import Register from "./pages/Register";
 import Portfolio from "./pages/Portfolio";
@@ -21,6 +21,7 @@ import ProjectDetails from "./pages/ProjectDetails";
 import DashboardLayout from "./components/layout/DashboardLayout";
 import DashboardOverview from "./pages/DashboardOverview";
 import Careers from "./pages/Careers";
+import ApplyJob from "./components/career/ApplyJob.jsx";
 
 // Admin Context, Layout and Routes
 import { AdminAuthProvider } from "./admin/context/AdminAuthContext";
@@ -42,7 +43,6 @@ import EditEmployeePage from "./admin/pages/EditEmployeePage";
 import EditServicePage from "./admin/pages/EditServicePage";
 import EmployeePermissionsPage from "./admin/pages/EmployeePermissionsPage";
 import EmployeesPage from "./admin/pages/EmployeesPage";
-import Serviceslist from "./admin/pages/Serviceslist";
 import SuperAdminRegisterPage from "./admin/pages/SuperAdminRegisterPage";
 import ViewAdminPage from "./admin/pages/ViewAdminPage";
 import ViewEmployeePage from "./admin/pages/ViewEmployeePage";
@@ -53,7 +53,21 @@ import ClientForm from "./admin/components/CleintComponents/ClientForm.jsx";
 import ClientView from "./admin/components/CleintComponents/ClientView.jsx";
 import HR from "./admin/pages/HR.jsx";
 import Hiring from "./admin/components/HR/Hiring.jsx";
+import JobForm from "./admin/components/HR/JobForm.jsx";
+import JobView from "./admin/components/HR/JobView.jsx";
+import AppliedCandidates from "./admin/components/HR/AppliedCandidates.jsx";
+import ApplicationView from "./admin/components/HR/ApplicationView.jsx";
 
+import OurServices from "./admin/pages/OurServices.jsx";
+import ServiceForm from "./admin/components/Services/ServiceForm.jsx";
+import ServiceView from "./admin/components/Services/ServiceView.jsx";
+import ClientQoutes from "./admin/pages/ClientQoutes.jsx";
+import QuoteView from "./admin/components/Quotes/QuoteView.jsx";
+import QuoteEdit from "./admin/components/Quotes/QuoteEdit";
+import AdminQuoteCreate from './admin/components/Quotes/AdminQuoteCreate.jsx'
+
+import Proposals from "./admin/pages/QoutesProposals.jsx";
+import ProposalEdit from "./admin/components/Proposal/ProposalEdit.jsx";
 
 
 const USER_LOCATION_STORAGE_KEY = "doctor-app-current-location";
@@ -137,6 +151,7 @@ const App = () => {
         <Route path="/services" element={<Services />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/apply/:id" element={<ApplyJob />} />
         <Route path="/register" element={<Register />} />
       </Route>
       <Route element={<DashboardLayout />}>
@@ -203,8 +218,8 @@ const App = () => {
                 <AdminProtectedRoute moduleName="services" action="view" />
               }
             >
-              <Route path="services" element={<Serviceslist />} />
-              <Route path="services/:id" element={<ViewServicePage />} />
+              <Route path="/admin/services" element={<OurServices />} />
+            <Route path="/admin/services/:id" element={<ServiceView />} />
             </Route>
 
             {/* Service Create Routes */}
@@ -213,7 +228,7 @@ const App = () => {
                 <AdminProtectedRoute moduleName="services" action="create" />
               }
             >
-              <Route path="services/create" element={<CreateServicePage />} />
+              <Route path="/admin/services/add" element={<ServiceForm />} />
             </Route>
 
             {/* Service Edit Routes */}
@@ -222,7 +237,7 @@ const App = () => {
                 <AdminProtectedRoute moduleName="services" action="edit" />
               }
             >
-              <Route path="services/:id/edit" element={<EditServicePage />} />
+              <Route path="/admin/services/edit/:id" element={<ServiceForm />} />
             </Route>
 
             <Route
@@ -247,9 +262,29 @@ const App = () => {
             >
                 <Route path="clients/add" element={<ClientForm />} />
             </Route>
+
+
             <Route path="hr" element={<HR />} />
             <Route path="hr/hiring" element={<Hiring />} />
-      
+            <Route path="hiring/add" element={<JobForm />} />
+            <Route path="hiring/edit/:id" element={<JobForm />} />
+            <Route path="hiring/view/:id" element={<JobView />} />
+            <Route path="hiring/applied-candidates" element={<AppliedCandidates />} />
+            <Route path="/admin/hr/applicants/:id" element={<ApplicationView />} />
+
+            <Route path="/admin/quotes" element={<ClientQoutes />} />
+            <Route path="/admin/quotes/:id" element={<QuoteView />} />
+            <Route path="/admin/quotes/edit/:id" element={<QuoteEdit />} />
+            <Route path="/admin/quotes/add" element={<AdminQuoteCreate />} />
+
+            <Route path="/admin/proposals" element={<Proposals />} />
+<Route path="/admin/proposals/edit/:id" element={<ProposalEdit />} />
+
+            
+
+
+
+
           </Route>
          
           <Route>

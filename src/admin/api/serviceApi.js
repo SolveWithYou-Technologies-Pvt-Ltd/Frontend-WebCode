@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_URL = "http://localhost:8000/api/jobs";
+const API_URL = "http://localhost:8000/api/services";
 
 const getAuthConfig = () => ({
   headers: {
@@ -8,37 +8,37 @@ const getAuthConfig = () => ({
   },
 });
 
-export const fetchPublicJobs = async () => {
+export const fetchPublicServices = async () => {
   const response = await axios.get(`${API_URL}/public`);
   return response.data.data;
 };
 
-export const fetchAdminJobs = async () => {
+export const fetchAdminServices = async () => {
   const response = await axios.get(API_URL, getAuthConfig());
   return response.data.data;
 };
 
-export const fetchAdminJobById = async (id) => {
+export const fetchAdminServiceById = async (id) => {
   const response = await axios.get(`${API_URL}/${id}`, getAuthConfig());
   return response.data.data;
 };
 
-export const createAdminJob = async (jobData) => {
-  const response = await axios.post(API_URL, jobData, getAuthConfig());
+export const createAdminService = async (serviceData) => {
+  const response = await axios.post(API_URL, serviceData, getAuthConfig());
   return response.data;
 };
 
-export const updateAdminJob = async (id, jobData) => {
-  const response = await axios.put(`${API_URL}/${id}`, jobData, getAuthConfig());
+export const updateAdminService = async (id, serviceData) => {
+  const response = await axios.put(`${API_URL}/${id}`, serviceData, getAuthConfig());
   return response.data;
 };
 
-export const toggleAdminJobStatus = async (id) => {
+export const toggleAdminServiceStatus = async (id) => {
   const response = await axios.patch(`${API_URL}/${id}/status`, {}, getAuthConfig());
   return response.data;
 };
 
-export const deleteAdminJob = async (id) => {
+export const deleteAdminService = async (id) => {
   const response = await axios.delete(`${API_URL}/${id}`, getAuthConfig());
   return response.data;
 };

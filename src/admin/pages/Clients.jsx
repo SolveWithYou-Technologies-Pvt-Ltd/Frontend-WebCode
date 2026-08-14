@@ -19,15 +19,15 @@ const Clients = () => {
   const [statusFilter, setStatusFilter] = useState("all");
 
   const canAdd = useMemo(() => 
-    hasPermission("client", "create") || hasPermission("clients", "create"), 
+     hasPermission("clients", "create"), 
   [hasPermission]);
   
   const canEdit = useMemo(() => 
-    hasPermission("client", "edit") || hasPermission("clients", "edit"), 
+    hasPermission("clients", "edit"), 
   [hasPermission]);
   
   const canDelete = useMemo(() => 
-    hasPermission("client", "delete") || hasPermission("clients", "delete"), 
+    hasPermission("clients", "delete"), 
   [hasPermission]);
 
   const loadClients = async () => {

@@ -8,7 +8,7 @@ import {
 
 import { authService } from "../services/authService";
 
-const TOKEN_KEY = "doctorAuthToken";
+const TOKEN_KEY = "UserAuthToken";
 
 export const AuthContext = createContext(null);
 

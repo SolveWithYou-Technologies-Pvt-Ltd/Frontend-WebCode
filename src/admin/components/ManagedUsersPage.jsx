@@ -49,7 +49,7 @@ const ManagedUsersPage = ({ role }) => {
   const config = getRoleConfig(role);
 
   const { hasPermission } = useAdminAuth();
-  console.log("add", hasPermission);
+
   const [users, setUsers] = useState([]);
 
   const [search, setSearch] = useState("");

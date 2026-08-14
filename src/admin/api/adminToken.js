@@ -1,4 +1,4 @@
-const ADMIN_TOKEN_KEY = "doctorAdminToken";
+const ADMIN_TOKEN_KEY = "AdminLoginToken";
 
 export const saveAdminToken = (token) => {
   localStorage.setItem(ADMIN_TOKEN_KEY, token);

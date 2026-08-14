@@ -31,7 +31,7 @@ const HR = () => {
       title: "Applied Candidates",
       description: "Review new resumes and track applicant statuses.",
       icon: Users,
-    //   path: "/admin/hr/applicants",
+      path: "/admin/hiring/applied-candidates",
       color: "text-purple-600",
       bgColor: "bg-purple-50"
     },

@@ -12,7 +12,7 @@ const api = axios.create({
 
 api.interceptors.request.use(
   (config) => {
-    const token = localStorage.getItem("doctorAuthToken");
+    const token = localStorage.getItem("UserAuthToken");
 
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;

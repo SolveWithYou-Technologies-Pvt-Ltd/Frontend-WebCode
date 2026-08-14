@@ -1,10 +1,11 @@
 import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
+import { getAdminProfileImageUrl } from "../utils/adminProfileImage";
 
 const AdminNavbar = ({ displayProfile, onLogout, onMenuClick }) => {
   const [profileMenuOpen, setProfileMenuOpen] = useState(false);
   const profileMenuRef = useRef(null);
-  const imageUrl = displayProfile?.imageUrl || displayProfile?.image || "";
+  const imageUrl = getAdminProfileImageUrl(displayProfile?.profileImage);
   const [imageFailed, setImageFailed] = useState(false);
 
   useEffect(() => {
@@ -95,7 +96,10 @@ const AdminNavbar = ({ displayProfile, onLogout, onMenuClick }) => {
               title={displayProfile?.fullName || "Admin"}
               className="h-8 w-8 lg:h-9 lg:w-9 grid shrink-0 place-items-center rounded-full bg-blue-100 text-blue-700 text-xs font-bold lg:text-sm"
             >
-              {String(displayProfile?.fullName || "").trim().charAt(0).toUpperCase() || "A"}
+              {String(displayProfile?.fullName || "")
+                .trim()
+                .charAt(0)
+                .toUpperCase() || "A"}
             </div>
           )}
 

@@ -2,8 +2,8 @@ import React, { useState, useEffect, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import { Eye, Edit, Trash2, Search, Filter } from "lucide-react";
-import useAdminAuth from "../hooks/useAuth";
-import { fetchAdminProposals, deleteAdminProposal } from "../admin/api/proposalApi";
+import useAdminAuth from "../hooks/useAdminAuth";
+import { fetchAdminProposals, deleteAdminProposal } from "../api/proposalApi";
 
 const Proposals = () => {
   const navigate = useNavigate();

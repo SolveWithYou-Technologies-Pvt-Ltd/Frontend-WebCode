@@ -14,6 +14,7 @@ import {
   Receipt,
   Megaphone,
   LayoutTemplate,
+  Group,
   X,
 } from "lucide-react";
 import Logo from "../../assets/logo.png";
@@ -98,6 +99,11 @@ const menuItems = [
     path: "/admin/tickets",
     icon: LifeBuoy,
     permission: { moduleName: "support_tickets", action: "view" },
+  },
+  {
+    label: "View Team",
+    path: "/admin/team",
+    icon: Group,
   },
 ];
 
