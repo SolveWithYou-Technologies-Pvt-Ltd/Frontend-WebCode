@@ -5,11 +5,10 @@ import {
   removeAdminToken,
 } from "./adminToken";
 
-const apiBaseUrl =
-  import.meta.env.VITE_API_URL || "https://backendapi.solvewithyou.in   ";
+const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;
 
 const adminApi = axios.create({
-  baseURL: `${apiBaseUrl}/api/admin`,
+  baseURL: `${apiBaseUrl}/admin`,
   headers: {
     "Content-Type": "application/json",
   },
