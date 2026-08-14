@@ -19,6 +19,16 @@ const Register = () => {
 
   const handleChange = (event) => {
     const { name, value } = event.target;
+
+    if (name === "phone") {
+      const numericValue = value.replace(/\D/g, "").slice(0, 10);
+      setFormData((current) => ({
+        ...current,
+        [name]: numericValue,
+      }));
+      return;
+    }
+
     setFormData((current) => ({
       ...current,
       [name]: value,
@@ -85,7 +95,9 @@ const Register = () => {
               onChange={handleChange}
               required
               autoComplete="email"
-              placeholder="Enter your email"
+              placeholder="example@gmail.com"
+              pattern="[a-zA-Z0-9._%+-]+@gmail\.com$"
+              title="Please enter a valid Gmail address (e.g. user@gmail.com)"
               className="mt-1.5 h-11 w-full rounded-md border border-slate-300 px-3 text-sm outline-none transition focus:border-teal-600 focus:ring-2 focus:ring-teal-100"
             />
           </label>
@@ -100,7 +112,9 @@ const Register = () => {
               value={formData.phone}
               onChange={handleChange}
               required
-              maxLength="10"
+              minLength={10}
+              maxLength={10}
+              pattern="[0-9]{10}"
               inputMode="numeric"
               autoComplete="tel"
               placeholder="10-digit phone number"
@@ -119,9 +133,10 @@ const Register = () => {
                 value={formData.password}
                 onChange={handleChange}
                 required
-                minLength="6"
+                minLength={8}
+                maxLength={15}
                 autoComplete="new-password"
-                placeholder="Minimum 6 characters"
+                placeholder="8 - 15 characters"
                 className="h-11 w-full rounded-md border border-slate-300 px-3 pr-11 text-sm outline-none transition focus:border-teal-600 focus:ring-2 focus:ring-teal-100"
               />
               <button

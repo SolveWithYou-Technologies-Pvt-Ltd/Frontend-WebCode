@@ -139,10 +139,10 @@ const Navbar = () => {
           ) : (
             <>
               <Link
-                to="/login"
+                to="/register"
                 className="rounded-md px-4 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-50"
               >
-                Client Login
+                Create Account
               </Link>
               <Link
                 to="/contact"
