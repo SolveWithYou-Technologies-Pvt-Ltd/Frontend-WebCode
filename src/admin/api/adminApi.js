@@ -6,7 +6,7 @@ import {
 } from "./adminToken";
 
 const apiBaseUrl =
-  import.meta.env.VITE_API_URL || "https://backend-code-k530rfj5r-solve-with-you.vercel.app";
+  import.meta.env.VITE_API_URL || "https://backendapi.solvewithyou.in   ";
 
 const adminApi = axios.create({
   baseURL: `${apiBaseUrl}/api/admin`,

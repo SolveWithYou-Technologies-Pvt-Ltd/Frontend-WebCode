@@ -13,6 +13,7 @@ const footerLinks = [
   { label: "About Us", path: "/about" },
   { label: "Portfolio", path: "/portfolio" },
   { label: "Our Services", path: "/services" },
+  { label: "Start a Project", path: "/contact" },
   { label: "Careers", path: "/careers" },
 ];
 

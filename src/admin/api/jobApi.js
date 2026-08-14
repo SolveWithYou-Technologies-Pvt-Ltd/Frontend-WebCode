@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_URL = "https://backend-code-k530rfj5r-solve-with-you.vercel.app/api/jobs";
+const API_URL = "https://backendapi.solvewithyou.in/api/jobs";
 
 const getAuthConfig = () => ({
   headers: {

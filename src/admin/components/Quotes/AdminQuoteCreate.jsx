@@ -44,7 +44,7 @@ const AdminQuoteCreate = () => {
   useEffect(() => {
     const fetchServices = async () => {
       try {
-        const res = await fetch("https://backend-code-k530rfj5r-solve-with-you.vercel.app/api/services/public");
+        const res = await fetch("https://backendapi.solvewithyou.in/api/services/public");
         const servicesData = await res.json();
         if (servicesData.success) {
           setServicesList(servicesData.data);

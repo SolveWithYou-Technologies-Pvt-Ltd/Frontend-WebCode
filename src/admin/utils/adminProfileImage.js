@@ -21,7 +21,7 @@ const getOriginFromUrl = (
   try {
     /*
       Absolute API URLs such as:
-      https://backend-code-k530rfj5r-solve-with-you.vercel.app/api/admin
+      https://backendapi.solvewithyou.in/api/admin
     */
     if (
       /^https?:\/\//i.test(

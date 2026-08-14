@@ -15,7 +15,7 @@ const navigationItems = [
   { label: "About Us", path: "/about" },
   { label: "Portfolio", path: "/portfolio" },
   { label: "Services", path: "/services" },
-  { label: "Careers", path: "/careers" },
+  { label: "Let's Build", path: "/contact" },
 ];
 
 const UserAvatar = ({ user, initial, size = "small" }) => {
