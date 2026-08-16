@@ -47,7 +47,7 @@ const menuItems = [
   },
   {
     label: "Projects",
-    path: "/admin/projects",
+    path: "/admin/clientprojects",
     icon: Briefcase,
     permission: { moduleName: "projects", action: "view" },
   },
@@ -70,12 +70,7 @@ const menuItems = [
     icon: Box,
     permission: { moduleName: "services", action: "view" },
   },
-  {
-    label: "Website Content",
-    path: "/admin/contentmanagementsystem",
-    icon: LayoutTemplate,
-    permission: { moduleName: "cms_content", action: "view" },
-  },
+  
   {
     label: "HR Module",
     path: "/admin/hr",
@@ -89,11 +84,18 @@ const menuItems = [
     permission: { moduleName: "accounts", action: "view" },
   },
   {
+    label: "Website Content",
+    path: "/admin/contentmanagementsystem",
+    icon: LayoutTemplate,
+    permission: { moduleName: "cms_content", action: "view" },
+  },
+  {
     label: "Sales & Marketing",
     path: "/admin/sales",
     icon: Megaphone,
     permission: { moduleName: "sales_marketing", action: "view" },
   },
+  
   {
     label: "Support Tickets",
     path: "/admin/tickets",

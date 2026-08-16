@@ -22,6 +22,7 @@ import DashboardLayout from "./components/layout/DashboardLayout";
 import DashboardOverview from "./pages/DashboardOverview";
 import Careers from "./pages/Careers";
 import ApplyJob from "./components/career/ApplyJob.jsx";
+import Myproposals from './pages/MyProposals.jsx'
 
 import { AdminAuthProvider } from "./admin/context/AdminAuthContext";
 import AdminLayout from "./admin/layout/AdminLayout";
@@ -62,7 +63,22 @@ import QuoteEdit from "./admin/components/Quotes/QuoteEdit";
 import AdminQuoteCreate from './admin/components/Quotes/AdminQuoteCreate.jsx';
 
 import Proposals from "./admin/pages/QoutesProposals.jsx";
+import AdminProposalView from "./admin/components/Proposal/AdminProposalView.jsx";
 import ProposalEdit from "./admin/components/Proposal/ProposalEdit.jsx";
+import ClientProjects from "./admin/pages/ClientsProjects.jsx";
+import ClientProjectCreate from "./admin/components/ClientProjects/ClientProjectCreate.jsx";
+import ClientProjectEdit from "./admin/components/ClientProjects/ClientProjectEdit.jsx";
+import ClientProjectView from "./admin/components/ClientProjects/ClientProjectView.jsx";
+import WebsiteAndContent from './admin/pages/WebsiteAndContent.jsx';
+import SalesandMarketing from './admin/pages/SalesandMarketing.jsx';
+import SupportTickets from "./admin/pages/SupportTickets.jsx";
+import SupportTicketView from "./admin/components/Support/SupportTicketView.jsx";
+import SupportTicketEdit from "./admin/components/Support/SupportTicketEdit.jsx";
+
+import AccountsAndBillings from "./admin/pages/AccountsAndBillings.jsx";
+import TransactionForm from "./admin/components/Accounts/TransactionForm.jsx";
+import TransactionView from "./admin/components/Accounts/TransactionView.jsx";
+import TransactionEdit from "./admin/components/Accounts/TransactionEdit.jsx";
 
 const USER_LOCATION_STORAGE_KEY = "doctor-app-current-location";
 let locationRequestStarted = false;
@@ -141,15 +157,18 @@ const App = () => {
           <Route path="/register" element={<Register />} />
         </Route>
         
-        <Route element={<DashboardLayout />}>
-          <Route path="/dashboard" element={<DashboardOverview />} />
-          <Route path="/profile" element={<Profile />} />
-          <Route path="/quotes" element={<Quotes />} />
-          <Route path="/support" element={<Support />} />
-          <Route path="/proposal/:id" element={<ProposalView />} />
-          <Route path="/projects" element={<Projects />} />
-          <Route path="/project/:id" element={<ProjectDetails />} />
-        </Route>
+       <Route element={<ProtectedRoute />}>
+  <Route element={<DashboardLayout />}>
+    <Route path="/dashboard" element={<DashboardOverview />} />
+    <Route path="/profile" element={<Profile />} />
+    <Route path="/quotes" element={<Quotes />} />
+    <Route path="/support" element={<Support />} />
+    <Route path="/myproposals" element={<Myproposals />} />
+    <Route path="/proposal/:id" element={<ProposalView />} />
+    <Route path="/projects" element={<Projects />} />
+    <Route path="/project/:id" element={<ProjectDetails />} />
+  </Route>
+</Route>
 
         <Route element={<AdminAuthRoutes />}>
           <Route path="/admin/login" element={<AdminLoginPage />} />
@@ -224,7 +243,22 @@ const App = () => {
               <Route path="quotes/add" element={<AdminQuoteCreate />} />
 
               <Route path="proposals" element={<Proposals />} />
+              <Route path="proposals/:id" element={<AdminProposalView />} />
               <Route path="proposals/edit/:id" element={<ProposalEdit />} />
+              <Route path="clientprojects" element={<ClientProjects />} />
+              <Route path="clientprojects/create/:proposalId" element={<ClientProjectCreate />} />
+              <Route path="clientprojects/edit/:id" element={<ClientProjectEdit />} />
+              <Route path="clientprojects/:id" element={<ClientProjectView />} />
+              <Route path="contentmanagementsystem" element={<WebsiteAndContent />} />
+              <Route path="sales" element={<SalesandMarketing />} />
+              <Route path="accounts" element={<AccountsAndBillings />} />
+              <Route path="accounts/add" element={<TransactionForm />} />
+              <Route path="accounts/:id" element={<TransactionView />} />
+              <Route path="accounts/edit/:id" element={<TransactionEdit />} />
+              <Route path="tickets" element={<SupportTickets />} />
+<Route path="tickets/:id" element={<SupportTicketView />} />
+<Route path="tickets/edit/:id" element={<SupportTicketEdit />} />
+
             </Route>
           </Route>
         </Route>

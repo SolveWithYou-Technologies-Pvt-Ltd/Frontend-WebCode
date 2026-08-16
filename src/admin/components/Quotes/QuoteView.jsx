@@ -52,6 +52,24 @@ const QuoteView = () => {
     loadData();
   }, [id, navigate]);
 
+  useEffect(() => {
+    if (proposalForm.milestones) {
+      const total = proposalForm.milestones.reduce((sum, m) => {
+        const val = parseFloat(m.amount.replace(/[^0-9.]/g, ''));
+        return sum + (isNaN(val) ? 0 : val);
+      }, 0);
+      
+      if (total > 0) {
+        const currencyMatch = proposalForm.milestones[0].amount.match(/^[^\d]+/);
+        const symbol = currencyMatch ? currencyMatch[0].trim() : 'Rs.';
+        setProposalForm(prev => ({
+          ...prev,
+          totalCost: `${symbol} ${total.toLocaleString('en-IN')}`
+        }));
+      }
+    }
+  }, [proposalForm.milestones]);
+
   const handleStatusChange = async (newStatus) => {
     try {
       await updateAdminQuoteStatus(id, newStatus);
@@ -266,7 +284,8 @@ const QuoteView = () => {
                   </div>
                   <div>
                     <label className="block text-[12px] font-bold uppercase text-slate-500 mb-1.5">Total Cost *</label>
-                    <input type="text" value={proposalForm.totalCost} onChange={(e) => setProposalForm({...proposalForm, totalCost: e.target.value})} placeholder="e.g. $5,000" required className="w-full px-3 py-2 border border-slate-300 rounded-lg text-[13px] focus:ring-2 focus:ring-teal-500 outline-none" />
+                    <input type="text" value={proposalForm.totalCost} onChange={(e) => setProposalForm({...proposalForm, totalCost: e.target.value})} placeholder="e.g. $5,000" required readOnly className="w-full px-3 py-2 border border-slate-300 bg-slate-50 rounded-lg text-[13px] focus:outline-none cursor-not-allowed text-slate-600 font-semibold" />
+                    <p className="text-[10px] text-slate-400 mt-1">Calculated from milestones</p>
                   </div>
                 </div>
                 <div>
@@ -290,7 +309,7 @@ const QuoteView = () => {
                   {proposalForm.milestones.map((m, index) => (
                     <div key={index} className="flex items-center gap-2 mb-2">
                       <input type="text" value={m.phase} onChange={(e) => handleMilestoneChange(index, 'phase', e.target.value)} required placeholder="Phase/Desc" className="w-1/2 px-3 py-2 border border-slate-300 rounded-lg text-[13px] focus:ring-2 focus:ring-teal-500 outline-none" />
-                      <input type="text" value={m.amount} onChange={(e) => handleMilestoneChange(index, 'amount', e.target.value)} required placeholder="Amount" className="w-1/4 px-3 py-2 border border-slate-300 rounded-lg text-[13px] focus:ring-2 focus:ring-teal-500 outline-none" />
+                      <input type="text" value={m.amount} onChange={(e) => handleMilestoneChange(index, 'amount', e.target.value)} required placeholder="Amount (e.g. Rs. 1000)" className="w-1/4 px-3 py-2 border border-slate-300 rounded-lg text-[13px] focus:ring-2 focus:ring-teal-500 outline-none" />
                       <input type="text" value={m.status} onChange={(e) => handleMilestoneChange(index, 'status', e.target.value)} required placeholder="Due" className="w-1/4 px-3 py-2 border border-slate-300 rounded-lg text-[13px] focus:ring-2 focus:ring-teal-500 outline-none" />
                       <button type="button" onClick={() => removeMilestoneRow(index)} className="p-2 bg-red-50 text-red-600 rounded-lg hover:bg-red-100"><X size={14}/></button>
                     </div>

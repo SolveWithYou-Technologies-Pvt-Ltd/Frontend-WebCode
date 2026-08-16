@@ -1,19 +1,26 @@
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const NotFound = () => {
+  const navigate = useNavigate();
+
   return (
-    <section className="flex min-h-screen items-center justify-center px-4 text-center">
-      <div>
-        <p className="text-5xl font-bold text-teal-600">404</p>
-        <h1 className="mt-3 text-2xl font-bold text-slate-900">
-          Page not found
+    <section className="flex min-h-screen items-center justify-center px-6 text-center bg-slate-50">
+      <div className="max-w-lg">
+
+        <p className="text-8xl sm:text-9xl font-extrabold text-teal-600 tracking-tight">
+          404
+        </p>
+
+        <h1 className="mt-4 text-3xl sm:text-4xl font-bold tracking-tight text-slate-900">
+          Oops! Page Not Found
         </h1>
-        <Link
-          to="/"
-          className="mt-6 inline-flex rounded-md bg-teal-600 px-4 py-2 text-sm font-semibold text-white"
+
+        <button
+          onClick={() => navigate(-1)}
+          className="mt-8 inline-flex items-center justify-center rounded-lg bg-teal-600 px-6 py-3 text-base font-semibold text-white shadow-md hover:bg-teal-700 transition-colors focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2"
         >
-          Back to home
-        </Link>
+          &larr; Go Back
+        </button>
       </div>
     </section>
   );

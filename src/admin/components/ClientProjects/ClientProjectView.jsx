@@ -1,38 +1,84 @@
 import React, { useState, useEffect } from "react";
-import { ArrowLeft, Briefcase, Globe, Code, CheckCircle2, CircleDashed, Users, ExternalLink, ShieldCheck } from "lucide-react";
+import { ArrowLeft, Briefcase, CheckCircle2, CircleDashed, Users, Calendar, ShieldCheck } from "lucide-react";
 import { Link, useParams } from "react-router-dom";
-import axios from "axios";
 import toast from "react-hot-toast";
+import { fetchClientProjectById, updateProjectTaskStatus, updateProjectDetails } from "../../api/clientProjectApi"; 
 
-const ProjectDetails = () => {
-  const { id } = useParams(); 
+const ClientProjectView = () => {
+  const { id } = useParams();
   const [project, setProject] = useState(null);
   const [loading, setLoading] = useState(true);
+  
+  const [selectedSupport, setSelectedSupport] = useState("");
+  const [isSavingSupport, setIsSavingSupport] = useState(false);
 
   useEffect(() => {
-    const fetchProjectDetails = async () => {
+    const loadProject = async () => {
       try {
-        const token = localStorage.getItem("UserAuthToken")
-        const response = await axios.get(`https://backendapi.solvewithyou.in/api/clientprojects/quote/${id}`, {
-          headers: {
-            Authorization: token ? `Bearer ${token}` : "",
-          },
-        });
-
-        if (response.data && response.data.success) {
-          setProject(response.data.data);
-        }
+        const data = await fetchClientProjectById(id);
+        setProject(data);
       } catch (error) {
         toast.error("Failed to load project details");
       } finally {
         setLoading(false);
       }
     };
-    
-    if (id) {
-      fetchProjectDetails();
-    }
+    loadProject();
   }, [id]);
+
+  const handleTaskStatusChange = async (taskId, newStatus) => {
+    try {
+      const response = await updateProjectTaskStatus(id, taskId, newStatus);
+      if (response && response.success) {
+        setProject(response.data);
+        toast.success("Task status updated successfully");
+      } else {
+        toast.error("Failed to update task status");
+      }
+    } catch (error) {
+      toast.error("Failed to update task status");
+    }
+  };
+
+  const handleStartSupport = async () => {
+    if (!selectedSupport) {
+      toast.error("Please select a duration");
+      return;
+    }
+    
+    setIsSavingSupport(true);
+    try {
+      const startDate = new Date();
+      const endDate = new Date(startDate);
+      
+      if (selectedSupport === "7 Days") endDate.setDate(endDate.getDate() + 7);
+      else if (selectedSupport === "15 Days") endDate.setDate(endDate.getDate() + 15);
+      else if (selectedSupport === "1 Month") endDate.setMonth(endDate.getMonth() + 1);
+      else if (selectedSupport === "6 Months") endDate.setMonth(endDate.getMonth() + 6);
+      else if (selectedSupport === "1 Year") endDate.setFullYear(endDate.getFullYear() + 1);
+
+      const response = await updateProjectDetails(id, {
+        supportDuration: selectedSupport,
+        supportStartDate: startDate,
+        supportEndDate: endDate
+      });
+
+      if (response && response.success) {
+        setProject(prev => ({
+          ...response.data,
+          assignedEmployee: response.data.assignedEmployee?.fullName ? response.data.assignedEmployee : prev.assignedEmployee,
+          proposal: response.data.proposal?.totalCost ? response.data.proposal : prev.proposal
+        }));
+        toast.success("Support and Maintenance started successfully!");
+      } else {
+        toast.error("Failed to save support details");
+      }
+    } catch (error) {
+      toast.error("Failed to start support");
+    } finally {
+      setIsSavingSupport(false);
+    }
+  };
 
   const formatDate = (dateString) => {
     if (!dateString) return "";
@@ -59,18 +105,10 @@ const ProjectDetails = () => {
   };
 
   if (loading) {
-    return <div className="p-10 text-center font-medium text-slate-500 min-h-[60vh] flex items-center justify-center">Loading project details...</div>;
+    return <div className="p-10 text-center text-slate-500 font-medium">Loading project details...</div>;
   }
 
-  if (!project) {
-    return (
-      <div className="p-10 text-center flex flex-col items-center justify-center min-h-[60vh]">
-        <h2 className="text-xl font-bold text-slate-900 mb-2">Project Not Initiated</h2>
-        <p className="text-slate-500 mb-6">This project setup has not been completed by the administrative team yet.</p>
-        <Link to="/quotes" className="px-5 py-2.5 bg-teal-600 text-white rounded-xl font-semibold hover:bg-teal-700 transition">Return to Quotes</Link>
-      </div>
-    );
-  }
+  if (!project) return null;
 
   const totalCostRaw = project.proposal?.totalCost || "0";
   const currencySymbol = getCurrencySymbol(totalCostRaw);
@@ -82,7 +120,7 @@ const ProjectDetails = () => {
   const tasksWithCalculations = project.tasks?.map((task) => {
     const taskTotal = parseAmount(task.amount);
     let taskDue = taskTotal;
-
+    
     if (task.due !== undefined) {
       taskDue = parseAmount(task.due);
     } else if (task.dueAmount !== undefined) {
@@ -109,22 +147,14 @@ const ProjectDetails = () => {
   const overallProjectTotal = proposalTotalAmount > 0 ? proposalTotalAmount : taskCalculationsTotal;
   const overallDue = Math.max(0, overallProjectTotal - totalPaidFromTasks);
 
-  let daysRemaining = null;
-  if (project.supportEndDate) {
-    const today = new Date();
-    const endDate = new Date(project.supportEndDate);
-    const timeDiff = endDate.getTime() - today.getTime();
-    daysRemaining = Math.ceil(timeDiff / (1000 * 3600 * 24));
-  }
-
   return (
-    <div className="p-6 sm:p-10">
-      <Link to="/projects" className="inline-flex items-center gap-2 text-sm font-semibold text-slate-500 hover:text-teal-600 mb-6 transition-colors">
+    <div className="p-4 sm:p-8 max-w-6xl mx-auto">
+      <Link to="/admin/clientprojects" className="inline-flex items-center gap-2 text-sm font-semibold text-slate-500 hover:text-teal-600 mb-6 transition-colors">
         <ArrowLeft size={16} />
         Back to Projects
       </Link>
 
-      <div className="rounded-3xl border border-slate-200 bg-white p-6 sm:p-10 shadow-sm mb-8">
+      <div className="rounded-3xl border border-slate-200 bg-white p-6 sm:p-10 shadow-sm mb-6">
         <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
           <div>
             <div className="flex items-center gap-3 mb-2">
@@ -138,7 +168,7 @@ const ProjectDetails = () => {
               </span>
             </div>
             <h1 className="text-2xl sm:text-3xl font-bold text-slate-900">{project.title}</h1>
-            <p className="mt-2 text-sm text-slate-500">Project ID: {project.projectId} • Started: {new Date(project.startDate).toLocaleDateString()}</p>
+            <p className="mt-2 text-sm text-slate-500">Project ID: {project.projectId} • Client: {project.clientName}</p>
           </div>
 
           <div className="w-full max-w-sm rounded-2xl bg-slate-50 p-4 border border-slate-100">
@@ -156,41 +186,50 @@ const ProjectDetails = () => {
         </div>
       </div>
 
-      {project.supportDuration && project.supportDuration !== "None" && (
+      {project.status === 'Completed' && (
         <div className="rounded-3xl border border-emerald-200 bg-emerald-50/40 p-6 sm:p-8 shadow-sm mb-8 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
-          <div className="flex-1">
-            <h2 className="text-lg font-bold text-emerald-900 flex items-center gap-2 mb-3">
+          <div>
+            <h2 className="text-lg font-bold text-emerald-900 flex items-center gap-2 mb-1">
               <ShieldCheck size={20} className="text-emerald-600" /> Support & Maintenance
             </h2>
-            <div className="flex flex-wrap gap-x-6 gap-y-2 mb-2">
-              <div>
-                <span className="text-xs font-bold uppercase tracking-wider text-emerald-700/70">Plan</span>
-                <p className="text-sm font-semibold text-emerald-900">{project.supportDuration}</p>
-              </div>
-              <div>
-                <span className="text-xs font-bold uppercase tracking-wider text-emerald-700/70">Valid Until</span>
-                <p className="text-sm font-semibold text-emerald-900">{formatDate(project.supportEndDate)}</p>
-              </div>
-            </div>
-            
-            {daysRemaining !== null && daysRemaining <= 5 && daysRemaining > 0 && (
-               <p className="mt-3 text-[13px] font-bold text-amber-700 bg-amber-100 border border-amber-200 px-3 py-1.5 rounded-lg inline-block">
-                 Support and maintenance expires in {daysRemaining} days.
-               </p>
-            )}
-            {daysRemaining !== null && daysRemaining <= 0 && (
-               <p className="mt-3 text-[13px] font-bold text-red-700 bg-red-100 border border-red-200 px-3 py-1.5 rounded-lg inline-block">
-                 Support and maintenance has expired.
-               </p>
-            )}
+            <p className="text-sm text-emerald-700">Manage post-completion support for this project.</p>
           </div>
-          
-          <a
-            href="http://localhost:5173/support"
-            className="shrink-0 px-6 py-2.5 bg-emerald-600 text-white text-sm font-bold rounded-xl hover:bg-emerald-700 transition-colors shadow-sm"
-          >
-            Get Support
-          </a>
+
+          {project.supportDuration && project.supportDuration !== "None" ? (
+             <div className="bg-white px-5 py-3 rounded-2xl border border-emerald-100 shadow-sm flex items-center gap-6">
+               <div>
+                 <p className="text-[11px] font-bold uppercase tracking-wider text-slate-400">Active Plan</p>
+                 <p className="text-[14px] font-semibold text-slate-900">{project.supportDuration}</p>
+               </div>
+               <div className="h-8 w-px bg-slate-200"></div>
+               <div>
+                 <p className="text-[11px] font-bold uppercase tracking-wider text-slate-400">Valid Until</p>
+                 <p className="text-[14px] font-semibold text-slate-900">{formatDate(project.supportEndDate)}</p>
+               </div>
+             </div>
+          ) : (
+            <div className="flex items-center gap-3 w-full md:w-auto">
+              <select
+                value={selectedSupport}
+                onChange={(e) => setSelectedSupport(e.target.value)}
+                className="flex-1 md:w-48 px-3 py-2.5 text-sm font-medium border rounded-xl outline-none bg-white border-emerald-200 text-slate-700 focus:border-emerald-500 transition-colors cursor-pointer"
+              >
+                <option value="">Select Duration...</option>
+                <option value="7 Days">7 Days</option>
+                <option value="15 Days">15 Days</option>
+                <option value="1 Month">1 Month</option>
+                <option value="6 Months">6 Months</option>
+                <option value="1 Year">1 Year</option>
+              </select>
+              <button
+                onClick={handleStartSupport}
+                disabled={!selectedSupport || isSavingSupport}
+                className="px-5 py-2.5 bg-emerald-600 text-white text-sm font-bold rounded-xl hover:bg-emerald-700 disabled:opacity-50 transition-colors"
+              >
+                {isSavingSupport ? "Saving..." : "Start"}
+              </button>
+            </div>
+          )}
         </div>
       )}
 
@@ -251,7 +290,7 @@ const ProjectDetails = () => {
                       )}
 
                       {task.taskDue > 0 && (
-                        <span className="text-amber-600 text-[12px] font-bold">Please Pay: {formatTotal(task.taskDue, currencySymbol)}</span>
+                        <span className="text-amber-600 text-[12px] font-bold">Due: {formatTotal(task.taskDue, currencySymbol)}</span>
                       )}
 
                       {task.targetDate && (
@@ -266,14 +305,20 @@ const ProjectDetails = () => {
                         <span className="text-slate-500 text-[10px] mt-0.5">Completed: {formatDate(task.completedDate)}</span>
                       )}
                     </div>
-                    
-                    <span className={`px-3 py-1.5 rounded-lg text-[11px] font-bold border ${
-                      task.status === 'Completed' ? 'bg-emerald-50 text-emerald-700 border-emerald-200' : 
-                      task.status === 'In Progress' ? 'bg-blue-50 text-blue-700 border-blue-200' : 
-                      'bg-slate-50 text-slate-600 border-slate-300'
-                    }`}>
-                      {task.status}
-                    </span>
+
+                    <select
+                      value={task.status}
+                      onChange={(e) => handleTaskStatusChange(task._id, e.target.value)}
+                      className={`text-[11px] font-bold outline-none cursor-pointer bg-transparent py-1.5 px-2 border rounded-md transition-colors ${
+                        task.status === 'Completed' ? 'border-emerald-300 text-emerald-700 bg-white hover:bg-emerald-50' :
+                        task.status === 'In Progress' ? 'border-blue-300 text-blue-700 bg-white hover:bg-blue-50' :
+                        'border-slate-300 text-slate-700 bg-white hover:bg-slate-50'
+                      }`}
+                    >
+                      <option value="Pending">Pending</option>
+                      <option value="In Progress">In Progress</option>
+                      <option value="Completed">Completed</option>
+                    </select>
                   </div>
                 </div>
               )) : (
@@ -284,30 +329,12 @@ const ProjectDetails = () => {
         </div>
 
         <div className="space-y-8">
-          {project.links && project.links.length > 0 && (
-            <div className="rounded-3xl border border-slate-200 bg-white p-6 sm:p-8 shadow-sm">
-              <h2 className="text-lg font-bold text-slate-900 mb-6 flex items-center gap-2">
-                <Globe size={20} className="text-teal-600" /> Quick Links
-              </h2>
-              <div className="space-y-3">
-                {project.links.map((link, idx) => (
-                  <a key={idx} href={link.url} target="_blank" rel="noreferrer" className="flex items-center justify-between rounded-xl border border-slate-200 bg-slate-50 p-4 text-sm font-semibold text-slate-700 hover:bg-teal-50 hover:text-teal-700 hover:border-teal-200 transition">
-                    <span className="flex items-center gap-2">
-                      <Code size={16} /> {link.label}
-                    </span>
-                    <ExternalLink size={14} />
-                  </a>
-                ))}
-              </div>
-            </div>
-          )}
-
           <div className="rounded-3xl border border-slate-200 bg-white p-6 sm:p-8 shadow-sm">
             <h2 className="text-lg font-bold text-slate-900 mb-6 flex items-center gap-2">
               <Users size={20} className="text-teal-600" /> Assigned Team
             </h2>
             <div className="space-y-4">
-              {project.assignedEmployee ? (
+              {project.assignedEmployee && project.assignedEmployee.fullName ? (
                 <div className="flex items-center gap-3">
                   <div className="grid h-10 w-10 place-items-center rounded-full bg-teal-100 font-bold text-teal-700 uppercase">
                     {project.assignedEmployee.fullName.charAt(0)}
@@ -325,10 +352,26 @@ const ProjectDetails = () => {
               )}
             </div>
           </div>
+
+          <div className="rounded-3xl border border-slate-200 bg-white p-6 sm:p-8 shadow-sm">
+             <h2 className="text-lg font-bold text-slate-900 mb-6 flex items-center gap-2">
+              <Calendar size={20} className="text-teal-600" /> Schedule
+            </h2>
+            <div className="space-y-4">
+              <div>
+                <p className="text-[11px] font-bold uppercase tracking-wider text-slate-400">Start Date</p>
+                <p className="mt-1 text-[14px] font-semibold text-slate-900">{formatDate(project.startDate)}</p>
+              </div>
+              <div>
+                <p className="text-[11px] font-bold uppercase tracking-wider text-slate-400">Target End Date</p>
+                <p className="mt-1 text-[14px] font-semibold text-slate-900">{formatDate(project.endDate)}</p>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
   );
 };
 
-export default ProjectDetails;
+export default ClientProjectView;

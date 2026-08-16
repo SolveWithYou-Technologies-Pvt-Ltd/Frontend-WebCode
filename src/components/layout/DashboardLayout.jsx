@@ -18,6 +18,7 @@ import Logo from "../../assets/logo.png";
 const sidebarLinks = [
   { label: "Dashboard", path: "/dashboard", icon: LayoutDashboard },
   { label: "My Projects", path: "/projects", icon: Briefcase },
+  { label: "My Proposals", path: "/myproposals", icon: FileText },
   { label: "My Quotes", path: "/quotes", icon: FileText },
   { label: "Support Tickets", path: "/support", icon: LifeBuoy },
 ];

@@ -80,7 +80,7 @@ const Navbar = () => {
               SolveWithYou Pvt Ltd
             </p>
             <p className="hidden text-[11px] text-slate-500 sm:block">
-              Your Problem - Our Technology - One Solution
+              We Can Create Solutions Together
             </p>
           </div>
         </Link>

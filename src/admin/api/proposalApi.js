@@ -2,14 +2,22 @@ import axios from "axios";
 
 const API_URL = "https://backendapi.solvewithyou.in/api/proposals";
 
-const getAuthConfig = () => ({
-  headers: {
-    Authorization: `Bearer ${localStorage.getItem("token") || localStorage.getItem("doctorAdminToken") || localStorage.getItem("UserAuthToken")}`,
-  },
-});
+const getAuthConfig = () => {
+  const token = localStorage.getItem("AdminLoginToken") 
+  return {
+    headers: {
+      Authorization: token ? `Bearer ${token}` : "",
+    },
+  };
+};
 
 export const fetchAdminProposals = async (search = "", status = "All") => {
   const response = await axios.get(`${API_URL}?search=${search}&status=${status}`, getAuthConfig());
+  return response.data.data;
+};
+
+export const fetchUserProposals = async (email, phone) => {
+  const response = await axios.get(`${API_URL}/user/me?email=${email || ""}&phone=${phone || ""}`, getAuthConfig());
   return response.data.data;
 };
 

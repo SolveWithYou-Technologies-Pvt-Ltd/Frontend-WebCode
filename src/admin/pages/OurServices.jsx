@@ -7,14 +7,14 @@ import { fetchAdminServices, toggleAdminServiceStatus, deleteAdminService } from
 
 const OurServices = () => {
   const navigate = useNavigate();
-  const { hasPermission } = useAdminAuth();
+  const { hasPermission } = useAdminAuth(); 
   
   const [services, setServices] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  const canAdd = useMemo(() => hasPermission("Services", "create"), [hasPermission]);
-  const canEdit = useMemo(() => hasPermission("Services", "edit"), [hasPermission]);
-  const canDelete = useMemo(() => hasPermission("Services", "delete"), [hasPermission]);
+  const canAdd = useMemo(() => hasPermission("services", "create"), [hasPermission]);
+  const canEdit = useMemo(() => hasPermission("services", "edit"), [hasPermission]);
+  const canDelete = useMemo(() => hasPermission("services", "delete"), [hasPermission]);
 
   const loadServices = async () => {
     try {
@@ -72,42 +72,42 @@ const OurServices = () => {
           <table className="min-w-full divide-y divide-slate-200">
             <thead className="bg-slate-50">
               <tr>
-                <th className="px-6 py-4 text-left text-xs font-bold text-slate-500 uppercase tracking-wider">Service ID</th>
-                <th className="px-6 py-4 text-left text-xs font-bold text-slate-500 uppercase tracking-wider">Service Title</th>
-                <th className="px-6 py-4 text-left text-xs font-bold text-slate-500 uppercase tracking-wider">Icon</th>
-                <th className="px-6 py-4 text-left text-xs font-bold text-slate-500 uppercase tracking-wider">Features Count</th>
-                <th className="px-6 py-4 text-left text-xs font-bold text-slate-500 uppercase tracking-wider">Status</th>
-                <th className="px-6 py-4 text-right text-xs font-bold text-slate-500 uppercase tracking-wider">Actions</th>
-                <th className="px-6 py-4 text-center text-xs font-bold text-slate-500 uppercase tracking-wider">Update Status</th>
+                <th className="px-4 py-3 text-left text-[11px] font-bold text-slate-500 uppercase tracking-wider">Service ID</th>
+                <th className="px-4 py-3 text-left text-[11px] font-bold text-slate-500 uppercase tracking-wider">Service Title</th>
+                <th className="px-4 py-3 text-left text-[11px] font-bold text-slate-500 uppercase tracking-wider">Icon</th>
+                <th className="px-4 py-3 text-left text-[11px] font-bold text-slate-500 uppercase tracking-wider">Features Count</th>
+                <th className="px-4 py-3 text-left text-[11px] font-bold text-slate-500 uppercase tracking-wider">Status</th>
+                <th className="px-4 py-3 text-right text-[11px] font-bold text-slate-500 uppercase tracking-wider">Actions</th>
+                <th className="px-4 py-3 text-center text-[11px] font-bold text-slate-500 uppercase tracking-wider">Update Status</th>
               </tr>
             </thead>
             <tbody className="bg-white divide-y divide-slate-100">
               {loading ? (
                 <tr>
-                  <td colSpan="7" className="px-6 py-8 text-center text-sm font-medium text-slate-500">Loading services...</td>
+                  <td colSpan="7" className="px-4 py-6 text-center text-[12px] font-medium text-slate-500">Loading services...</td>
                 </tr>
               ) : services.length === 0 ? (
                 <tr>
-                  <td colSpan="7" className="px-6 py-8 text-center text-sm font-medium text-slate-500">No services found.</td>
+                  <td colSpan="7" className="px-4 py-6 text-center text-[12px] font-medium text-slate-500">No services found.</td>
                 </tr>
               ) : (
                 services.map((service) => (
                   <tr key={service._id} className="hover:bg-slate-50/80 transition-colors">
-                    <td className="px-6 py-4 whitespace-nowrap text-sm font-bold text-slate-900">{service.serviceId}</td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-slate-900">{service.title}</td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-slate-600">{service.icon}</td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-slate-600">{service.features.length} Features</td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <span className={`px-3 py-1 inline-flex text-[11px] uppercase tracking-wider font-bold rounded-full ${service.isActive ? 'bg-emerald-100 text-emerald-700' : 'bg-red-100 text-red-700'}`}>
+                    <td className="px-4 py-3 whitespace-nowrap text-[12px] font-bold text-slate-900">{service.serviceId}</td>
+                    <td className="px-4 py-3 whitespace-nowrap text-[12px] font-medium text-slate-900">{service.title}</td>
+                    <td className="px-4 py-3 whitespace-nowrap text-[12px] font-medium text-slate-600">{service.icon}</td>
+                    <td className="px-4 py-3 whitespace-nowrap text-[12px] font-medium text-slate-600">{service.features.length} Features</td>
+                    <td className="px-4 py-3 whitespace-nowrap">
+                      <span className={`px-2 py-0.5 inline-flex text-[10px] uppercase tracking-wider font-bold rounded-md ${service.isActive ? 'bg-emerald-100 text-emerald-700' : 'bg-red-100 text-red-700'}`}>
                         {service.isActive ? 'Active' : 'Inactive'}
                       </span>
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-semibold flex justify-end items-center gap-4">
+                    <td className="px-4 py-3 whitespace-nowrap text-right text-[12px] font-semibold flex justify-end items-center gap-3">
                       <button 
                         onClick={() => navigate(`/admin/services/${service._id}`)}
                         className="text-slate-600 hover:text-slate-900 transition-colors"
                       >
-                        <Eye size={18} />
+                        <Eye size={16} />
                       </button>
                       
                       {canEdit && (
@@ -115,7 +115,7 @@ const OurServices = () => {
                           onClick={() => navigate(`/admin/services/edit/${service._id}`)}
                           className="text-blue-600 hover:text-blue-800 transition-colors"
                         >
-                          <Edit size={18} />
+                          <Edit size={16} />
                         </button>
                       )}
 
@@ -124,15 +124,15 @@ const OurServices = () => {
                           onClick={() => handleDelete(service._id)}
                           className="text-red-600 hover:text-red-800 transition-colors"
                         >
-                          <Trash2 size={18} />
+                          <Trash2 size={16} />
                         </button>
                       )}
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-center text-sm">
+                    <td className="px-4 py-3 whitespace-nowrap text-center text-[12px]">
                       {canEdit && (
                         <button 
                           onClick={() => handleToggleStatus(service._id)}
-                          className={`inline-flex items-center justify-center px-3 py-1.5 rounded-lg text-[11px] font-bold uppercase tracking-wider transition-colors ${
+                          className={`inline-flex items-center justify-center px-2.5 py-1 rounded-md text-[10px] font-bold uppercase tracking-wider transition-colors ${
                             service.isActive 
                               ? 'bg-red-50 text-red-600 hover:bg-red-100' 
                               : 'bg-emerald-50 text-emerald-600 hover:bg-emerald-100'

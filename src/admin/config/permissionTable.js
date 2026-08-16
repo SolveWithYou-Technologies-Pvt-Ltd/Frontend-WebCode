@@ -23,6 +23,10 @@ export const PERMISSION_TABLE = [
     label: "Dashboard",
   },
   {
+    key: "admin",
+    label: "Admin",
+  },
+  {
     key: "clients",
     label: "Clients",
   },

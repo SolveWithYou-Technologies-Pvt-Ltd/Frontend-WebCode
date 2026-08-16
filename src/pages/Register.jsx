@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Eye, EyeOff } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
+import logo from "../assets/logo.png";
 
 const Register = () => {
   const [formData, setFormData] = useState({
@@ -56,13 +57,18 @@ const Register = () => {
   return (
     <section className="flex min-h-[70vh] items-center justify-center bg-slate-50 px-4 py-12">
       <div className="w-full max-w-lg rounded-xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
-        <div className="flex justify-center">
-          <h1 className="text-2xl font-bold text-slate-900 sm:text-3xl">
-            Client Registration
-          </h1>
+        
+        <div className="flex flex-col items-center mb-6">
+          <img 
+            src={logo} 
+            alt="Solve With You Logo" 
+            className="h-10 sm:h-12 w-auto object-contain mb-4" 
+          />
+         
         </div> 
+
         {errorMessage && (
-          <p className="mt-5 rounded-md border border-red-200 bg-red-50 px-3 py-2 text-xs text-red-700 sm:text-sm">
+          <p className="mt-2 rounded-md border border-red-200 bg-red-50 px-3 py-2 text-xs text-red-700 sm:text-sm">
             {errorMessage}
           </p>
         )}

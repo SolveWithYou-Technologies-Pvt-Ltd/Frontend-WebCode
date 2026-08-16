@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
   Camera,
   Check,
@@ -12,7 +12,6 @@ import {
   UserRound,
   X,
 } from "lucide-react";
-import ProfileImageCropModal from "../components/profile/ProfileImageCropModal";
 import useAuth from "../hooks/useAuth";
 import { profileService } from "../services/profileService";
 
@@ -89,13 +88,9 @@ const ProfileDetail = ({ icon: Icon, label, value, fullWidth = false }) => (
 
 const Profile = () => {
   const { user, isAuthLoading, refreshUser } = useAuth();
-  const fileInputRef = useRef(null);
 
   const [isEditing, setIsEditing] = useState(false);
   const [formData, setFormData] = useState(emptyForm);
-  const [selectedPhoto, setSelectedPhoto] = useState(null);
-  const [photoPreview, setPhotoPreview] = useState("");
-  const [cropImageSource, setCropImageSource] = useState("");
   const [isSaving, setIsSaving] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
@@ -103,28 +98,10 @@ const Profile = () => {
   useEffect(() => {
     if (user && !isEditing) {
       setFormData(buildFormFromUser(user));
-      setPhotoPreview("");
-      setSelectedPhoto(null);
     }
   }, [user, isEditing]);
 
-  useEffect(() => {
-    return () => {
-      if (photoPreview.startsWith("blob:")) {
-        URL.revokeObjectURL(photoPreview);
-      }
-    };
-  }, [photoPreview]);
-
-  useEffect(() => {
-    return () => {
-      if (cropImageSource.startsWith("blob:")) {
-        URL.revokeObjectURL(cropImageSource);
-      }
-    };
-  }, [cropImageSource]);
-
-  const displayedPhoto = photoPreview || user?.profilePhoto || "";
+  const displayedPhoto = user?.profilePhoto || "";
 
   const completionProfile = isEditing
     ? {
@@ -143,7 +120,7 @@ const Profile = () => {
   const handleChange = (event) => {
     const { name, value } = event.target;
     let nextValue = value;
-    if (name === "phone" || name === "pincode") {
+    if (name === "pincode") {
       nextValue = value.replace(/\D/g, "");
     }
     setFormData((current) => ({
@@ -152,39 +129,8 @@ const Profile = () => {
     }));
   };
 
-  const handleSelectPhoto = (event) => {
-    const file = event.target.files?.[0];
-    event.target.value = "";
-    if (!file) return;
-
-    if (!file.type.startsWith("image/")) {
-      setErrorMessage("Please select a valid image file");
-      return;
-    }
-    if (file.size > 5 * 1024 * 1024) {
-      setErrorMessage("Profile picture must be smaller than 5 MB");
-      return;
-    }
-
-    setErrorMessage("");
-    const imageUrl = URL.createObjectURL(file);
-    setCropImageSource(imageUrl);
-  };
-
-  const handleCroppedPhoto = (croppedFile) => {
-    if (photoPreview.startsWith("blob:")) {
-      URL.revokeObjectURL(photoPreview);
-    }
-    const previewUrl = URL.createObjectURL(croppedFile);
-    setSelectedPhoto(croppedFile);
-    setPhotoPreview(previewUrl);
-    setCropImageSource("");
-  };
-
   const startEditing = () => {
     setFormData(buildFormFromUser(user));
-    setSelectedPhoto(null);
-    setPhotoPreview("");
     setErrorMessage("");
     setSuccessMessage("");
     setIsEditing(true);
@@ -192,9 +138,6 @@ const Profile = () => {
 
   const cancelEditing = () => {
     setFormData(buildFormFromUser(user));
-    setSelectedPhoto(null);
-    setPhotoPreview("");
-    setCropImageSource("");
     setErrorMessage("");
     setSuccessMessage("");
     setIsEditing(false);
@@ -205,10 +148,6 @@ const Profile = () => {
     setErrorMessage("");
     setSuccessMessage("");
 
-    if (formData.phone.length !== 10) {
-      setErrorMessage("Phone number must contain exactly 10 digits");
-      return;
-    }
     if (formData.pincode && formData.pincode.length !== 6) {
       setErrorMessage("Pincode must contain exactly 6 digits");
       return;
@@ -220,15 +159,11 @@ const Profile = () => {
       Object.entries(formData).forEach(([key, value]) => {
         payload.append(key, value.trim());
       });
-      if (selectedPhoto) {
-        payload.append("profilePhoto", selectedPhoto);
-      }
+      
       await profileService.updateProfile(payload);
       await refreshUser();
       setSuccessMessage("Profile updated successfully");
       setIsEditing(false);
-      setSelectedPhoto(null);
-      setPhotoPreview("");
     } catch (error) {
       setErrorMessage(
         error.response?.data?.message || "Unable to update profile. Please try again."
@@ -273,23 +208,6 @@ const Profile = () => {
                       {userInitial}
                     </span>
                   )}
-                  {isEditing && (
-                    <button
-                      type="button"
-                      onClick={() => fileInputRef.current?.click()}
-                      className="absolute -bottom-2 -right-2 grid h-10 w-10 place-items-center rounded-full border-4 border-teal-700 bg-white text-teal-700 shadow-lg transition hover:bg-teal-50"
-                      aria-label="Select profile picture"
-                    >
-                      <Camera size={18} />
-                    </button>
-                  )}
-                  <input
-                    ref={fileInputRef}
-                    type="file"
-                    accept="image/png,image/jpeg,image/webp"
-                    onChange={handleSelectPhoto}
-                    className="hidden"
-                  />
                 </div>
 
                 <div className="min-w-0">
@@ -417,11 +335,8 @@ const Profile = () => {
                       type="tel"
                       name="phone"
                       value={formData.phone}
-                      onChange={handleChange}
-                      required
-                      maxLength={10}
-                      inputMode="numeric"
-                      className="mt-1.5 h-11 w-full rounded-xl border border-slate-300 px-3 text-sm outline-none transition focus:border-teal-600 focus:ring-4 focus:ring-teal-100"
+                      readOnly
+                      className="mt-1.5 h-11 w-full rounded-xl border border-slate-200 bg-slate-100 px-3 text-sm text-slate-500 outline-none cursor-not-allowed"
                     />
                   </label>
 
@@ -433,9 +348,8 @@ const Profile = () => {
                       type="email"
                       name="email"
                       value={formData.email}
-                      onChange={handleChange}
-                      required
-                      className="mt-1.5 h-11 w-full rounded-xl border border-slate-300 px-3 text-sm outline-none transition focus:border-teal-600 focus:ring-4 focus:ring-teal-100"
+                      readOnly
+                      className="mt-1.5 h-11 w-full rounded-xl border border-slate-200 bg-slate-100 px-3 text-sm text-slate-500 outline-none cursor-not-allowed"
                     />
                   </label>
 
@@ -588,14 +502,6 @@ const Profile = () => {
           </div>
         </div>
       </div>
-
-      {cropImageSource && (
-        <ProfileImageCropModal
-          imageSource={cropImageSource}
-          onClose={() => setCropImageSource("")}
-          onCropComplete={handleCroppedPhoto}
-        />
-      )}
     </>
   );
 };
