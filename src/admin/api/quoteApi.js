@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_URL = "https://backendapi.solvewithyou.in/api/quotes";
+const API_URL = "http://localhost:8000/api/quotes";
 
 const getAuthConfig = () => ({
   headers: {

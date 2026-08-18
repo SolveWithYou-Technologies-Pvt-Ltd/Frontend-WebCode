@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_URL = "https://backendapi.solvewithyou.in/api/proposals";
+const API_URL = "http://localhost:8000/api/proposals";
 
 const getAuthConfig = () => {
   const token = localStorage.getItem("AdminLoginToken") 

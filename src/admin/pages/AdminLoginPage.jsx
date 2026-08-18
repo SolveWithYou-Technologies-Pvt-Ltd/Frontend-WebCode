@@ -61,7 +61,7 @@ const AdminLoginPage = () => {
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-[#F8FAFC] px-4 font-sans selection:bg-teal-100">
-      <div className="w-full max-w-[440px] rounded-[24px] border border-slate-100 bg-white p-8 sm:p-12 shadow-[0_8px_30px_rgb(0,0,0,0.04)]">
+      <div className="w-full max-w-[440px] rounded-md border border-slate-100 bg-white p-8 sm:p-12 shadow-[0_8px_30px_rgb(0,0,0,0.04)]">
         
         <div className="flex flex-col items-center mb-8">
           <div className="flex items-center justify-center w-full mb-3 px-4">

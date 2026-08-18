@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Eye, EyeOff } from "lucide-react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
+import toast, { Toaster } from "react-hot-toast";
 import useAuth from "../hooks/useAuth";
 import Seo from "../../src/Seo/Seo";
 import logo from "../assets/logo.png";
@@ -33,11 +34,17 @@ const Login = () => {
 
     try {
       await login(formData);
+      toast.success("Login successful!");
       navigate(location.state?.from || "/", { replace: true });
     } catch (error) {
-      setErrorMessage(
-        error.response?.data?.message || "Unable to login. Please try again."
-      );
+      const msg = error.response?.data?.message || "Unable to login. Please try again.";
+      setErrorMessage(msg);
+
+      if (error.response?.status === 423) {
+        toast.error(msg, { duration: 5000 });
+      } else {
+        toast.error(msg);
+      }
     } finally {
       setIsSubmitting(false);
     }
@@ -45,6 +52,7 @@ const Login = () => {
 
   return (
     <>
+      <Toaster position="top-right" reverseOrder={false} />
       <Seo 
         title="Client Login | SolveWithYou Dashboard"
         description="Securely log in to your SolveWithYou client dashboard to track your project progress, manage services, and connect with our development team."
@@ -59,15 +67,9 @@ const Login = () => {
               alt="Solve With You Logo" 
               className="h-10 sm:h-12 w-auto object-contain mb-4" 
             />
-           
           </div>
           
-          {errorMessage && (
-            <p className="mt-2 rounded-md border border-red-200 bg-red-50 px-3 py-2 text-xs text-red-700 sm:text-sm">
-              {errorMessage}
-            </p>
-          )}
-
+      
           <form className="mt-6 space-y-4" onSubmit={handleSubmit}>
             <label className="block">
               <span className="text-xs font-semibold text-slate-700 sm:text-sm">
