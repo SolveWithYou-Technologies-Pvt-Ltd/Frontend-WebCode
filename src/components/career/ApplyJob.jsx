@@ -31,7 +31,7 @@ const ApplyJob = () => {
     if (!isGeneral) {
       const fetchJob = async () => {
         try {
-          const response = await axios.get(`http://localhost:8000/api/jobs/public`);
+          const response = await axios.get(`https://backendapi.solvewithyou.in/api/jobs/public`);
           const foundJob = response.data.data.find(j => j._id === id);
           if (foundJob) {
             setJob(foundJob);
@@ -81,7 +81,7 @@ const ApplyJob = () => {
         payload.currentSalary = "";
       }
 
-      const response = await axios.post("http://localhost:8000/api/applications", payload);
+      const response = await axios.post("https://backendapi.solvewithyou.in/api/applications", payload);
       setSubmittedId(response.data.data.applicationId);
       setSubmitted(true);
     } catch (error) {

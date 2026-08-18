@@ -42,7 +42,7 @@ const AdminDashboardPage = () => {
         setLoading(true);
         const token = localStorage.getItem("AdminLoginToken");
         const response = await axios.get(
-          `http://localhost:8000/api/dashboard/stats?filter=${filter}`,
+          `https://backendapi.solvewithyou.in/api/dashboard/stats?filter=${filter}`,
           {
             headers: {
               Authorization: `Bearer ${token}`,

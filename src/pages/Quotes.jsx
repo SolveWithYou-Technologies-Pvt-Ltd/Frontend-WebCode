@@ -59,7 +59,7 @@ const Quotes = () => {
         const userEmail = user?.email || "";
         const userPhone = user?.phone || user?.phoneNumber || "";
 
-        const response = await axios.get(`http://localhost:8000/api/quotes/user/me?email=${userEmail}&phone=${userPhone}`, {
+        const response = await axios.get(`https://backendapi.solvewithyou.in/api/quotes/user/me?email=${userEmail}&phone=${userPhone}`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
