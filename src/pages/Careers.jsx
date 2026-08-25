@@ -27,7 +27,7 @@ const perks = [
   }
 ];
 
-const API_URL = "https://backendapi.solvewithyou.in/api/jobs";
+const API_URL = "http://localhost:8000/api/jobs";
 
 const Careers = () => {
   const [jobOpenings, setJobOpenings] = useState([]);

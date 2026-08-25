@@ -1,13 +1,13 @@
 import { useEffect } from "react";
 import { Outlet, Route, Routes } from "react-router-dom";
-import { HelmetProvider } from "react-helmet-async";
+import { HelmetProvider, Helmet } from "react-helmet-async";
 
 import UserLayout from "./components/layout/UserLayout";
 import ProtectedRoute from "./routes/ProtectedRoute";
 import About from "./pages/About";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
-import NotFound from "./pages/NotFound"; 
+import NotFound from "./pages/NotFound";
 import Profile from "./pages/Profile";
 import Register from "./pages/Register";
 import Portfolio from "./pages/Portfolio";
@@ -120,7 +120,7 @@ const LocationAccessManager = () => {
 
     navigator.geolocation.getCurrentPosition(
       ({ coords }) => saveCurrentLocation(coords),
-      () => {},
+      () => { },
       {
         enableHighAccuracy: true,
         timeout: 15000,
@@ -144,6 +144,12 @@ const UserLocationRoutes = () => {
 const App = () => {
   return (
     <HelmetProvider>
+      <Helmet
+        titleTemplate="%s | SolveWithYou Pvt Ltd"
+        defaultTitle="SolveWithYou Pvt Ltd | Custom Web & App Development"
+      >
+        <meta name="description" content="SolveWithYou provides custom website and mobile app development, maintenance, and upgradation services. We can create solutions together." />
+      </Helmet>
       <Routes>
         <Route element={<UserLocationRoutes />}>
           <Route path="/" element={<Home />} />
@@ -156,19 +162,19 @@ const App = () => {
           <Route path="/apply/:id" element={<ApplyJob />} />
           <Route path="/register" element={<Register />} />
         </Route>
-        
-       <Route element={<ProtectedRoute />}>
-  <Route element={<DashboardLayout />}>
-    <Route path="/dashboard" element={<DashboardOverview />} />
-    <Route path="/profile" element={<Profile />} />
-    <Route path="/quotes" element={<Quotes />} />
-    <Route path="/support" element={<Support />} />
-    <Route path="/myproposals" element={<Myproposals />} />
-    <Route path="/proposal/:id" element={<ProposalView />} />
-    <Route path="/projects" element={<Projects />} />
-    <Route path="/project/:id" element={<ProjectDetails />} />
-  </Route>
-</Route>
+
+        <Route element={<ProtectedRoute />}>
+          <Route element={<DashboardLayout />}>
+            <Route path="/dashboard" element={<DashboardOverview />} />
+            <Route path="/profile" element={<Profile />} />
+            <Route path="/quotes" element={<Quotes />} />
+            <Route path="/support" element={<Support />} />
+            <Route path="/myproposals" element={<Myproposals />} />
+            <Route path="/proposal/:id" element={<ProposalView />} />
+            <Route path="/projects" element={<Projects />} />
+            <Route path="/project/:id" element={<ProjectDetails />} />
+          </Route>
+        </Route>
 
         <Route element={<AdminAuthRoutes />}>
           <Route path="/admin/login" element={<AdminLoginPage />} />
@@ -180,14 +186,14 @@ const App = () => {
               <Route path="team" element={<ViewTeamPage />} />
               <Route path="profile" element={<AdminProfilePage />} />
               <Route path="profile/edit" element={<EditAdminProfilePage />} />
-              
+
               <Route element={<AdminProtectedRoute roles={["superadmin"]} />}>
                 <Route path="admins" element={<AdminsPage />} />
                 <Route path="admins/add" element={<AddAdminPage />} />
                 <Route path="admins/:id" element={<ViewAdminPage />} />
                 <Route path="admins/:id/edit" element={<EditAdminPage />} />
                 <Route path="admins/:id/permissions" element={<AdminPermissionsPage />} />
-              </Route> 
+              </Route>
 
               <Route element={<AdminProtectedRoute moduleName="employees" action="view" />}>
                 <Route path="employees" element={<EmployeesPage />} />
@@ -256,13 +262,13 @@ const App = () => {
               <Route path="accounts/:id" element={<TransactionView />} />
               <Route path="accounts/edit/:id" element={<TransactionEdit />} />
               <Route path="tickets" element={<SupportTickets />} />
-<Route path="tickets/:id" element={<SupportTicketView />} />
-<Route path="tickets/edit/:id" element={<SupportTicketEdit />} />
+              <Route path="tickets/:id" element={<SupportTicketView />} />
+              <Route path="tickets/edit/:id" element={<SupportTicketEdit />} />
 
             </Route>
           </Route>
         </Route>
-        
+
         <Route path="*" element={<NotFound />} />
       </Routes>
     </HelmetProvider>

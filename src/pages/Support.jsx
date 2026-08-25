@@ -27,7 +27,7 @@ const Support = () => {
         const userPhone = user?.phone || user?.phoneNumber || "";
         const headers = { Authorization: token ? `Bearer ${token}` : "" };
         
-        const projRes = await axios.get(`https://backendapi.solvewithyou.in/api/clientprojects/user/me?email=${userEmail}&phone=${userPhone}`, { headers });
+        const projRes = await axios.get(`http://localhost:8000/api/clientprojects/user/me?email=${userEmail}&phone=${userPhone}`, { headers });
         if (projRes.data && projRes.data.success) {
           const validProjects = projRes.data.data.filter(p => {
             if (!p.supportDuration || p.supportDuration === "None") return false;
@@ -37,7 +37,7 @@ const Support = () => {
           setProjects(validProjects);
         }
 
-        const tickRes = await axios.get(`https://backendapi.solvewithyou.in/api/tickets/user/me?email=${userEmail}&phone=${userPhone}`, { headers });
+        const tickRes = await axios.get(`http://localhost:8000/api/tickets/user/me?email=${userEmail}&phone=${userPhone}`, { headers });
         if (tickRes.data && tickRes.data.success) {
           setTickets(tickRes.data.data);
         }
@@ -61,7 +61,7 @@ const Support = () => {
     setIsSubmitting(true);
     try {
       const token = localStorage.getItem("UserAuthToken");
-      const response = await axios.post("https://backendapi.solvewithyou.in/api/tickets", formData, {
+      const response = await axios.post("http://localhost:8000/api/tickets", formData, {
         headers: { Authorization: token ? `Bearer ${token}` : "" }
       });
       

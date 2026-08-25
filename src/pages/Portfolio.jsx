@@ -8,10 +8,11 @@ import ProjectCtaSection from "../components/home/ProjectCtaSection";
 const Portfolio = () => {
   return (
     <>
-      <Seo 
+      <Seo
         title="Our Portfolio & Projects | SolveWithYou | Digital Reality"
         description="Explore our latest projects transforming ideas into digital reality. We build scalable web platforms, custom SaaS, and mobile apps like BookMyGlow and Doctor Management Systems."
         keywords="SolveWithYou portfolio, SaaS platforms, web development, mobile applications, BookMyGlow App, Healthcare apps, EdTech platforms, Salon management software, Doctor scheduling system"
+        url="https://www.solvewithyou.in/portfolio"
       />
       <main className="flex min-h-screen w-full flex-col">
         <PortfolioHero />

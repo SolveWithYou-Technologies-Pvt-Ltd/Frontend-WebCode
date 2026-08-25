@@ -53,23 +53,24 @@ const Login = () => {
   return (
     <>
       <Toaster position="top-right" reverseOrder={false} />
-      <Seo 
+      <Seo
         title="Client Login | SolveWithYou Dashboard"
         description="Securely log in to your SolveWithYou client dashboard to track your project progress, manage services, and connect with our development team."
         keywords="SolveWithYou client login, client dashboard, IT project portal, secure login, software development portal"
+        url="https://www.solvewithyou.in/login"
       />
       <section className="flex min-h-[70vh] items-center justify-center bg-slate-50 px-4 py-12">
         <div className="w-full max-w-md rounded-xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
-          
+
           <div className="flex flex-col items-center mb-6">
-            <img 
-              src={logo} 
-              alt="Solve With You Logo" 
-              className="h-10 sm:h-12 w-auto object-contain mb-4" 
+            <img
+              src={logo}
+              alt="Solve With You Logo"
+              className="h-10 sm:h-12 w-auto object-contain mb-4"
             />
           </div>
-          
-      
+
+
           <form className="mt-6 space-y-4" onSubmit={handleSubmit}>
             <label className="block">
               <span className="text-xs font-semibold text-slate-700 sm:text-sm">

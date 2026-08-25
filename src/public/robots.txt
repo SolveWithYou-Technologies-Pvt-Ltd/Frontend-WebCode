@@ -1,0 +1,11 @@
+User-agent: *
+Allow: /
+Disallow: /admin/
+Disallow: /dashboard/
+Disallow: /profile/
+Disallow: /quotes/
+Disallow: /myproposals/
+Disallow: /projects/
+Disallow: /support/
+
+Sitemap: https://www.solvewithyou.in/sitemap.xml

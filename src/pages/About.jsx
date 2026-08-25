@@ -10,10 +10,11 @@ import ProjectCtaSection from "../components/home/ProjectCtaSection";
 const AboutUs = () => {
   return (
     <>
-      <Seo 
+      <Seo
         title="About SolveWithYou Pvt Ltd | Digital Transformation & Software Agency"
         description="Discover SolveWithYou Pvt Ltd. With 5+ years of excellence and 150+ successful projects, our expert software engineers build scalable web, cloud, and mobile applications."
         keywords="SolveWithYou Pvt Ltd, digital transformation agency, software engineering team, scalable web applications, mobile app development, React Native, AWS, Node.js"
+        url="https://www.solvewithyou.in/about"
       />
       <main className="flex min-h-screen w-full flex-col">
         <AboutHeroSection />
