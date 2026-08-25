@@ -1,0 +1,8 @@
+{
+    "short_name": "SolveWithYou",
+    "name": "SolveWithYou Pvt Ltd",
+    "start_url": ".",
+    "display": "standalone",
+    "theme_color": "#ffffff",
+    "background_color": "#ffffff"
+}
