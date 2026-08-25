@@ -13,7 +13,7 @@ const ProjectDetails = () => {
     const fetchProjectDetails = async () => {
       try {
         const token = localStorage.getItem("UserAuthToken")
-        const response = await axios.get(`http://localhost:8000/api/clientprojects/quote/${id}`, {
+        const response = await axios.get(`https://backendapi.solvewithyou.in/api/clientprojects/quote/${id}`, {
           headers: {
             Authorization: token ? `Bearer ${token}` : "",
           },

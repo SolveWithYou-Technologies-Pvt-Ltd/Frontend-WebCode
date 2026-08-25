@@ -44,7 +44,7 @@ const AdminQuoteCreate = () => {
   useEffect(() => {
     const fetchServices = async () => {
       try {
-        const res = await fetch("http://localhost:8000/api/services/public");
+        const res = await fetch("https://backendapi.solvewithyou.in/api/services/public");
         const servicesData = await res.json();
         if (servicesData.success) {
           setServicesList(servicesData.data);

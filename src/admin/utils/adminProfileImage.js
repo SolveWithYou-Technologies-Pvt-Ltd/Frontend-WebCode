@@ -21,7 +21,7 @@ const getOriginFromUrl = (
   try {
     /*
       Absolute API URLs such as:
-      http://localhost:8000/api/admin
+      https://backendapi.solvewithyou.in/api/admin
     */
     if (
       /^https?:\/\//i.test(

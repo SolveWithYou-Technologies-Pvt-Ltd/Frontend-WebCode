@@ -38,7 +38,7 @@ const QuoteFormSection = () => {
   useEffect(() => {
     const fetchServices = async () => {
       try {
-        const res = await fetch("http://localhost:8000/api/services/public");
+        const res = await fetch("https://backendapi.solvewithyou.in/api/services/public");
         const data = await res.json();
         if (data.success) {
           setServicesList(data.data);
@@ -80,7 +80,7 @@ const QuoteFormSection = () => {
     setLoading(true);
 
     try {
-      const response = await fetch("http://localhost:8000/api/quotes", {
+      const response = await fetch("https://backendapi.solvewithyou.in/api/quotes", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
