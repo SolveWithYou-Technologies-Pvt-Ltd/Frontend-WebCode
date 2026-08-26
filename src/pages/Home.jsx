@@ -18,15 +18,10 @@ const Home = () => {
     "logo": "https://www.solvewithyou.in/logo.png",
     "image": "https://www.solvewithyou.in/logo.png",
     "description": "We Can Create Solutions Together. SolveWithYou offers robust software solutions, custom web platforms, mobile application development, and maintenance services.",
-    "telephone": "+91-XXXXXXXXXX",
-    "address": {
-      "@type": "PostalAddress",
-      "streetAddress": "Your Full Street Address",
-      "addressLocality": "Lucknow",
-      "addressRegion": "Uttar Pradesh",
-      "postalCode": "226028",
-      "addressCountry": "IN"
-    },
+    "telephone": "+91 9005825347",
+    "email": "solvewithyou@gmail.com",
+
+
     "sameAs": [
       "https://www.facebook.com/solvewithyou",
       "https://www.linkedin.com/company/solvewithyou"
