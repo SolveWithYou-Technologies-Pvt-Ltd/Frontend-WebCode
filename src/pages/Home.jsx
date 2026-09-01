@@ -11,8 +11,9 @@ import ProjectTrackingSection from "../components/home/ProjectTrackingSection";
 const Home = () => {
   const schemaMarkup = {
     "@context": "https://schema.org",
-    "@type": "LocalBusiness",
-    "name": "SolveWithYou Pvt Ltd",
+    "@type": "Organization",
+    "name": "SolveWithYou",
+    "legalName": "SolveWithYou Pvt Ltd",
     "alternateName": "SWY",
     "url": "https://www.solvewithyou.in/",
     "logo": "https://www.solvewithyou.in/logo.png",
@@ -20,8 +21,13 @@ const Home = () => {
     "description": "We Can Create Solutions Together. SolveWithYou offers robust software solutions, custom web platforms, mobile application development, and maintenance services.",
     "telephone": "+91 9005825347",
     "email": "solvewithyou@gmail.com",
-
-
+    "contactPoint": {
+      "@type": "ContactPoint",
+      "telephone": "+91 9005825347",
+      "contactType": "customer support",
+      "email": "solvewithyou@gmail.com",
+      "availableLanguage": ["English", "Hindi"]
+    },
     "sameAs": [
       "https://www.facebook.com/solvewithyou",
       "https://www.linkedin.com/company/solvewithyou"
