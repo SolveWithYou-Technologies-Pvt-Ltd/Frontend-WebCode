@@ -43,7 +43,7 @@ const UserAvatar = ({ user, initial, size = "small" }) => {
 const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
-  
+
   const { user, isAuthenticated, isAuthLoading, logout } = useAuth();
   const navigate = useNavigate();
 
@@ -139,16 +139,16 @@ const Navbar = () => {
           ) : (
             <>
               <Link
-                to="/register"
+                to="/login"
                 className="rounded-md px-4 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-50"
               >
-                Create Account
+                Login
               </Link>
               <Link
-                to="/contact"
+                to="/register"
                 className="rounded-md bg-teal-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-teal-700"
               >
-                Get a Quote
+                Create Account
               </Link>
             </>
           )}
@@ -196,7 +196,7 @@ const Navbar = () => {
                     </p>
                   </div>
                 </div>
-                
+
                 <Link
                   to="/dashboard"
                   onClick={closeMenus}
@@ -225,11 +225,11 @@ const Navbar = () => {
                   Client Login
                 </Link>
                 <Link
-                  to="/contact"
+                  to="/register"
                   onClick={closeMenus}
-                  className="rounded-md bg-teal-600 px-4 py-2.5 text-center text-sm font-semibold text-white"
+                  className="rounded-md border border-slate-200 px-4 py-2.5 text-center text-sm font-semibold text-slate-700"
                 >
-                  Get a Quote
+                  Create Account
                 </Link>
               </div>
             )}

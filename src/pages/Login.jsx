@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Eye, EyeOff } from "lucide-react";
+import { ArrowLeft, Eye, EyeOff } from "lucide-react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast";
 import useAuth from "../hooks/useAuth";
@@ -59,8 +59,16 @@ const Login = () => {
         keywords="SolveWithYou client login, client dashboard, IT project portal, secure login, software development portal"
         url="https://www.solvewithyou.in/login"
       />
-      <section className="flex min-h-[70vh] items-center justify-center bg-slate-50 px-4 py-12">
-        <div className="w-full max-w-md rounded-xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
+      <section className="relative flex min-h-screen w-full items-center justify-center bg-slate-50 px-4 py-8 sm:px-6 lg:px-8">
+        <button
+          type="button"
+          onClick={() => navigate(-1)}
+          className="absolute left-4 top-4 z-10 inline-flex h-10 w-10 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-700 shadow-sm transition hover:bg-slate-100 hover:text-slate-900 sm:left-6 sm:top-6"
+          aria-label="Go back"
+        >
+          <ArrowLeft size={18} />
+        </button>
+        <div className="w-full  max-w-md rounded-xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
 
           <div className="flex flex-col items-center mb-6">
             <img
@@ -118,7 +126,7 @@ const Login = () => {
             <button
               type="submit"
               disabled={isSubmitting}
-              className="h-11 w-full rounded-md bg-teal-600 text-sm font-semibold text-white transition hover:bg-teal-700 disabled:cursor-not-allowed disabled:opacity-60"
+              className="mx-auto h-11 w-full rounded-md bg-teal-600 text-sm font-semibold text-white transition hover:bg-teal-700 disabled:cursor-not-allowed disabled:opacity-60"
             >
               {isSubmitting ? "Logging in..." : "Login to Dashboard"}
             </button>

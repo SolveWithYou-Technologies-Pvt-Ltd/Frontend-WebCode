@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Eye, EyeOff } from "lucide-react";
+import { ArrowLeft, Eye, EyeOff } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
 import Seo from "../../src/Seo/Seo";
@@ -63,7 +63,15 @@ const Register = () => {
         keywords="SolveWithYou registration, create account, IT project portal signup, custom software development, hire developers"
         url="https://www.solvewithyou.in/register"
       />
-      <section className="flex min-h-[70vh] items-center justify-center bg-slate-50 px-4 py-12">
+      <section className="relative flex min-h-screen items-center justify-center bg-slate-50 px-4 py-12">
+        <button
+          type="button"
+          onClick={() => navigate(-1)}
+          className="absolute left-4 top-4 z-10 inline-flex h-10 w-10 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-700 shadow-sm transition hover:bg-slate-100 hover:text-slate-900 sm:left-6 sm:top-6"
+          aria-label="Go back"
+        >
+          <ArrowLeft size={18} />
+        </button>
         <div className="w-full max-w-lg rounded-xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
 
           <div className="flex flex-col items-center mb-6">

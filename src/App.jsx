@@ -80,64 +80,11 @@ import TransactionForm from "./admin/components/Accounts/TransactionForm.jsx";
 import TransactionView from "./admin/components/Accounts/TransactionView.jsx";
 import TransactionEdit from "./admin/components/Accounts/TransactionEdit.jsx";
 
-const USER_LOCATION_STORAGE_KEY = "doctor-app-current-location";
-let locationRequestStarted = false;
-
 const AdminAuthRoutes = () => {
   return (
     <AdminAuthProvider>
       <Outlet />
     </AdminAuthProvider>
-  );
-};
-
-const saveCurrentLocation = (coords) => {
-  const location = {
-    latitude: coords.latitude,
-    longitude: coords.longitude,
-    accuracy: coords.accuracy,
-    capturedAt: Date.now(),
-  };
-
-  sessionStorage.setItem(USER_LOCATION_STORAGE_KEY, JSON.stringify(location));
-
-  window.dispatchEvent(
-    new CustomEvent("user-location-updated", {
-      detail: location,
-    }),
-  );
-};
-
-const LocationAccessManager = () => {
-  useEffect(() => {
-    const savedLocation = sessionStorage.getItem(USER_LOCATION_STORAGE_KEY);
-
-    if (savedLocation || locationRequestStarted || !navigator.geolocation) {
-      return;
-    }
-
-    locationRequestStarted = true;
-
-    navigator.geolocation.getCurrentPosition(
-      ({ coords }) => saveCurrentLocation(coords),
-      () => { },
-      {
-        enableHighAccuracy: true,
-        timeout: 15000,
-        maximumAge: 300000,
-      },
-    );
-  }, []);
-
-  return null;
-};
-
-const UserLocationRoutes = () => {
-  return (
-    <>
-      <LocationAccessManager />
-      <UserLayout />
-    </>
   );
 };
 
@@ -151,16 +98,16 @@ const App = () => {
         <meta name="description" content="SolveWithYou provides custom website and mobile app development, maintenance, and upgradation services. We can create solutions together." />
       </Helmet>
       <Routes>
-        <Route element={<UserLocationRoutes />}>
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        <Route element={<UserLayout />}>
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<About />} />
           <Route path="/portfolio" element={<Portfolio />} />
           <Route path="/careers" element={<Careers />} />
           <Route path="/services" element={<Services />} />
           <Route path="/contact" element={<Contact />} />
-          <Route path="/login" element={<Login />} />
           <Route path="/apply/:id" element={<ApplyJob />} />
-          <Route path="/register" element={<Register />} />
         </Route>
 
         <Route element={<ProtectedRoute />}>
