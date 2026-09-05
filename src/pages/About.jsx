@@ -22,7 +22,7 @@ const AboutUs = () => {
         <OurStorySection />
         <CoreValuesSection />
         <TechStackSection />
-        <TeamSection />
+        {/* <TeamSection /> */}
         <div className="bg-slate-50 pb-12 pt-16">
           <ProjectCtaSection />
         </div>

@@ -19,11 +19,11 @@ const Home = () => {
     "logo": "https://www.solvewithyou.in/logo.png",
     "image": "https://www.solvewithyou.in/logo.png",
     "description": "We Can Create Solutions Together. SolveWithYou offers robust software solutions, custom web platforms, mobile application development, and maintenance services.",
-    "telephone": "+91 9005825347",
+    "telephone": "+91 6306567512",
     "email": "solvewithyou@gmail.com",
     "contactPoint": {
       "@type": "ContactPoint",
-      "telephone": "+91 9005825347",
+      "telephone": "+91 6306567512",
       "contactType": "customer support",
       "email": "solvewithyou@gmail.com",
       "availableLanguage": ["English", "Hindi"]

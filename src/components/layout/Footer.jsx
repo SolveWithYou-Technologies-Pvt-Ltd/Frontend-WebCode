@@ -30,7 +30,7 @@ const Footer = () => {
           </Link>
 
           <p className="mt-4 max-w-sm text-xs leading-6 text-slate-400 sm:text-sm">
-            Delivering cutting-edge software solutions, custom mobile applications, 
+            Delivering cutting-edge software solutions, custom mobile applications,
             and scalable web development to drive your business forward.
           </p>
         </div>
@@ -55,12 +55,9 @@ const Footer = () => {
           <div className="mt-4 grid gap-3 text-xs text-slate-400 sm:text-sm">
             <p className="flex items-start gap-2.5">
               <Phone size={16} className="mt-0.5 shrink-0 text-teal-400" />
-              +91 90058 25347 , +91 99363 44869
+              +91 63065 67512
             </p>
-            <p className="flex items-start gap-2.5">
-              <MessageCircle size={16} className="mt-0.5 shrink-0 text-teal-400" />
-              +91 95198 39502
-            </p>
+
             <p className="flex items-start gap-2.5">
               <Mail size={16} className="mt-0.5 shrink-0 text-teal-400" />
               solvewithyou@gmail.com

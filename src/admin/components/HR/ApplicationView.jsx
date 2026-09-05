@@ -17,9 +17,6 @@ const ApplicationView = () => {
         setApplication(data);
       } catch (error) {
         toast.error("Failed to load application details");
-        // navigate(-1) directly here might cause loops if no history, 
-        // keeping the hardcoded redirect on absolute error for safety,
-        // but updating the button below.
         navigate("/admin/hr/applicants");
       } finally {
         setLoading(false);
@@ -71,7 +68,6 @@ const ApplicationView = () => {
 
   return (
     <div className="mx-auto w-full max-w-5xl flex flex-col p-4 sm:p-6 lg:p-8">
-      {/* Back Button added here */}
       <div className="mb-4">
         <button
           onClick={() => navigate(-1)}
@@ -96,7 +92,7 @@ const ApplicationView = () => {
             </p>
           </div>
         </div>
-        
+
         <div className="flex items-center gap-3">
           <select
             value={application.status}
@@ -108,7 +104,7 @@ const ApplicationView = () => {
             <option value="Shortlisted">Status: Shortlisted</option>
             <option value="Rejected">Status: Rejected</option>
           </select>
-          <button 
+          <button
             onClick={handleDelete}
             className="p-2.5 bg-red-50 text-red-600 rounded-xl hover:bg-red-100 transition-colors"
             title="Delete Application"
@@ -124,7 +120,7 @@ const ApplicationView = () => {
             <h2 className="text-lg font-bold text-slate-900 mb-6 flex items-center gap-2">
               <User size={20} className="text-teal-600" /> Candidate Information
             </h2>
-            
+
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-y-6 gap-x-8">
               <div>
                 <label className="block text-[11px] font-bold uppercase tracking-wider text-slate-400">Full Name</label>
@@ -150,7 +146,7 @@ const ApplicationView = () => {
                 <label className="block text-[11px] font-bold uppercase tracking-wider text-slate-400">Experience Level</label>
                 <p className="mt-1.5 text-sm font-bold text-slate-900">{application.experienceLevel}</p>
               </div>
-              
+
               {application.experienceLevel === "Experienced" ? (
                 <>
                   <div>
@@ -170,10 +166,12 @@ const ApplicationView = () => {
                   </div>
                 </>
               ) : (
-                <div>
-                  <label className="block text-[11px] font-bold uppercase tracking-wider text-slate-400">Expected Salary</label>
-                  <p className="mt-1.5 text-sm font-semibold text-slate-700">₹ {expectedSalary.toLocaleString('en-IN')}</p>
-                </div>
+                application.experienceLevel !== "Fresher" && application.experienceLevel !== "0" && (
+                  <div>
+                    <label className="block text-[11px] font-bold uppercase tracking-wider text-slate-400">Expected Salary</label>
+                    <p className="mt-1.5 text-sm font-semibold text-slate-700">₹ {expectedSalary.toLocaleString('en-IN')}</p>
+                  </div>
+                )
               )}
             </div>
           </div>
@@ -195,10 +193,10 @@ const ApplicationView = () => {
         <div className="space-y-6">
           <div className="bg-white rounded-2xl border border-slate-200 shadow-sm p-6">
             <h2 className="text-lg font-bold text-slate-900 mb-5">Documents & Links</h2>
-            
-            <a 
-              href={application.resumeLink} 
-              target="_blank" 
+
+            <a
+              href={application.resumeLink}
+              target="_blank"
               rel="noreferrer"
               className="flex items-center justify-between bg-teal-50 border border-teal-100 p-4 rounded-xl hover:bg-teal-100 transition-colors mb-4 group"
             >
@@ -210,9 +208,9 @@ const ApplicationView = () => {
             </a>
 
             {application.portfolioLink && (
-              <a 
-                href={application.portfolioLink} 
-                target="_blank" 
+              <a
+                href={application.portfolioLink}
+                target="_blank"
                 rel="noreferrer"
                 className="flex items-center justify-between bg-slate-50 border border-slate-200 p-4 rounded-xl hover:bg-slate-100 transition-colors group"
               >
@@ -230,7 +228,7 @@ const ApplicationView = () => {
               <h2 className="text-lg font-bold mb-5 flex items-center gap-2">
                 <Briefcase size={20} className="text-teal-400" /> Vacancy Details
               </h2>
-              
+
               <div className="space-y-4">
                 <div>
                   <p className="text-[11px] font-bold uppercase tracking-wider text-slate-400">Position</p>
@@ -270,7 +268,7 @@ const ApplicationView = () => {
                   <div>
                     <p className="text-[11px] font-bold uppercase tracking-wider text-slate-400">Salary Range</p>
                     <p className="text-sm font-medium mt-1">
-                      {application.jobId.minSalary ? `₹${application.jobId.minSalary.toLocaleString('en-IN')}` : ""} 
+                      {application.jobId.minSalary ? `₹${application.jobId.minSalary.toLocaleString('en-IN')}` : ""}
                       {application.jobId.minSalary && application.jobId.maxSalary ? " - " : ""}
                       {application.jobId.maxSalary ? `₹${application.jobId.maxSalary.toLocaleString('en-IN')}` : ""}
                     </p>
@@ -296,7 +294,7 @@ const ApplicationView = () => {
               </div>
             </div>
           </div>
-          
+
         </div>
       </div>
     </div>

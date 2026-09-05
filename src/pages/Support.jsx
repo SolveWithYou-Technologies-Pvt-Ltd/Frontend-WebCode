@@ -121,7 +121,7 @@ const Support = () => {
           </p>
         </div>
         <a
-          href="https://wa.me/919005825347"
+          href="https://wa.me/916306567512"
           target="_blank"
           rel="noopener noreferrer"
           className="shrink-0 flex items-center justify-center gap-2 rounded-xl bg-white px-6 py-3.5 text-sm font-bold text-teal-900 transition hover:bg-teal-50 shadow-sm"
