@@ -17,7 +17,7 @@ const ApplicationView = () => {
         setApplication(data);
       } catch (error) {
         toast.error("Failed to load application details");
-        navigate("/admin/hr/applicants");
+        navigate("/admin/hiring/applied-candidates");
       } finally {
         setLoading(false);
       }
@@ -41,7 +41,7 @@ const ApplicationView = () => {
       try {
         await deleteApplication(id);
         toast.success("Application deleted successfully");
-        navigate("/admin/hr/applicants");
+        navigate("/admin/hiring/applied-candidates");
       } catch (error) {
         toast.error("Failed to delete application");
       }

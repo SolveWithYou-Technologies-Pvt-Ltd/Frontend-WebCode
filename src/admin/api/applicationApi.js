@@ -8,8 +8,17 @@ const getAuthConfig = () => ({
   },
 });
 
-export const fetchApplications = async () => {
-  const response = await axios.get(API_URL, getAuthConfig());
+export const fetchApplications = async (params = {}) => {
+  const config = {
+    ...getAuthConfig(),
+    params,
+  };
+  const response = await axios.get(API_URL, config);
+  return response.data;
+};
+
+export const fetchUniqueAppliedRoles = async () => {
+  const response = await axios.get(`${API_URL}/roles`, getAuthConfig());
   return response.data.data;
 };
 

@@ -1,22 +1,63 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
-import { Eye, Search, Filter, ArrowLeft } from "lucide-react"; // Import ArrowLeft
-import { fetchApplications, updateApplicationStatus } from "../../api/applicationApi";
+import { Eye, Search, Filter, ArrowLeft, ChevronLeft, ChevronRight } from "lucide-react";
+import { fetchApplications, updateApplicationStatus, fetchUniqueAppliedRoles } from "../../api/applicationApi";
 
 const AppliedCandidates = () => {
   const navigate = useNavigate();
   const [applications, setApplications] = useState([]);
+  const [availableRoles, setAvailableRoles] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [viewMode, setViewMode] = useState("job"); 
+  const [viewMode, setViewMode] = useState("job");
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedStatus, setSelectedStatus] = useState("All");
+  const [appliedRole, setAppliedRole] = useState("");
+  const [experienceLevel, setExperienceLevel] = useState("All");
+  const [page, setPage] = useState(1);
+  const [totalCount, setTotalCount] = useState(0);
+  const [totalPages, setTotalPages] = useState(1);
+
+  const limit = 10;
+
+  useEffect(() => {
+    const loadRoles = async () => {
+      try {
+        const roles = await fetchUniqueAppliedRoles();
+        if (roles) {
+          setAvailableRoles(roles);
+        }
+      } catch (error) {
+        console.error("Failed to fetch available roles");
+      }
+    };
+    loadRoles();
+  }, []);
 
   const loadApplications = async () => {
     try {
       setLoading(true);
-      const data = await fetchApplications();
-      setApplications(data);
+      const params = {
+        page,
+        limit,
+        viewMode,
+        search: searchTerm,
+        status: selectedStatus,
+        appliedRole,
+        experienceLevel
+      };
+
+      const data = await fetchApplications(params);
+
+      if (data && data.data) {
+        setApplications(data.data);
+        setTotalCount(data.totalCount || 0);
+        setTotalPages(data.totalPages || 1);
+      } else {
+        setApplications(data || []);
+        setTotalCount(data?.length || 0);
+        setTotalPages(1);
+      }
     } catch (error) {
       toast.error("Failed to fetch applications");
     } finally {
@@ -26,11 +67,25 @@ const AppliedCandidates = () => {
 
   useEffect(() => {
     loadApplications();
-  }, []);
+  }, [page, viewMode, selectedStatus, experienceLevel, appliedRole]);
+
+  useEffect(() => {
+    const delayDebounceFn = setTimeout(() => {
+      if (page !== 1) {
+        setPage(1);
+      } else {
+        loadApplications();
+      }
+    }, 500);
+    return () => clearTimeout(delayDebounceFn);
+  }, [searchTerm]);
 
   useEffect(() => {
     setSearchTerm("");
     setSelectedStatus("All");
+    setAppliedRole("");
+    setExperienceLevel("All");
+    setPage(1);
   }, [viewMode]);
 
   const handleStatusChange = async (id, newStatus) => {
@@ -53,26 +108,9 @@ const AppliedCandidates = () => {
     }
   };
 
-  const modeFilteredApps = applications.filter((app) => 
-    viewMode === "job" ? !app.isGeneral : app.isGeneral
-  );
-
-  const finalFilteredApplications = modeFilteredApps.filter((app) => {
-    const matchesSearch = searchTerm === "" || 
-      app.fullName?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      app.applicationId?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      app.email?.toLowerCase().includes(searchTerm.toLowerCase());
-      
-    const currentStatus = app.status || "Pending";
-    const matchesStatus = selectedStatus === "All" || currentStatus === selectedStatus;
-
-    return matchesSearch && matchesStatus;
-  });
-
   return (
     <div className="w-full flex flex-col p-4 sm:p-6">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
-        {/* Back button and title container */}
         <div className="flex items-center gap-3">
           <button
             onClick={() => navigate(-1)}
@@ -81,30 +119,31 @@ const AppliedCandidates = () => {
             <ArrowLeft size={16} />
           </button>
           <h1 className="text-xl font-bold text-slate-900">Applied Candidates</h1>
+          <span className="bg-teal-100 text-teal-700 py-1 px-3 rounded-full text-xs font-bold">
+            Total: {totalCount}
+          </span>
         </div>
-        
+
         <div className="flex bg-slate-200/60 p-1 rounded-xl">
           <button
             onClick={() => setViewMode("job")}
-            className={`px-4 py-1.5 rounded-lg text-xs font-semibold transition-all ${
-              viewMode === "job" ? "bg-white text-teal-700 shadow-sm" : "text-slate-600 hover:text-slate-900"
-            }`}
+            className={`px-4 py-1.5 rounded-lg text-xs font-semibold transition-all ${viewMode === "job" ? "bg-white text-teal-700 shadow-sm" : "text-slate-600 hover:text-slate-900"
+              }`}
           >
             Vacancy Applications
           </button>
           <button
             onClick={() => setViewMode("direct")}
-            className={`px-4 py-1.5 rounded-lg text-xs font-semibold transition-all ${
-              viewMode === "direct" ? "bg-white text-teal-700 shadow-sm" : "text-slate-600 hover:text-slate-900"
-            }`}
+            className={`px-4 py-1.5 rounded-lg text-xs font-semibold transition-all ${viewMode === "direct" ? "bg-white text-teal-700 shadow-sm" : "text-slate-600 hover:text-slate-900"
+              }`}
           >
             Direct Applications
           </button>
         </div>
       </div>
 
-      <div className="flex flex-col sm:flex-row gap-4 mb-6">
-        <div className="relative flex-1">
+      <div className="flex flex-col sm:flex-row flex-wrap gap-4 mb-6">
+        <div className="relative flex-1 min-w-[200px]">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={16} />
           <input
             type="text"
@@ -114,7 +153,37 @@ const AppliedCandidates = () => {
             className="w-full pl-9 pr-4 py-2 bg-white border border-slate-200 rounded-xl text-xs font-medium text-slate-700 focus:outline-none focus:ring-2 focus:ring-teal-100 focus:border-teal-600 transition-all"
           />
         </div>
-        <div className="relative sm:w-64">
+
+        {viewMode === "job" && (
+          <div className="relative sm:w-48">
+            <Filter className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={16} />
+            <select
+              value={appliedRole}
+              onChange={(e) => setAppliedRole(e.target.value)}
+              className="w-full pl-9 pr-4 py-2 bg-white border border-slate-200 rounded-xl text-xs font-medium text-slate-700 focus:outline-none focus:ring-2 focus:ring-teal-100 focus:border-teal-600 transition-all appearance-none cursor-pointer"
+            >
+              <option value="">All Roles</option>
+              {availableRoles.map((role, idx) => (
+                <option key={idx} value={role}>{role}</option>
+              ))}
+            </select>
+          </div>
+        )}
+
+        <div className="relative sm:w-48">
+          <Filter className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={16} />
+          <select
+            value={experienceLevel}
+            onChange={(e) => setExperienceLevel(e.target.value)}
+            className="w-full pl-9 pr-4 py-2 bg-white border border-slate-200 rounded-xl text-xs font-medium text-slate-700 focus:outline-none focus:ring-2 focus:ring-teal-100 focus:border-teal-600 transition-all appearance-none cursor-pointer"
+          >
+            <option value="All">All Experience</option>
+            <option value="Fresher">Fresher</option>
+            <option value="Experienced">Experienced</option>
+          </select>
+        </div>
+
+        <div className="relative sm:w-48">
           <Filter className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={16} />
           <select
             value={selectedStatus}
@@ -130,7 +199,7 @@ const AppliedCandidates = () => {
         </div>
       </div>
 
-      <div className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+      <div className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden flex-1">
         <div className="overflow-x-auto">
           <table className="min-w-full divide-y divide-slate-200">
             <thead className="bg-slate-50">
@@ -149,14 +218,14 @@ const AppliedCandidates = () => {
                 <tr>
                   <td colSpan="7" className="px-4 py-6 text-center text-xs font-medium text-slate-500">Loading candidates...</td>
                 </tr>
-              ) : finalFilteredApplications.length === 0 ? (
+              ) : applications.length === 0 ? (
                 <tr>
                   <td colSpan="7" className="px-4 py-6 text-center text-xs font-medium text-slate-500">
                     No {viewMode === "job" ? "vacancy" : "direct"} applications found matching your criteria.
                   </td>
                 </tr>
               ) : (
-                finalFilteredApplications.map((app) => (
+                applications.map((app) => (
                   <tr key={app._id} className="hover:bg-slate-50/80 transition-colors">
                     <td className="px-4 py-3 whitespace-nowrap text-xs font-bold text-teal-600">
                       {app.applicationId || "N/A"}
@@ -188,7 +257,7 @@ const AppliedCandidates = () => {
                       </select>
                     </td>
                     <td className="px-4 py-3 whitespace-nowrap text-right text-xs font-semibold">
-                      <button 
+                      <button
                         onClick={() => navigate(`/admin/hr/applicants/${app._id}`)}
                         className="inline-flex items-center gap-1.5 bg-teal-50 text-teal-600 hover:text-teal-800 hover:bg-teal-100 transition-colors px-3 py-1.5 rounded-xl"
                       >
@@ -202,6 +271,33 @@ const AppliedCandidates = () => {
           </table>
         </div>
       </div>
+
+      {!loading && totalPages > 1 && (
+        <div className="flex items-center justify-between mt-4">
+          <span className="text-xs text-slate-500">
+            Showing {((page - 1) * limit) + 1} to {Math.min(page * limit, totalCount)} of {totalCount} entries
+          </span>
+          <div className="flex items-center gap-2">
+            <button
+              onClick={() => setPage(p => Math.max(1, p - 1))}
+              disabled={page === 1}
+              className="p-1.5 rounded-lg border border-slate-200 text-slate-600 hover:bg-slate-50 disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              <ChevronLeft size={16} />
+            </button>
+            <span className="text-xs font-medium text-slate-700">
+              Page {page} of {totalPages}
+            </span>
+            <button
+              onClick={() => setPage(p => Math.min(totalPages, p + 1))}
+              disabled={page === totalPages}
+              className="p-1.5 rounded-lg border border-slate-200 text-slate-600 hover:bg-slate-50 disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              <ChevronRight size={16} />
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
