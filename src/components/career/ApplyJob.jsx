@@ -248,7 +248,7 @@ const ApplyJob = () => {
                   name="portfolioLink"
                   value={formData.portfolioLink}
                   onChange={handleInputChange}
-                  placeholder="https://linkedin.com/in/aditya"
+                  placeholder="https://linkedin.com/in/Rahul"
                   className="w-full px-4 py-3 bg-white border border-slate-300 rounded-xl text-sm focus:outline-none focus:ring-4 focus:ring-teal-100 focus:border-teal-600 transition-all"
                 />
               </div>

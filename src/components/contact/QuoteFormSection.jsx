@@ -145,7 +145,7 @@ const QuoteFormSection = () => {
                     value={formData.fullName}
                     onChange={handleInputChange}
                     required
-                    placeholder="e.g. Aditya"
+                    placeholder="e.g. Rahul"
                     className="w-full px-4 py-3 bg-white border border-slate-300 rounded-xl text-sm focus:outline-none focus:ring-4 focus:ring-teal-100 focus:border-teal-600 transition-all"
                   />
                 </div>
@@ -158,7 +158,7 @@ const QuoteFormSection = () => {
                     value={formData.email}
                     onChange={handleInputChange}
                     required
-                    placeholder="aditya@example.com"
+                    placeholder="Rahul@example.com"
                     className="w-full px-4 py-3 bg-white border border-slate-300 rounded-xl text-sm focus:outline-none focus:ring-4 focus:ring-teal-100 focus:border-teal-600 transition-all"
                   />
                 </div>
