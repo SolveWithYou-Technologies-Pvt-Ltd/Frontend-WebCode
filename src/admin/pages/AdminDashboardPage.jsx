@@ -10,9 +10,9 @@ import {
   Legend,
   ResponsiveContainer,
 } from "recharts";
-import { 
-  Users, Briefcase, FileText, Ticket, UserCheck, 
-  Calendar, ShieldCheck, Target, Layers, FileSignature, ChevronDown 
+import {
+  Users, Briefcase, FileText, Ticket, UserCheck,
+  Calendar, ShieldCheck, Target, Layers, FileSignature, ChevronDown
 } from "lucide-react";
 import useAdminAuth from "../hooks/useAdminAuth";
 import { useSyncedAdminProfile } from "../utils/adminProfileSync";
@@ -121,7 +121,7 @@ const AdminDashboardPage = () => {
                   className="bg-white rounded-xl p-5 border border-slate-200 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-300 relative overflow-hidden group cursor-default"
                 >
                   <div className={`absolute -right-4 -top-4 w-20 h-20 rounded-full opacity-10 transition-transform duration-500 group-hover:scale-[2] ${card.bg}`} />
-                  
+
                   <div className="relative z-10 flex justify-between items-center">
                     <div className="space-y-1">
                       <p className="text-[22px] font-bold text-slate-800 tracking-tight leading-none">{card.value}</p>
@@ -138,14 +138,14 @@ const AdminDashboardPage = () => {
 
           <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-5 lg:p-6 relative overflow-hidden">
             <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500"></div>
-            
+
             <div className="flex justify-between items-center mb-6">
               <div>
                 <h2 className="text-lg font-bold text-slate-900 tracking-tight">Growth Analytics</h2>
                 <p className="text-[12px] text-slate-500 mt-0.5 font-medium">Tracking core metrics across your timeline</p>
               </div>
             </div>
-            
+
             <div className="h-[320px] w-full">
               {chartData.length > 0 ? (
                 <ResponsiveContainer width="100%" height="100%">
@@ -155,20 +155,20 @@ const AdminDashboardPage = () => {
                   >
                     <defs>
                       <linearGradient id="colorUsers" x1="0" y1="0" x2="0" y2="1">
-                        <stop offset="5%" stopColor="#4F46E5" stopOpacity={0.2}/>
-                        <stop offset="95%" stopColor="#4F46E5" stopOpacity={0}/>
+                        <stop offset="5%" stopColor="#4F46E5" stopOpacity={0.2} />
+                        <stop offset="95%" stopColor="#4F46E5" stopOpacity={0} />
                       </linearGradient>
                       <linearGradient id="colorProjects" x1="0" y1="0" x2="0" y2="1">
-                        <stop offset="5%" stopColor="#10B981" stopOpacity={0.2}/>
-                        <stop offset="95%" stopColor="#10B981" stopOpacity={0}/>
+                        <stop offset="5%" stopColor="#10B981" stopOpacity={0.2} />
+                        <stop offset="95%" stopColor="#10B981" stopOpacity={0} />
                       </linearGradient>
                     </defs>
                     <CartesianGrid strokeDasharray="4 4" vertical={false} stroke="#E2E8F0" />
-                    <XAxis 
-                      dataKey="date" 
-                      stroke="#94A3B8" 
-                      fontSize={11} 
-                      tickLine={false} 
+                    <XAxis
+                      dataKey="date"
+                      stroke="#94A3B8"
+                      fontSize={11}
+                      tickLine={false}
                       axisLine={false}
                       dy={10}
                       tickFormatter={(value) => {
@@ -176,19 +176,19 @@ const AdminDashboardPage = () => {
                         return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
                       }}
                     />
-                    <YAxis 
-                      stroke="#94A3B8" 
-                      fontSize={11} 
-                      tickLine={false} 
+                    <YAxis
+                      stroke="#94A3B8"
+                      fontSize={11}
+                      tickLine={false}
                       axisLine={false}
                       dx={-10}
                     />
                     <Tooltip
-                      contentStyle={{ 
+                      contentStyle={{
                         backgroundColor: 'rgba(255, 255, 255, 0.95)',
                         backdropFilter: 'blur(8px)',
-                        borderRadius: "8px", 
-                        border: "1px solid #E2E8F0", 
+                        borderRadius: "8px",
+                        border: "1px solid #E2E8F0",
                         boxShadow: "0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)",
                         fontWeight: "500",
                         fontSize: "12px",
@@ -197,9 +197,9 @@ const AdminDashboardPage = () => {
                       }}
                       itemStyle={{ fontWeight: "600", padding: "2px 0" }}
                     />
-                    <Legend 
-                      iconType="circle" 
-                      wrapperStyle={{ paddingTop: "20px", fontSize: "12px", fontWeight: "600", color: "#64748B" }} 
+                    <Legend
+                      iconType="circle"
+                      wrapperStyle={{ paddingTop: "20px", fontSize: "12px", fontWeight: "600", color: "#64748B" }}
                     />
                     <Area type="monotone" dataKey="users" name="Clients" stroke="#4F46E5" strokeWidth={2} fillOpacity={1} fill="url(#colorUsers)" activeDot={{ r: 5, strokeWidth: 0, fill: '#4F46E5' }} />
                     <Area type="monotone" dataKey="projects" name="Projects" stroke="#10B981" strokeWidth={2} fillOpacity={1} fill="url(#colorProjects)" activeDot={{ r: 5, strokeWidth: 0, fill: '#10B981' }} />

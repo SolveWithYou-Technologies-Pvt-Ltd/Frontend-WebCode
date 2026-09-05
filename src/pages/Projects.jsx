@@ -14,7 +14,7 @@ const Projects = () => {
     const fetchUserProjects = async () => {
       try {
         const token = localStorage.getItem("UserAuthToken")
-        
+
         if (!token) {
           setLoading(false);
           return;
@@ -92,15 +92,14 @@ const Projects = () => {
                   {project.projectId}
                 </span>
                 <span
-                  className={`inline-flex items-center rounded-full px-2.5 py-1 text-xs font-bold uppercase tracking-wider ${
-                    project.status === "Completed"
-                      ? "bg-emerald-100 text-emerald-700"
-                      : project.status === "In Progress"
+                  className={`inline-flex items-center rounded-full px-2.5 py-1 text-xs font-bold uppercase tracking-wider ${project.status === "Completed"
+                    ? "bg-emerald-100 text-emerald-700"
+                    : project.status === "In Progress"
                       ? "bg-blue-100 text-blue-700"
                       : project.status === "Cancelled"
-                      ? "bg-red-100 text-red-700"
-                      : "bg-amber-100 text-amber-700"
-                  }`}
+                        ? "bg-red-100 text-red-700"
+                        : "bg-amber-100 text-amber-700"
+                    }`}
                 >
                   {project.status === "Completed" && <CheckCircle2 size={12} className="mr-1" />}
                   {(project.status === "Planning" || project.status === "In Progress") && <Clock size={12} className="mr-1" />}

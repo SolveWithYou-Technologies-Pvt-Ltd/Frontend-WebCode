@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import toast from "react-hot-toast";
-import { ArrowLeft } from "lucide-react"; // Import ArrowLeft
+import { ArrowLeft } from "lucide-react";
 import { fetchAdminJobById, createAdminJob, updateAdminJob } from "../../api/jobApi";
 
 const JobForm = () => {
@@ -9,13 +9,13 @@ const JobForm = () => {
   const navigate = useNavigate();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [loading, setLoading] = useState(false);
-  
+
   const [formData, setFormData] = useState({
     title: "",
     department: "",
     location: "",
     type: "Full-Time",
-    experience: "1",
+    experience: "0",
     vacancies: "1",
     minSalary: "",
     maxSalary: "",
@@ -41,7 +41,7 @@ const JobForm = () => {
         department: data.department || "",
         location: data.location || "",
         type: data.type || "Full-Time",
-        experience: data.experience || "1",
+        experience: data.experience !== undefined ? String(data.experience) : "0",
         vacancies: data.vacancies || "1",
         minSalary: data.minSalary || "",
         maxSalary: data.maxSalary || "",
@@ -61,25 +61,25 @@ const JobForm = () => {
 
   const handleInputChange = (e) => {
     const { name, value, type, checked } = e.target;
-    setFormData(prev => ({ 
-      ...prev, 
-      [name]: type === 'checkbox' ? checked : value 
+    setFormData(prev => ({
+      ...prev,
+      [name]: type === 'checkbox' ? checked : value
     }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
-    
+
     const payload = { ...formData };
-    
+
     if (payload.type !== "Internship") {
       payload.internshipType = "";
       payload.duration = "";
       payload.promotionAfterInternship = "";
       payload.stipend = null;
     }
-    
+
     if (payload.type === "Internship") {
       payload.minSalary = null;
       payload.maxSalary = null;
@@ -96,7 +96,7 @@ const JobForm = () => {
         await createAdminJob(payload);
         toast.success("Job posted successfully");
       }
-      navigate("/hiring");
+      navigate("/admin/hr/hiring");
     } catch (error) {
       const errorMsg = error?.response?.data?.message || "Something went wrong";
       toast.error(errorMsg);
@@ -109,7 +109,6 @@ const JobForm = () => {
 
   return (
     <div className="mx-auto w-full max-w-4xl p-4 sm:p-6 lg:p-8">
-      {/* Back Button added here */}
       <div className="mb-4">
         <button
           onClick={() => navigate(-1)}
@@ -122,7 +121,7 @@ const JobForm = () => {
 
       <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 sm:p-8">
         <h2 className="text-2xl font-bold text-slate-900 mb-6">{id ? "Edit Job Posting" : "Create New Job Posting"}</h2>
-        
+
         <form onSubmit={handleSubmit} className="grid gap-6">
           <div>
             <label className="block text-[13px] font-semibold text-slate-700 mb-1.5">Job Title *</label>
@@ -190,6 +189,7 @@ const JobForm = () => {
                 required
                 className="w-full px-4 py-3 bg-slate-50 border border-slate-300 rounded-xl text-[13px] focus:outline-none focus:bg-white focus:ring-4 focus:ring-teal-100 focus:border-teal-600 transition-all"
               >
+                <option value="0">Fresher (0 Years)</option>
                 {[...Array(10)].map((_, i) => (
                   <option key={i + 1} value={i + 1}>
                     {i + 1} {i === 0 ? 'Year' : 'Years'}
@@ -318,7 +318,7 @@ const JobForm = () => {
           <div className="mt-4 flex justify-end gap-3 pt-4 border-t border-slate-200">
             <button
               type="button"
-              onClick={() => navigate(-1)} // Updated to go back
+              onClick={() => navigate(-1)}
               className="px-6 py-2.5 border border-slate-300 rounded-xl text-[13px] font-semibold text-slate-700 hover:bg-slate-50 transition-colors"
             >
               Cancel

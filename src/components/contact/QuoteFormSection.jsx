@@ -258,7 +258,7 @@ const QuoteFormSection = () => {
                     className="w-full px-4 py-3 bg-white border border-slate-300 rounded-xl text-sm focus:outline-none focus:ring-4 focus:ring-teal-100 focus:border-teal-600 transition-all"
                   />
                 </div>
-                
+
                 <div>
                   <label className="block text-sm font-medium text-slate-700 mb-2">Reference Links (Optional)</label>
                   <input
@@ -276,13 +276,12 @@ const QuoteFormSection = () => {
                 <label className="block text-sm font-medium text-slate-700 mb-3">Additional Facilities & Features Needed</label>
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
                   {facilitiesOptions.map((facility) => (
-                    <label 
-                      key={facility} 
-                      className={`flex items-center gap-3 p-3 border rounded-xl cursor-pointer transition-colors ${
-                        formData.facilities.includes(facility) 
-                          ? "border-teal-600 bg-teal-50/50" 
-                          : "border-slate-200 hover:bg-slate-50"
-                      }`}
+                    <label
+                      key={facility}
+                      className={`flex items-center gap-3 p-3 border rounded-xl cursor-pointer transition-colors ${formData.facilities.includes(facility)
+                        ? "border-teal-600 bg-teal-50/50"
+                        : "border-slate-200 hover:bg-slate-50"
+                        }`}
                     >
                       <input
                         type="checkbox"
@@ -328,7 +327,7 @@ const QuoteFormSection = () => {
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-slate-900/60 backdrop-blur-sm">
           <div className="absolute inset-0" onClick={handleReset}></div>
           <div className="relative w-full max-w-md bg-white rounded-2xl p-6 sm:p-8 shadow-2xl overflow-y-auto max-h-[95vh] animate-in fade-in zoom-in duration-300">
-            <button 
+            <button
               onClick={handleReset}
               className="absolute right-5 top-5 text-slate-400 hover:text-slate-900 transition-colors bg-slate-50 hover:bg-slate-100 p-1.5 rounded-lg"
             >
@@ -339,9 +338,9 @@ const QuoteFormSection = () => {
               <div className="grid h-16 w-16 place-items-center rounded-full bg-emerald-100 text-emerald-600 mb-5">
                 <CheckCircle2 size={32} />
               </div>
-              
+
               <h3 className="text-xl font-bold text-slate-900">Request Submitted!</h3>
-              
+
               <div className="mt-5 w-full rounded-xl bg-slate-50 p-4 border border-slate-200">
                 <p className="text-[11px] font-bold uppercase text-slate-500 tracking-wider">Request ID</p>
                 <p className="text-2xl font-bold text-teal-600 mt-1">{quoteId}</p>
@@ -350,7 +349,7 @@ const QuoteFormSection = () => {
               <p className="mt-4 text-sm font-medium text-slate-600">
                 Our team will contact you within <span className="font-bold text-slate-900">24 Hours</span>.
               </p>
- 
+
               <div className="mt-6 w-full rounded-xl bg-slate-700 p-5 text-white text-center">
                 <h4 className="text-[11px] font-bold tracking-wider text-teal-400 uppercase mb-4">Contact Us</h4>
                 <div className="flex flex-col gap-3 text-sm">

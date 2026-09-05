@@ -11,7 +11,7 @@ const Support = () => {
   const [projects, setProjects] = useState([]);
   const [tickets, setTickets] = useState([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  
+
   const [formData, setFormData] = useState({
     projectId: "",
     priority: "low",
@@ -26,7 +26,7 @@ const Support = () => {
         const userEmail = user?.email || "";
         const userPhone = user?.phone || user?.phoneNumber || "";
         const headers = { Authorization: token ? `Bearer ${token}` : "" };
-        
+
         const projRes = await axios.get(`https://backendapi.solvewithyou.in/api/clientprojects/user/me?email=${userEmail}&phone=${userPhone}`, { headers });
         if (projRes.data && projRes.data.success) {
           const validProjects = projRes.data.data.filter(p => {
@@ -64,7 +64,7 @@ const Support = () => {
       const response = await axios.post("https://backendapi.solvewithyou.in/api/tickets", formData, {
         headers: { Authorization: token ? `Bearer ${token}` : "" }
       });
-      
+
       if (response.data.success) {
         setSubmitted(true);
         setFormData({ projectId: "", priority: "low", subject: "", description: "" });
@@ -84,8 +84,8 @@ const Support = () => {
 
   const formatDate = (dateStr) => {
     if (!dateStr) return "";
-    return new Date(dateStr).toLocaleDateString("en-US", { 
-      month: "short", day: "numeric", year: "numeric", hour: "2-digit", minute: "2-digit" 
+    return new Date(dateStr).toLocaleDateString("en-US", {
+      month: "short", day: "numeric", year: "numeric", hour: "2-digit", minute: "2-digit"
     });
   };
 
@@ -120,9 +120,9 @@ const Support = () => {
             Is your application facing downtime or a critical failure? Reach out directly to your assigned project manager for an instant resolution.
           </p>
         </div>
-        <a 
-          href="https://wa.me/919005825347" 
-          target="_blank" 
+        <a
+          href="https://wa.me/919005825347"
+          target="_blank"
           rel="noopener noreferrer"
           className="shrink-0 flex items-center justify-center gap-2 rounded-xl bg-white px-6 py-3.5 text-sm font-bold text-teal-900 transition hover:bg-teal-50 shadow-sm"
         >
@@ -143,15 +143,15 @@ const Support = () => {
             ) : (
               <form onSubmit={handleSubmit} className="space-y-6">
                 <h2 className="text-lg font-bold text-slate-900">Create a New Support Ticket</h2>
-                
+
                 <div className="grid gap-6 sm:grid-cols-2">
                   <label className="block">
                     <span className="text-xs font-semibold uppercase tracking-wider text-slate-700">Select Project *</span>
-                    <select 
-                      name="projectId" 
-                      value={formData.projectId} 
-                      onChange={handleInputChange} 
-                      required 
+                    <select
+                      name="projectId"
+                      value={formData.projectId}
+                      onChange={handleInputChange}
+                      required
                       className="mt-2 w-full rounded-xl border border-slate-300 bg-slate-50 px-4 py-3 text-sm outline-none transition focus:border-teal-600 focus:bg-white"
                     >
                       {projects.length === 0 ? (
@@ -168,11 +168,11 @@ const Support = () => {
                   </label>
                   <label className="block">
                     <span className="text-xs font-semibold uppercase tracking-wider text-slate-700">Priority Level *</span>
-                    <select 
-                      name="priority" 
-                      value={formData.priority} 
-                      onChange={handleInputChange} 
-                      required 
+                    <select
+                      name="priority"
+                      value={formData.priority}
+                      onChange={handleInputChange}
+                      required
                       className="mt-2 w-full rounded-xl border border-slate-300 bg-slate-50 px-4 py-3 text-sm outline-none transition focus:border-teal-600 focus:bg-white"
                     >
                       <option value="low">Low - Minor change</option>
@@ -185,32 +185,32 @@ const Support = () => {
 
                 <label className="block">
                   <span className="text-xs font-semibold uppercase tracking-wider text-slate-700">Subject *</span>
-                  <input 
-                    type="text" 
-                    name="subject" 
-                    value={formData.subject} 
-                    onChange={handleInputChange} 
-                    required 
-                    placeholder="Brief description of the issue" 
-                    className="mt-2 w-full rounded-xl border border-slate-300 bg-slate-50 px-4 py-3 text-sm outline-none transition focus:border-teal-600 focus:bg-white" 
+                  <input
+                    type="text"
+                    name="subject"
+                    value={formData.subject}
+                    onChange={handleInputChange}
+                    required
+                    placeholder="Brief description of the issue"
+                    className="mt-2 w-full rounded-xl border border-slate-300 bg-slate-50 px-4 py-3 text-sm outline-none transition focus:border-teal-600 focus:bg-white"
                   />
                 </label>
 
                 <label className="block">
                   <span className="text-xs font-semibold uppercase tracking-wider text-slate-700">Detailed Description *</span>
-                  <textarea 
-                    name="description" 
-                    value={formData.description} 
-                    onChange={handleInputChange} 
-                    required 
-                    rows={5} 
-                    placeholder="Provide as much detail as possible..." 
-                    className="mt-2 w-full resize-none rounded-xl border border-slate-300 bg-slate-50 px-4 py-3 text-sm outline-none transition focus:border-teal-600 focus:bg-white" 
+                  <textarea
+                    name="description"
+                    value={formData.description}
+                    onChange={handleInputChange}
+                    required
+                    rows={5}
+                    placeholder="Provide as much detail as possible..."
+                    className="mt-2 w-full resize-none rounded-xl border border-slate-300 bg-slate-50 px-4 py-3 text-sm outline-none transition focus:border-teal-600 focus:bg-white"
                   />
                 </label>
 
-                <button 
-                  type="submit" 
+                <button
+                  type="submit"
                   disabled={projects.length === 0 || isSubmitting}
                   className="inline-flex items-center justify-center gap-2 rounded-xl bg-teal-600 px-6 py-3 text-sm font-semibold text-white transition hover:bg-teal-700 sm:w-auto w-full disabled:opacity-50"
                 >

@@ -7,13 +7,13 @@ const ApplyJob = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const isGeneral = id === "general";
-  
+
   const [job, setJob] = useState(null);
   const [loading, setLoading] = useState(!isGeneral);
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [submittedId, setSubmittedId] = useState("");
-  
+
   const [formData, setFormData] = useState({
     appliedRole: "",
     fullName: "",
@@ -52,20 +52,21 @@ const ApplyJob = () => {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    
+
     if (name === "phone") {
       const numericValue = value.replace(/\D/g, "");
       if (numericValue.length > 10) return;
       setFormData(prev => ({ ...prev, [name]: numericValue }));
       return;
     }
-    
+
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (formData.phone.length !== 10) {
+      alert("Please enter a valid 10-digit phone number.");
       return;
     }
 
@@ -79,6 +80,7 @@ const ApplyJob = () => {
 
       if (payload.experienceLevel === "Fresher") {
         payload.currentSalary = "";
+        payload.expectedSalary = "As per company standards";
       }
 
       const response = await axios.post("https://backendapi.solvewithyou.in/api/applications", payload);
@@ -86,6 +88,7 @@ const ApplyJob = () => {
       setSubmitted(true);
     } catch (error) {
       console.error(error);
+      alert(error.response?.data?.message || "Failed to submit application. Please try again.");
     } finally {
       setSubmitting(false);
     }
@@ -102,7 +105,7 @@ const ApplyJob = () => {
   return (
     <main className="min-h-screen bg-slate-50 py-12 sm:py-20">
       <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
-        
+
         <Link to="/careers" className="inline-flex items-center gap-2 text-sm font-semibold text-slate-500 hover:text-teal-600 transition-colors mb-8">
           <ArrowLeft size={16} /> Back to Careers
         </Link>
@@ -113,14 +116,14 @@ const ApplyJob = () => {
               {isGeneral ? "Submit Your Resume" : `Apply for ${job?.title}`}
             </h1>
             <p className="text-sm text-slate-500">
-              {isGeneral 
-                ? "Join our talent pool. We will contact you when a suitable position opens up." 
+              {isGeneral
+                ? "Join our talent pool. We will contact you when a suitable position opens up."
                 : `Fill out the form below to apply for the ${job?.title} position in the ${job?.department} department.`}
             </p>
           </div>
 
           <form onSubmit={handleSubmit} className="grid gap-6">
-            
+
             {isGeneral && (
               <div>
                 <label className="block text-sm font-medium text-slate-700 mb-2">Role you are applying for *</label>
@@ -145,7 +148,7 @@ const ApplyJob = () => {
                   value={formData.fullName}
                   onChange={handleInputChange}
                   required
-                  placeholder="e.g. Aditya"
+                  placeholder="e.g. Manoj"
                   className="w-full px-4 py-3 bg-white border border-slate-300 rounded-xl text-sm focus:outline-none focus:ring-4 focus:ring-teal-100 focus:border-teal-600 transition-all"
                 />
               </div>
@@ -158,7 +161,7 @@ const ApplyJob = () => {
                   value={formData.email}
                   onChange={handleInputChange}
                   required
-                  placeholder="aditya@example.com"
+                  placeholder="manoj@example.com"
                   className="w-full px-4 py-3 bg-white border border-slate-300 rounded-xl text-sm focus:outline-none focus:ring-4 focus:ring-teal-100 focus:border-teal-600 transition-all"
                 />
               </div>
@@ -173,7 +176,9 @@ const ApplyJob = () => {
                   value={formData.phone}
                   onChange={handleInputChange}
                   required
-                  placeholder="9005825347"
+                  minLength={10}
+                  maxLength={10}
+                  placeholder="0000000000"
                   className="w-full px-4 py-3 bg-white border border-slate-300 rounded-xl text-sm focus:outline-none focus:ring-4 focus:ring-teal-100 focus:border-teal-600 transition-all"
                 />
               </div>
@@ -222,21 +227,6 @@ const ApplyJob = () => {
               </div>
             )}
 
-            {formData.experienceLevel === "Fresher" && (
-              <div>
-                <label className="block text-sm font-medium text-slate-700 mb-2">Expected Salary (INR) *</label>
-                <input
-                  type="number"
-                  name="expectedSalary"
-                  value={formData.expectedSalary}
-                  onChange={handleInputChange}
-                  required
-                  placeholder="e.g. 300000"
-                  className="w-full px-4 py-3 bg-white border border-slate-300 rounded-xl text-sm focus:outline-none focus:ring-4 focus:ring-teal-100 focus:border-teal-600 transition-all"
-                />
-              </div>
-            )}
-
             <div className="grid gap-6 sm:grid-cols-2">
               <div>
                 <label className="block text-sm font-medium text-slate-700 mb-2">Resume Drive Link *</label>
@@ -250,7 +240,7 @@ const ApplyJob = () => {
                   className="w-full px-4 py-3 bg-white border border-slate-300 rounded-xl text-sm focus:outline-none focus:ring-4 focus:ring-teal-100 focus:border-teal-600 transition-all"
                 />
               </div>
-              
+
               <div>
                 <label className="block text-sm font-medium text-slate-700 mb-2">Portfolio / LinkedIn Link</label>
                 <input
@@ -295,7 +285,7 @@ const ApplyJob = () => {
           <div className="absolute inset-0" onClick={() => navigate("/careers")}></div>
 
           <div className="relative w-full max-w-md bg-white rounded-2xl p-6 sm:p-8 shadow-2xl overflow-y-auto animate-in fade-in zoom-in duration-300">
-            <button 
+            <button
               onClick={() => navigate("/careers")}
               className="absolute right-5 top-5 text-slate-400 hover:text-slate-900 transition-colors bg-slate-50 hover:bg-slate-100 p-1.5 rounded-lg"
             >
@@ -306,7 +296,7 @@ const ApplyJob = () => {
               <div className="grid h-16 w-16 place-items-center rounded-full bg-emerald-100 text-emerald-600 mb-5">
                 <CheckCircle2 size={32} />
               </div>
-              
+
               <h3 className="text-xl font-bold text-slate-900 mb-2">Application Submitted!</h3>
               <p className="text-sm font-bold text-teal-600 mb-2">Application ID: {submittedId}</p>
               <p className="text-sm font-medium text-slate-600 mb-6">

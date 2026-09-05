@@ -48,7 +48,7 @@ const DashboardOverview = () => {
     const date = new Date(dateStr);
     const now = new Date();
     const diffInSeconds = Math.floor((now - date) / 1000);
-    
+
     if (diffInSeconds < 60) return `${diffInSeconds}s ago`;
     const diffInMinutes = Math.floor(diffInSeconds / 60);
     if (diffInMinutes < 60) return `${diffInMinutes}m ago`;
@@ -155,7 +155,7 @@ const DashboardOverview = () => {
         <div className="border-b border-slate-100 bg-slate-50/50 px-6 py-5">
           <h2 className="text-base font-bold text-slate-900">Recent Activity Timeline</h2>
         </div>
-        
+
         {loading ? (
           <div className="p-8 text-center text-sm font-medium text-slate-500">Loading activity...</div>
         ) : stats.recentActivity.length === 0 ? (

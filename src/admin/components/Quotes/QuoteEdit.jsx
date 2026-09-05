@@ -25,7 +25,7 @@ const QuoteEdit = () => {
   const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
   const [servicesList, setServicesList] = useState([]);
-  
+
   const [formData, setFormData] = useState({
     fullName: "",
     email: "",
@@ -129,7 +129,7 @@ const QuoteEdit = () => {
 
       <div className="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 sm:p-10">
         <form onSubmit={handleSubmit} className="grid gap-6">
-          
+
           <div className="grid gap-6 sm:grid-cols-3 bg-slate-50 p-5 rounded-xl border border-slate-100">
             <div>
               <label className="block text-[12px] font-bold uppercase text-slate-500 mb-1.5">Full Name</label>
@@ -192,7 +192,7 @@ const QuoteEdit = () => {
                   <option value="INR">INR (₹)</option>
                   <option value="USD">USD ($)</option>
                 </select>
-                <input type="text" name="budget" value={formData.budget} onChange={handleInputChange} className="flex-1 px-4 py-2.5 bg-white border border-slate-300 rounded-xl text-[13px] focus:outline-none focus:ring-2 focus:ring-teal-500"/>
+                <input type="text" name="budget" value={formData.budget} onChange={handleInputChange} className="flex-1 px-4 py-2.5 bg-white border border-slate-300 rounded-xl text-[13px] focus:outline-none focus:ring-2 focus:ring-teal-500" />
               </div>
             </div>
             <div>
@@ -209,17 +209,17 @@ const QuoteEdit = () => {
 
           <div>
             <label className="block text-[13px] font-semibold text-slate-700 mb-2">Project Title</label>
-            <input type="text" name="projectTitle" value={formData.projectTitle} onChange={handleInputChange} required className="w-full px-4 py-2.5 bg-white border border-slate-300 rounded-xl text-[13px] focus:outline-none focus:ring-2 focus:ring-teal-500"/>
+            <input type="text" name="projectTitle" value={formData.projectTitle} onChange={handleInputChange} required className="w-full px-4 py-2.5 bg-white border border-slate-300 rounded-xl text-[13px] focus:outline-none focus:ring-2 focus:ring-teal-500" />
           </div>
 
           <div>
             <label className="block text-[13px] font-semibold text-slate-700 mb-2">Project Description</label>
-            <textarea name="projectDescription" value={formData.projectDescription} onChange={handleInputChange} required rows={4} className="w-full px-4 py-3 bg-white border border-slate-300 rounded-xl text-[13px] focus:outline-none focus:ring-2 focus:ring-teal-500 resize-none"/>
+            <textarea name="projectDescription" value={formData.projectDescription} onChange={handleInputChange} required rows={4} className="w-full px-4 py-3 bg-white border border-slate-300 rounded-xl text-[13px] focus:outline-none focus:ring-2 focus:ring-teal-500 resize-none" />
           </div>
 
           <div>
             <label className="block text-[13px] font-semibold text-slate-700 mb-2">Reference Links</label>
-            <input type="text" name="referenceLinks" value={formData.referenceLinks} onChange={handleInputChange} className="w-full px-4 py-2.5 bg-white border border-slate-300 rounded-xl text-[13px] focus:outline-none focus:ring-2 focus:ring-teal-500"/>
+            <input type="text" name="referenceLinks" value={formData.referenceLinks} onChange={handleInputChange} className="w-full px-4 py-2.5 bg-white border border-slate-300 rounded-xl text-[13px] focus:outline-none focus:ring-2 focus:ring-teal-500" />
           </div>
 
           <div>
@@ -227,7 +227,7 @@ const QuoteEdit = () => {
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
               {facilitiesOptions.map((facility) => (
                 <label key={facility} className={`flex items-center gap-3 p-3 border rounded-xl cursor-pointer transition-colors ${formData.facilities.includes(facility) ? "border-teal-600 bg-teal-50/50" : "border-slate-200"}`}>
-                  <input type="checkbox" checked={formData.facilities.includes(facility)} onChange={() => handleFacilityChange(facility)} className="w-4 h-4 text-teal-600 border-slate-300 rounded focus:ring-teal-600"/>
+                  <input type="checkbox" checked={formData.facilities.includes(facility)} onChange={() => handleFacilityChange(facility)} className="w-4 h-4 text-teal-600 border-slate-300 rounded focus:ring-teal-600" />
                   <span className="text-[12px] font-medium text-slate-700">{facility}</span>
                 </label>
               ))}

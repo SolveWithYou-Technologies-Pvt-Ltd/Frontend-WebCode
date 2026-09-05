@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { 
-  Smartphone, Cloud, Code, Palette, Wrench, ArrowRight, CheckCircle2, 
-  Briefcase, Globe, Database, Shield, Zap, Layout 
+import {
+  Smartphone, Cloud, Code, Palette, Wrench, ArrowRight, CheckCircle2,
+  Briefcase, Globe, Database, Shield, Zap, Layout
 } from "lucide-react";
 import axios from "axios";
 const API_URL = "https://backendapi.solvewithyou.in/api/services";

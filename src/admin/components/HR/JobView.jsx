@@ -18,7 +18,7 @@ const JobView = () => {
         setJob(data);
       } catch (error) {
         toast.error("Failed to fetch job details");
-        navigate("/hiring"); // keeping hard redirect on fetch error
+        navigate("/admin/hr/hiring");
       } finally {
         setLoading(false);
       }
@@ -33,7 +33,7 @@ const JobView = () => {
     <div className="mx-auto w-full max-w-4xl p-4 sm:p-6 lg:p-8">
       <div className="mb-6 flex items-center justify-between">
         <button
-          onClick={() => navigate(-1)} // Updated to go one step back
+          onClick={() => navigate(-1)}
           className="inline-flex items-center gap-2 text-sm font-semibold text-slate-600 hover:text-teal-600 transition-colors"
         >
           <ArrowLeft size={18} />
@@ -69,7 +69,9 @@ const JobView = () => {
           </div>
           <div>
             <h3 className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Experience Required</h3>
-            <p className="text-base font-semibold text-slate-900">{job.experience} {job.experience === "1" ? "Year" : "Years"}</p>
+            <p className="text-base font-semibold text-slate-900">
+              {job.experience === "0" || job.experience === 0 ? "Fresher" : `${job.experience} ${job.experience === "1" || job.experience === 1 ? "Year" : "Years"}`}
+            </p>
           </div>
           <div>
             <h3 className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Vacancies</h3>
@@ -105,7 +107,7 @@ const JobView = () => {
               </p>
             </div>
           )}
-          
+
           <div className="sm:col-span-2 mt-4 pt-6 border-t border-slate-200">
             <h3 className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Created At</h3>
             <p className="text-sm font-medium text-slate-600">{new Date(job.createdAt).toLocaleString()}</p>

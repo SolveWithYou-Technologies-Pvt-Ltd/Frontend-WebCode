@@ -14,7 +14,7 @@ const MyProposals = () => {
     const fetchUserProposals = async () => {
       try {
         const token = localStorage.getItem("UserAuthToken");
-        
+
         if (!token) {
           setLoading(false);
           return;
@@ -92,13 +92,12 @@ const MyProposals = () => {
                   {proposal.proposalId}
                 </span>
                 <span
-                  className={`inline-flex items-center rounded-full px-2.5 py-1 text-xs font-bold uppercase tracking-wider ${
-                    proposal.status === "Accepted"
-                      ? "bg-emerald-100 text-emerald-700"
-                      : proposal.status === "Rejected"
+                  className={`inline-flex items-center rounded-full px-2.5 py-1 text-xs font-bold uppercase tracking-wider ${proposal.status === "Accepted"
+                    ? "bg-emerald-100 text-emerald-700"
+                    : proposal.status === "Rejected"
                       ? "bg-red-100 text-red-700"
                       : "bg-amber-100 text-amber-700"
-                  }`}
+                    }`}
                 >
                   {proposal.status === "Accepted" && <CheckCircle2 size={12} className="mr-1" />}
                   {proposal.status === "Pending" && <Clock size={12} className="mr-1" />}
@@ -109,7 +108,7 @@ const MyProposals = () => {
 
               <div className="flex flex-1 flex-col p-6">
                 <h3 className="text-xl font-bold text-slate-900">{proposal.title}</h3>
-                
+
                 <div className="mt-4 space-y-2">
                   <div className="flex justify-between text-sm">
                     <span className="text-slate-500">Total Investment:</span>

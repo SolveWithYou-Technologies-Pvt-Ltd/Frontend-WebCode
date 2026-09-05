@@ -46,9 +46,9 @@ const Quotes = () => {
   useEffect(() => {
     const getQuotes = async () => {
       try {
-        const token = localStorage.getItem("token") || 
-                      localStorage.getItem("doctorAdminToken") || 
-                      localStorage.getItem("UserAuthToken");
+        const token = localStorage.getItem("token") ||
+          localStorage.getItem("doctorAdminToken") ||
+          localStorage.getItem("UserAuthToken");
 
         if (!token) {
           toast.error("Authentication Error: No token found");
@@ -64,7 +64,7 @@ const Quotes = () => {
             Authorization: `Bearer ${token}`,
           },
         });
-        
+
         if (response.data && response.data.success) {
           setQuotes(response.data.data);
         }
@@ -163,7 +163,7 @@ const Quotes = () => {
                       Proposal Generation in Progress
                     </button>
                   )}
-                  
+
                   {(quote.status === "In Progress" || quote.status === "Closed") && (
                     <Link
                       to={`/proposal/${quote._id}`}

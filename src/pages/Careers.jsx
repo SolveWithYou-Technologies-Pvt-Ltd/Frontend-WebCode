@@ -57,7 +57,7 @@ const Careers = () => {
 
   return (
     <>
-      <Seo 
+      <Seo
         title="Careers at SolveWithYou | IT Jobs & Software Development Opportunities"
         description="Looking for your next big career move? Join SolveWithYou. We are hiring talented developers, designers, and innovators to build scalable digital solutions."
         keywords="Careers at SolveWithYou, IT jobs, software developer jobs, web development careers, UI/UX designer jobs, tech hiring, remote tech jobs, startup jobs"
@@ -66,7 +66,7 @@ const Careers = () => {
         <section className="relative overflow-hidden bg-slate-900 py-20 sm:py-28 lg:py-32">
           <div className="absolute inset-0 bg-gradient-to-br from-teal-900/40 to-slate-900" />
           <div className="absolute -right-40 -top-40 h-[500px] w-[500px] rounded-full bg-teal-500/20 blur-[100px]" />
-          
+
           <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 text-center">
             <span className="inline-flex items-center rounded-full bg-teal-500/10 px-3 py-1 text-sm font-semibold text-teal-300 ring-1 ring-inset ring-teal-500/20 mb-6">
               We are hiring!
@@ -133,8 +133,8 @@ const Careers = () => {
                 </div>
               ) : (
                 jobOpenings.map((job) => (
-                  <div 
-                    key={job._id} 
+                  <div
+                    key={job._id}
                     className="group flex flex-col sm:flex-row sm:items-center justify-between gap-6 rounded-2xl border border-slate-200 p-6 transition-all hover:border-teal-300 hover:shadow-md bg-slate-50 hover:bg-white"
                   >
                     <div className="flex-1">
@@ -142,7 +142,7 @@ const Careers = () => {
                         <span className="text-xs font-bold uppercase tracking-wider text-teal-600">{job.department}</span>
                         {job.type === "Internship" && job.promotionAfterInternship === "Yes" && (
                           <span className="text-[10px] font-bold uppercase tracking-wider text-emerald-600 bg-emerald-100 px-2 py-0.5 rounded-full">
-                            PPO Available (Performance Based)  
+                            PPO Available (Performance Based)
                           </span>
                         )}
                       </div>
@@ -150,8 +150,11 @@ const Careers = () => {
                       <div className="mt-4 flex flex-wrap items-center gap-x-5 gap-y-3 text-sm font-medium text-slate-500">
                         <span className="flex items-center gap-1.5"><MapPin size={16} className="text-slate-400" /> {job.location}</span>
                         <span className="flex items-center gap-1.5"><Briefcase size={16} className="text-slate-400" /> {job.type}</span>
-                        <span className="flex items-center gap-1.5"><Clock size={16} className="text-slate-400" /> {job.experience} {job.experience === "1" ? "Year" : "Years"}</span>
-                        
+                        <span className="flex items-center gap-1.5">
+                          <Clock size={16} className="text-slate-400" />
+                          {job.experience === "0" || job.experience === 0 ? "Fresher" : `${job.experience} ${job.experience === "1" || job.experience === 1 ? "Year" : "Years"}`}
+                        </span>
+
                         {job.type === "Internship" && job.duration && (
                           <span className="flex items-center gap-1.5">
                             <Calendar size={16} className="text-slate-400" /> {job.duration} ({job.internshipType})
@@ -165,10 +168,10 @@ const Careers = () => {
                         )}
                       </div>
                     </div>
-                    
-                    <a href={`mailto:careers@digitalservices.com?subject=Application for ${job.title}`} className="shrink-0 inline-flex items-center justify-center gap-2 rounded-xl bg-white sm:bg-transparent border sm:border-0 border-slate-200 px-5 py-3 sm:p-0 text-sm font-semibold text-slate-700 sm:text-teal-600 transition group-hover:text-teal-700">
+
+                    <Link to={`/apply/${job._id}`} className="shrink-0 inline-flex items-center justify-center gap-2 rounded-xl bg-white sm:bg-transparent border sm:border-0 border-slate-200 px-5 py-3 sm:p-0 text-sm font-semibold text-slate-700 sm:text-teal-600 transition group-hover:text-teal-700">
                       Apply Now <ArrowRight size={18} className="transition-transform group-hover:translate-x-1" />
-                    </a>
+                    </Link>
                   </div>
                 ))
               )}
@@ -182,9 +185,9 @@ const Careers = () => {
             <p className="text-teal-100 mb-8 text-lg">
               We are always looking for talented individuals. Drop your resume and we will contact you when a relevant position opens up.
             </p>
-            <a href="mailto:careers@digitalservices.com" className="inline-flex items-center justify-center rounded-xl bg-white px-8 py-4 text-sm font-bold text-teal-900 transition hover:bg-teal-50 shadow-lg">
+            <Link to="/apply/general" className="inline-flex items-center justify-center rounded-xl bg-white px-8 py-4 text-sm font-bold text-teal-900 transition hover:bg-teal-50 shadow-lg">
               Submit Your Resume
-            </a>
+            </Link>
           </div>
         </section>
       </main>

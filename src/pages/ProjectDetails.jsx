@@ -5,7 +5,7 @@ import axios from "axios";
 import toast from "react-hot-toast";
 
 const ProjectDetails = () => {
-  const { id } = useParams(); 
+  const { id } = useParams();
   const [project, setProject] = useState(null);
   const [loading, setLoading] = useState(true);
 
@@ -28,7 +28,7 @@ const ProjectDetails = () => {
         setLoading(false);
       }
     };
-    
+
     if (id) {
       fetchProjectDetails();
     }
@@ -129,11 +129,10 @@ const ProjectDetails = () => {
           <div>
             <div className="flex items-center gap-3 mb-2">
               <Briefcase className="text-teal-600" size={24} />
-              <span className={`inline-flex items-center rounded-full px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider ${
-                project.status === 'Completed' ? 'bg-emerald-100 text-emerald-700' :
+              <span className={`inline-flex items-center rounded-full px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider ${project.status === 'Completed' ? 'bg-emerald-100 text-emerald-700' :
                 project.status === 'In Progress' ? 'bg-blue-100 text-blue-700' :
-                'bg-amber-100 text-amber-700'
-              }`}>
+                  'bg-amber-100 text-amber-700'
+                }`}>
                 {project.status}
               </span>
             </div>
@@ -147,8 +146,8 @@ const ProjectDetails = () => {
               <span className="text-teal-600">{project.progress}%</span>
             </div>
             <div className="h-2.5 w-full overflow-hidden rounded-full bg-slate-200">
-              <div 
-                className="h-full rounded-full bg-teal-500 transition-all duration-1000" 
+              <div
+                className="h-full rounded-full bg-teal-500 transition-all duration-1000"
                 style={{ width: `${project.progress}%` }}
               />
             </div>
@@ -172,19 +171,19 @@ const ProjectDetails = () => {
                 <p className="text-sm font-semibold text-emerald-900">{formatDate(project.supportEndDate)}</p>
               </div>
             </div>
-            
+
             {daysRemaining !== null && daysRemaining <= 5 && daysRemaining > 0 && (
-               <p className="mt-3 text-[13px] font-bold text-amber-700 bg-amber-100 border border-amber-200 px-3 py-1.5 rounded-lg inline-block">
-                 Support and maintenance expires in {daysRemaining} days.
-               </p>
+              <p className="mt-3 text-[13px] font-bold text-amber-700 bg-amber-100 border border-amber-200 px-3 py-1.5 rounded-lg inline-block">
+                Support and maintenance expires in {daysRemaining} days.
+              </p>
             )}
             {daysRemaining !== null && daysRemaining <= 0 && (
-               <p className="mt-3 text-[13px] font-bold text-red-700 bg-red-100 border border-red-200 px-3 py-1.5 rounded-lg inline-block">
-                 Support and maintenance has expired.
-               </p>
+              <p className="mt-3 text-[13px] font-bold text-red-700 bg-red-100 border border-red-200 px-3 py-1.5 rounded-lg inline-block">
+                Support and maintenance has expired.
+              </p>
             )}
           </div>
-          
+
           <a
             href="http://localhost:5173/support"
             className="shrink-0 px-6 py-2.5 bg-emerald-600 text-white text-sm font-bold rounded-xl hover:bg-emerald-700 transition-colors shadow-sm"
@@ -199,7 +198,7 @@ const ProjectDetails = () => {
           <div className="rounded-3xl border border-slate-200 bg-white p-6 sm:p-8 shadow-sm">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
               <h2 className="text-lg font-bold text-slate-900">Project Roadmap & Tasks</h2>
-              
+
               {overallProjectTotal > 0 && (
                 <div className="flex flex-wrap items-center gap-2">
                   <span className="text-[13px] font-bold text-slate-700 bg-slate-100 px-3 py-1.5 rounded-lg border border-slate-200">
@@ -225,10 +224,9 @@ const ProjectDetails = () => {
 
             <div className="space-y-4">
               {tasksWithCalculations.length > 0 ? tasksWithCalculations.map((task) => (
-                <div key={task._id} className={`flex flex-col sm:flex-row sm:items-center justify-between gap-4 rounded-xl border p-4 transition-colors ${
-                  task.status === 'Completed' ? 'border-emerald-200 bg-emerald-50/50' : 
+                <div key={task._id} className={`flex flex-col sm:flex-row sm:items-center justify-between gap-4 rounded-xl border p-4 transition-colors ${task.status === 'Completed' ? 'border-emerald-200 bg-emerald-50/50' :
                   'border-slate-100 bg-slate-50'
-                }`}>
+                  }`}>
                   <div className="flex items-center gap-3">
                     {task.status === 'Completed' ? (
                       <CheckCircle2 size={18} className="text-emerald-500 shrink-0" />
@@ -239,13 +237,13 @@ const ProjectDetails = () => {
                       {task.name}
                     </span>
                   </div>
-                  
+
                   <div className="flex items-center justify-between sm:justify-end gap-3 w-full sm:w-auto">
                     <div className="flex flex-col items-start sm:items-end gap-0.5 mr-1 text-[13px] font-medium">
                       {task.taskTotal > 0 && (
                         <span className="text-slate-600 font-bold">Total: {formatTotal(task.taskTotal, currencySymbol)}</span>
                       )}
-                      
+
                       {task.taskPaid > 0 && (
                         <span className="text-emerald-600 text-[12px] font-bold">Paid: {formatTotal(task.taskPaid, currencySymbol)}</span>
                       )}
@@ -257,7 +255,7 @@ const ProjectDetails = () => {
                       {task.targetDate && (
                         <span className="text-slate-500 text-[10px]">Target: {task.targetDate}</span>
                       )}
-                      
+
                       {task.dueDate && isNaN(Number(String(task.dueDate).replace(/,/g, ''))) && (
                         <span className="text-slate-500 text-[10px]">Target: {task.dueDate}</span>
                       )}
@@ -266,12 +264,11 @@ const ProjectDetails = () => {
                         <span className="text-slate-500 text-[10px] mt-0.5">Completed: {formatDate(task.completedDate)}</span>
                       )}
                     </div>
-                    
-                    <span className={`px-3 py-1.5 rounded-lg text-[11px] font-bold border ${
-                      task.status === 'Completed' ? 'bg-emerald-50 text-emerald-700 border-emerald-200' : 
-                      task.status === 'In Progress' ? 'bg-blue-50 text-blue-700 border-blue-200' : 
-                      'bg-slate-50 text-slate-600 border-slate-300'
-                    }`}>
+
+                    <span className={`px-3 py-1.5 rounded-lg text-[11px] font-bold border ${task.status === 'Completed' ? 'bg-emerald-50 text-emerald-700 border-emerald-200' :
+                      task.status === 'In Progress' ? 'bg-blue-50 text-blue-700 border-blue-200' :
+                        'bg-slate-50 text-slate-600 border-slate-300'
+                      }`}>
                       {task.status}
                     </span>
                   </div>
