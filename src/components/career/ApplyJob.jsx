@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
-import { ArrowLeft, Send, CheckCircle2, X } from "lucide-react";
+import { ArrowLeft, Send, CheckCircle2, X, MapPin, Briefcase, Clock, Banknote, Calendar } from "lucide-react";
 import axios from "axios";
 
 const ApplyJob = () => {
@@ -106,21 +106,51 @@ const ApplyJob = () => {
     <main className="min-h-screen bg-slate-50 py-12 sm:py-20">
       <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
 
-        <Link to="/careers" className="inline-flex items-center gap-2 text-sm font-semibold text-slate-500 hover:text-teal-600 transition-colors mb-8">
-          <ArrowLeft size={16} /> Back to Careers
-        </Link>
 
-        <div className="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 sm:p-12">
-          <div className="mb-10 border-b border-slate-100 pb-8">
+
+        <div className="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 sm:p-12 ">
+          <div className="flex justify-center mb-10 border-b border-slate-100 pb-8">
             <h1 className="text-3xl font-bold text-slate-900 sm:text-4xl mb-3">
               {isGeneral ? "Submit Your Resume" : `Apply for ${job?.title}`}
             </h1>
-            <p className="text-sm text-slate-500">
-              {isGeneral
-                ? "Join our talent pool. We will contact you when a suitable position opens up."
-                : `Fill out the form below to apply for the ${job?.title} position in the ${job?.department} department.`}
-            </p>
+
           </div>
+
+          {!isGeneral && job && (
+            <div className="mb-10 bg-slate-50 border border-slate-200 rounded-xl p-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+              <div className="flex flex-col gap-1">
+                <span className="text-xs font-bold text-slate-400 uppercase tracking-wider flex items-center gap-1"><Briefcase size={14} /> Type</span>
+                <span className="text-sm font-semibold text-slate-900">{job.type}</span>
+              </div>
+              <div className="flex flex-col gap-1">
+                <span className="text-xs font-bold text-slate-400 uppercase tracking-wider flex items-center gap-1"><MapPin size={14} /> Location</span>
+                <span className="text-sm font-semibold text-slate-900">{job.location}</span>
+              </div>
+              <div className="flex flex-col gap-1">
+                <span className="text-xs font-bold text-slate-400 uppercase tracking-wider flex items-center gap-1"><Clock size={14} /> Experience</span>
+                <span className="text-sm font-semibold text-slate-900">
+                  {job.experience === "0" || job.experience === 0 ? "Fresher" : `${job.experience} ${job.experience === "1" || job.experience === 1 ? "Year" : "Years"}`}
+                </span>
+              </div>
+              <div className="flex flex-col gap-1">
+                <span className="text-xs font-bold text-slate-400 uppercase tracking-wider flex items-center gap-1"><Banknote size={14} /> Compensation</span>
+                <span className="text-sm font-semibold text-slate-900">
+                  {job.type === "Internship"
+                    ? job.internshipType === "Paid" && job.stipend ? `₹${job.stipend.toLocaleString('en-IN')} / month` : job.internshipType
+                    : job.compensationType === "Commission"
+                      ? `${job.commissionPercentage}% Commission`
+                      : (job.minSalary || job.maxSalary) ? `₹${job.minSalary?.toLocaleString('en-IN')} - ₹${job.maxSalary?.toLocaleString('en-IN')}` : "Not Specified"
+                  }
+                </span>
+              </div>
+              {job.type === "Internship" && job.duration && (
+                <div className="flex flex-col gap-1 sm:col-span-2 lg:col-span-4">
+                  <span className="text-xs font-bold text-slate-400 uppercase tracking-wider flex items-center gap-1"><Calendar size={14} /> Duration</span>
+                  <span className="text-sm font-semibold text-slate-900">{job.duration}</span>
+                </div>
+              )}
+            </div>
+          )}
 
           <form onSubmit={handleSubmit} className="grid gap-6">
 
@@ -201,9 +231,9 @@ const ApplyJob = () => {
             {formData.experienceLevel === "Experienced" && (
               <div className="grid gap-6 sm:grid-cols-2">
                 <div>
-                  <label className="block text-sm font-medium text-slate-700 mb-2">Current Salary (INR) *</label>
+                  <label className="block text-sm font-medium text-slate-700 mb-2">Current Salary / Earnings *</label>
                   <input
-                    type="number"
+                    type="text"
                     name="currentSalary"
                     value={formData.currentSalary}
                     onChange={handleInputChange}
@@ -213,14 +243,16 @@ const ApplyJob = () => {
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-slate-700 mb-2">Expected Salary (INR) *</label>
+                  <label className="block text-sm font-medium text-slate-700 mb-2">
+                    {job?.compensationType === "Commission" ? "Expected Commission (%) *" : "Expected Salary (INR) *"}
+                  </label>
                   <input
-                    type="number"
+                    type="text"
                     name="expectedSalary"
                     value={formData.expectedSalary}
                     onChange={handleInputChange}
                     required
-                    placeholder="e.g. 600000"
+                    placeholder={job?.compensationType === "Commission" ? "e.g. 20-25" : "e.g. 600000"}
                     className="w-full px-4 py-3 bg-white border border-slate-300 rounded-xl text-sm focus:outline-none focus:ring-4 focus:ring-teal-100 focus:border-teal-600 transition-all"
                   />
                 </div>
@@ -266,7 +298,7 @@ const ApplyJob = () => {
               />
             </div>
 
-            <div className="mt-4">
+            <div className="flex justify-center mt-4">
               <button
                 type="submit"
                 disabled={submitting}

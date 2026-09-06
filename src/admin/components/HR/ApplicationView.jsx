@@ -58,13 +58,25 @@ const ApplicationView = () => {
 
   if (!application) return null;
 
-  const currentSalary = Number(application.currentSalary || 0);
-  const expectedSalary = Number(application.expectedSalary || 0);
+  const currentSalaryNum = Number(application.currentSalary);
+  const expectedSalaryNum = Number(application.expectedSalary);
   let salaryHike = null;
 
-  if (application.experienceLevel === "Experienced" && currentSalary > 0 && expectedSalary > 0) {
-    salaryHike = (((expectedSalary - currentSalary) / currentSalary) * 100).toFixed(1);
+  if (
+    application.experienceLevel === "Experienced" &&
+    !isNaN(currentSalaryNum) && currentSalaryNum > 0 &&
+    !isNaN(expectedSalaryNum) && expectedSalaryNum > 0
+  ) {
+    salaryHike = (((expectedSalaryNum - currentSalaryNum) / currentSalaryNum) * 100).toFixed(1);
   }
+
+  const formatCompensation = (value) => {
+    if (!value) return "N/A";
+    if (!isNaN(value) && Number(value) > 0) return `₹ ${Number(value).toLocaleString('en-IN')}`;
+    return value;
+  };
+
+  const isCommissionJob = application.jobId?.compensationType === "Commission";
 
   return (
     <div className="mx-auto w-full max-w-5xl flex flex-col p-4 sm:p-6 lg:p-8">
@@ -150,14 +162,18 @@ const ApplicationView = () => {
               {application.experienceLevel === "Experienced" ? (
                 <>
                   <div>
-                    <label className="block text-[11px] font-bold uppercase tracking-wider text-slate-400">Current Salary</label>
-                    <p className="mt-1.5 text-sm font-semibold text-slate-700">₹ {currentSalary.toLocaleString('en-IN')}</p>
+                    <label className="block text-[11px] font-bold uppercase tracking-wider text-slate-400">Current Salary / Earnings</label>
+                    <p className="mt-1.5 text-sm font-semibold text-slate-700">{formatCompensation(application.currentSalary)}</p>
                   </div>
                   <div>
-                    <label className="block text-[11px] font-bold uppercase tracking-wider text-slate-400">Expected Salary</label>
+                    <label className="block text-[11px] font-bold uppercase tracking-wider text-slate-400">
+                      {isCommissionJob ? "Expected Commission" : "Expected Salary"}
+                    </label>
                     <div className="mt-1.5 flex items-center gap-2">
-                      <span className="text-sm font-semibold text-slate-700">₹ {expectedSalary.toLocaleString('en-IN')}</span>
-                      {salaryHike !== null && (
+                      <span className="text-sm font-semibold text-slate-700">
+                        {isCommissionJob && application.expectedSalary ? `${application.expectedSalary}%` : formatCompensation(application.expectedSalary)}
+                      </span>
+                      {salaryHike !== null && !isCommissionJob && (
                         <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${salaryHike >= 0 ? 'bg-amber-100 text-amber-700' : 'bg-emerald-100 text-emerald-700'}`}>
                           {salaryHike > 0 ? '+' : ''}{salaryHike}% Hike
                         </span>
@@ -168,8 +184,12 @@ const ApplicationView = () => {
               ) : (
                 application.experienceLevel !== "Fresher" && application.experienceLevel !== "0" && (
                   <div>
-                    <label className="block text-[11px] font-bold uppercase tracking-wider text-slate-400">Expected Salary</label>
-                    <p className="mt-1.5 text-sm font-semibold text-slate-700">₹ {expectedSalary.toLocaleString('en-IN')}</p>
+                    <label className="block text-[11px] font-bold uppercase tracking-wider text-slate-400">
+                      {isCommissionJob ? "Expected Commission" : "Expected Salary"}
+                    </label>
+                    <p className="mt-1.5 text-sm font-semibold text-slate-700">
+                      {isCommissionJob && application.expectedSalary ? `${application.expectedSalary}%` : formatCompensation(application.expectedSalary)}
+                    </p>
                   </div>
                 )
               )}
@@ -264,13 +284,22 @@ const ApplicationView = () => {
                   </div>
                 )}
 
-                {(application.jobId.minSalary || application.jobId.maxSalary) && (
+                {application.jobId.type !== "Internship" && application.jobId.compensationType !== "Commission" && (application.jobId.minSalary || application.jobId.maxSalary) && (
                   <div>
                     <p className="text-[11px] font-bold uppercase tracking-wider text-slate-400">Salary Range</p>
                     <p className="text-sm font-medium mt-1">
                       {application.jobId.minSalary ? `₹${application.jobId.minSalary.toLocaleString('en-IN')}` : ""}
                       {application.jobId.minSalary && application.jobId.maxSalary ? " - " : ""}
                       {application.jobId.maxSalary ? `₹${application.jobId.maxSalary.toLocaleString('en-IN')}` : ""}
+                    </p>
+                  </div>
+                )}
+
+                {application.jobId.type !== "Internship" && application.jobId.compensationType === "Commission" && application.jobId.commissionPercentage && (
+                  <div>
+                    <p className="text-[11px] font-bold uppercase tracking-wider text-slate-400">Commission</p>
+                    <p className="text-sm font-medium mt-1">
+                      {application.jobId.commissionPercentage}%
                     </p>
                   </div>
                 )}

@@ -100,12 +100,21 @@ const JobView = () => {
               )}
             </>
           ) : (
-            <div>
-              <h3 className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Salary Range</h3>
-              <p className="text-base font-semibold text-slate-900">
-                ₹{job.minSalary?.toLocaleString('en-IN')} - ₹{job.maxSalary?.toLocaleString('en-IN')}
-              </p>
-            </div>
+            <>
+              {job.compensationType === "Commission" ? (
+                <div>
+                  <h3 className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Project Commission</h3>
+                  <p className="text-base font-semibold text-slate-900">{job.commissionPercentage}%</p>
+                </div>
+              ) : (
+                <div>
+                  <h3 className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Salary Range</h3>
+                  <p className="text-base font-semibold text-slate-900">
+                    {job.minSalary || job.maxSalary ? `₹${job.minSalary?.toLocaleString('en-IN') || 0} - ₹${job.maxSalary?.toLocaleString('en-IN') || 0}` : "Not Specified"}
+                  </p>
+                </div>
+              )}
+            </>
           )}
 
           <div className="sm:col-span-2 mt-4 pt-6 border-t border-slate-200">

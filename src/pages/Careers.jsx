@@ -161,9 +161,21 @@ const Careers = () => {
                           </span>
                         )}
 
-                        {(job.type !== "Internship" || job.internshipType === "Paid") && job.minSalary && job.maxSalary && (
+                        {job.type === "Internship" && job.internshipType === "Paid" && job.stipend && (
+                          <span className="flex items-center gap-1.5">
+                            <Banknote size={16} className="text-slate-400" /> ₹{job.stipend.toLocaleString('en-IN')} / month
+                          </span>
+                        )}
+
+                        {job.type !== "Internship" && job.compensationType !== "Commission" && job.minSalary && job.maxSalary && (
                           <span className="flex items-center gap-1.5">
                             <Banknote size={16} className="text-slate-400" /> ₹{job.minSalary.toLocaleString('en-IN')} - ₹{job.maxSalary.toLocaleString('en-IN')}
+                          </span>
+                        )}
+
+                        {job.type !== "Internship" && job.compensationType === "Commission" && job.commissionPercentage && (
+                          <span className="flex items-center gap-1.5">
+                            <Banknote size={16} className="text-slate-400" /> {job.commissionPercentage}% Commission
                           </span>
                         )}
                       </div>

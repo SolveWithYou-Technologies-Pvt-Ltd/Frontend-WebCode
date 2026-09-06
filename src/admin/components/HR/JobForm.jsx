@@ -17,8 +17,10 @@ const JobForm = () => {
     type: "Full-Time",
     experience: "0",
     vacancies: "1",
+    compensationType: "Salary",
     minSalary: "",
     maxSalary: "",
+    commissionPercentage: "",
     stipend: "",
     internshipType: "Paid",
     duration: "",
@@ -43,8 +45,10 @@ const JobForm = () => {
         type: data.type || "Full-Time",
         experience: data.experience !== undefined ? String(data.experience) : "0",
         vacancies: data.vacancies || "1",
+        compensationType: data.compensationType || "Salary",
         minSalary: data.minSalary || "",
         maxSalary: data.maxSalary || "",
+        commissionPercentage: data.commissionPercentage || "",
         stipend: data.stipend || "",
         internshipType: data.internshipType || "Paid",
         duration: data.duration || "",
@@ -78,11 +82,20 @@ const JobForm = () => {
       payload.duration = "";
       payload.promotionAfterInternship = "";
       payload.stipend = null;
+
+      if (payload.compensationType === "Salary") {
+        payload.commissionPercentage = "";
+      } else if (payload.compensationType === "Commission") {
+        payload.minSalary = null;
+        payload.maxSalary = null;
+      }
     }
 
     if (payload.type === "Internship") {
+      payload.compensationType = "Salary";
       payload.minSalary = null;
       payload.maxSalary = null;
+      payload.commissionPercentage = "";
       if (payload.internshipType === "Unpaid") {
         payload.stipend = null;
       }
@@ -271,32 +284,63 @@ const JobForm = () => {
           )}
 
           {formData.type !== "Internship" && (
-            <div className="grid gap-6 sm:grid-cols-2">
+            <>
               <div>
-                <label className="block text-[13px] font-semibold text-slate-700 mb-1.5">Min Salary (INR) *</label>
-                <input
-                  type="number"
-                  name="minSalary"
-                  value={formData.minSalary}
+                <label className="block text-[13px] font-semibold text-slate-700 mb-1.5">Compensation Type *</label>
+                <select
+                  name="compensationType"
+                  value={formData.compensationType}
                   onChange={handleInputChange}
                   required
-                  placeholder="e.g. 300000"
-                  className="w-full px-4 py-3 bg-slate-50 border border-slate-300 rounded-xl text-[13px] focus:outline-none focus:bg-white focus:ring-4 focus:ring-teal-100 focus:border-teal-600 transition-all"
-                />
+                  className="w-full md:w-1/3 px-4 py-3 bg-slate-50 border border-slate-300 rounded-xl text-[13px] focus:outline-none focus:bg-white focus:ring-4 focus:ring-teal-100 focus:border-teal-600 transition-all"
+                >
+                  <option value="Salary">Fixed Salary</option>
+                  <option value="Commission">Commission Based</option>
+                </select>
               </div>
-              <div>
-                <label className="block text-[13px] font-semibold text-slate-700 mb-1.5">Max Salary (INR) *</label>
-                <input
-                  type="number"
-                  name="maxSalary"
-                  value={formData.maxSalary}
-                  onChange={handleInputChange}
-                  required
-                  placeholder="e.g. 500000"
-                  className="w-full px-4 py-3 bg-slate-50 border border-slate-300 rounded-xl text-[13px] focus:outline-none focus:bg-white focus:ring-4 focus:ring-teal-100 focus:border-teal-600 transition-all"
-                />
-              </div>
-            </div>
+
+              {formData.compensationType === "Salary" ? (
+                <div className="grid gap-6 sm:grid-cols-2">
+                  <div>
+                    <label className="block text-[13px] font-semibold text-slate-700 mb-1.5">Min Salary (INR) *</label>
+                    <input
+                      type="number"
+                      name="minSalary"
+                      value={formData.minSalary}
+                      onChange={handleInputChange}
+                      required
+                      placeholder="e.g. 300000"
+                      className="w-full px-4 py-3 bg-slate-50 border border-slate-300 rounded-xl text-[13px] focus:outline-none focus:bg-white focus:ring-4 focus:ring-teal-100 focus:border-teal-600 transition-all"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-[13px] font-semibold text-slate-700 mb-1.5">Max Salary (INR) *</label>
+                    <input
+                      type="number"
+                      name="maxSalary"
+                      value={formData.maxSalary}
+                      onChange={handleInputChange}
+                      required
+                      placeholder="e.g. 500000"
+                      className="w-full px-4 py-3 bg-slate-50 border border-slate-300 rounded-xl text-[13px] focus:outline-none focus:bg-white focus:ring-4 focus:ring-teal-100 focus:border-teal-600 transition-all"
+                    />
+                  </div>
+                </div>
+              ) : (
+                <div>
+                  <label className="block text-[13px] font-semibold text-slate-700 mb-1.5">Project Commission (%) *</label>
+                  <input
+                    type="text"
+                    name="commissionPercentage"
+                    value={formData.commissionPercentage}
+                    onChange={handleInputChange}
+                    required
+                    placeholder="e.g. 20-25"
+                    className="w-full md:w-1/3 px-4 py-3 bg-slate-50 border border-slate-300 rounded-xl text-[13px] focus:outline-none focus:bg-white focus:ring-4 focus:ring-teal-100 focus:border-teal-600 transition-all"
+                  />
+                </div>
+              )}
+            </>
           )}
 
           {id && (
