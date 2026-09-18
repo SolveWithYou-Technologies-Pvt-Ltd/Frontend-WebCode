@@ -1,17 +1,17 @@
 import api from "./api";
 
 const register = async (formData) => {
-  const response = await api.post("https://backendapi.solvewithyou.in/api/auth/register", formData);
+  const response = await api.post("/auth/register", formData);
   return response.data;
 };
 
 const login = async (credentials) => {
-  const response = await api.post("https://backendapi.solvewithyou.in/api/auth/login", credentials);
+  const response = await api.post("/auth/login", credentials);
   return response.data;
 };
 
 const getCurrentUser = async () => {
-  const response = await api.get("https://backendapi.solvewithyou.in/api/auth/me");
+  const response = await api.get("/auth/me");
   return response.data;
 };
 
